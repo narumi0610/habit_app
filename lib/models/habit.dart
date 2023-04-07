@@ -4,15 +4,15 @@ class Habit {
   final String id;
   final String title;
   final DateTime startDate;
-  int currentStreak; // 現在の継続日数
-  bool isCompleted;
+  final int currentStreak;
+  final bool isCompleted;
 
   Habit({
     required this.id,
     required this.title,
     required this.startDate,
-    this.currentStreak = 0,
-    this.isCompleted = false,
+    required this.currentStreak,
+    required this.isCompleted,
   });
 
   // JSONマップからHabitオブジェクトを作成するための名前付きコンストラクタ
