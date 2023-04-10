@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_app/models/habit.dart';
+import 'package:intl/intl.dart';
 
 class GoalItem extends StatelessWidget {
   final Habit habit;
@@ -8,6 +9,7 @@ class GoalItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateFormat outputFormat = DateFormat('yyyy-MM-dd');
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -16,9 +18,10 @@ class GoalItem extends StatelessWidget {
           children: [
             Text('目標: ${habit.title}', style: TextStyle(fontSize: 20)),
             SizedBox(height: 8),
-            Text('開始日: ${habit.startDate}', style: TextStyle(fontSize: 16)),
+            Text('開始日: ${outputFormat.format(habit.startDate)}',
+                style: TextStyle(fontSize: 16)),
             SizedBox(height: 8),
-            // Text('終了日: ${habit.getEndDate()}', style: TextStyle(fontSize: 16)),
+            // Text('終了日: ${habit.endDate()}', style: TextStyle(fontSize: 16)),
           ],
         ),
       ),

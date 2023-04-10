@@ -13,10 +13,15 @@ class _GoalHistoryScreenState extends State<GoalHistoryScreen> {
   @override
   void initState() {
     super.initState();
-    // _getCompletedHabits();
+    _getCompletedHabits();
   }
 
   // 完了した習慣を取得
+  Future<void> _getCompletedHabits() async {
+    _completedHabits = realm.all<Habit>().where((habit) {
+      return habit.currentState >= 30;
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {

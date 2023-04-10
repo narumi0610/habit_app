@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_app/models/habit.dart';
+import 'package:realm/realm.dart';
 
 class SetGoalScreen extends StatefulWidget {
   @override
@@ -9,12 +10,19 @@ class SetGoalScreen extends StatefulWidget {
 class SetGoalScreenState extends State<SetGoalScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _habitTitleController = TextEditingController();
-
-  
+  final DateTime now = DateTime.now();
+  SetGoalScreenState() {
+    final config = Configuration.local([Habit.schema]);
+    realm = Realm(config);
+  }
 
   // 新しい習慣を作成する
   Future<void> _setGoal() async {
     if (_formKey.currentState!.validate()) {
+      var habit = Habit(ObjectId(), _habitTitleController.text, now, 0, false);
+      realm.write(() {
+        realm.add(habit);
+      });
       // 目標を保存する
       Navigator.pop(context);
     }

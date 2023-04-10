@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_app/models/habit.dart';
+import 'package:habit_app/screens/set_goal_screen.dart';
 import 'package:realm/realm.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,16 +21,25 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // _getCurrentHabit();
+    _getCurrentHabit();
   }
 
   // 現在の習慣を取得
-  // Future<void> _getCurrentHabit() async {
-  //   var habits = realm.all<Habit>();
-  //   setState(() {
-  //     _currentHabit = habits.first;
-  //   });
-  // }
+  Future<void> _getCurrentHabit() async {
+    var habits = realm.all<Habit>();
+    setState(() {
+      _currentHabit = habits.first;
+    });
+  }
+
+  // 習慣を更新
+  Future<void> _updateCurrentState() async {
+    setState(() {
+      realm.write(() {
+        _currentHabit!.currentState++;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +54,11 @@ class HomeScreenState extends State<HomeScreen> {
               Text('習慣のタイトル: ${_currentHabit!.title}',
                   style: const TextStyle(fontSize: 24)),
               const SizedBox(height: 8),
-              // Text('継続日数: ${_currentHabit!.currentStreak} days',
-              //     style: const TextStyle(fontSize: 18)),
+              Text('継続日数: ${_currentHabit!.currentState} days',
+                  style: const TextStyle(fontSize: 18)),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: _updateCurrentState,
                 child: const Text('今日の目標達成！'),
               ),
               if (_praiseText != null) ...[
@@ -60,7 +70,16 @@ class HomeScreenState extends State<HomeScreen> {
             ] else ...[
               const Text('目標がありません。設定してください', style: TextStyle(fontSize: 24)),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SetGoalScreen(),
+                    ),
+                  ).then((_) {
+                    setState(() {});
+                  });
+                },
                 child: const Text('目標を設定する'),
               ),
             ],
