@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:habit_app/screens/goal_history_screen.dart';
 import 'package:habit_app/screens/home_screen.dart';
+import 'package:habit_app/utils/global_const.dart';
+import 'package:home_widget/home_widget.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  //アプリとウィジェット間でデータを共有するためのグループIDを設定
+  HomeWidget.setAppGroupId(GlobalConst.appGroupID);
   runApp(HabitApp());
 }
 

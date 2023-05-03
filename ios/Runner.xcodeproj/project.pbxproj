@@ -3,10 +3,19 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04FE91AD29FAB48400D3B729 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FE91AC29FAB48400D3B729 /* WidgetKit.framework */; };
+		04FE91AF29FAB48400D3B729 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FE91AE29FAB48400D3B729 /* SwiftUI.framework */; };
+		04FE91B229FAB48400D3B729 /* habit_appBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE91B129FAB48400D3B729 /* habit_appBundle.swift */; };
+		04FE91B429FAB48400D3B729 /* habit_appLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE91B329FAB48400D3B729 /* habit_appLiveActivity.swift */; };
+		04FE91B629FAB48400D3B729 /* habit_app.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE91B529FAB48400D3B729 /* habit_app.swift */; };
+		04FE91B929FAB48500D3B729 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04FE91B829FAB48500D3B729 /* Assets.xcassets */; };
+		04FE91BB29FAB48500D3B729 /* habit_app.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 04FE91B729FAB48400D3B729 /* habit_app.intentdefinition */; };
+		04FE91BC29FAB48500D3B729 /* habit_app.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 04FE91B729FAB48400D3B729 /* habit_app.intentdefinition */; };
+		04FE91BF29FAB48500D3B729 /* habit_appExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 04FE91AB29FAB48400D3B729 /* habit_appExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
@@ -16,7 +25,28 @@
 		9F4BBF2612B7F15420A508E3 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 873EDF6AF16C99914A9D0980 /* Pods_Runner.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		04FE91BD29FAB48500D3B729 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04FE91AA29FAB48400D3B729;
+			remoteInfo = habit_appExtension;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		04FE91C029FAB48500D3B729 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				04FE91BF29FAB48500D3B729 /* habit_appExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -30,6 +60,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		04FE91AB29FAB48400D3B729 /* habit_appExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = habit_appExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		04FE91AC29FAB48400D3B729 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		04FE91AE29FAB48400D3B729 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		04FE91B129FAB48400D3B729 /* habit_appBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = habit_appBundle.swift; sourceTree = "<group>"; };
+		04FE91B329FAB48400D3B729 /* habit_appLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = habit_appLiveActivity.swift; sourceTree = "<group>"; };
+		04FE91B529FAB48400D3B729 /* habit_app.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = habit_app.swift; sourceTree = "<group>"; };
+		04FE91B729FAB48400D3B729 /* habit_app.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = habit_app.intentdefinition; sourceTree = "<group>"; };
+		04FE91B829FAB48500D3B729 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		04FE91BA29FAB48500D3B729 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04FE91C529FB895C00D3B729 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		04FE91C629FB8D7600D3B729 /* habit_appExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = habit_appExtension.entitlements; sourceTree = "<group>"; };
 		0B583C08BFD63A90AC1A3424 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
@@ -50,6 +91,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		04FE91A829FAB48400D3B729 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04FE91AF29FAB48400D3B729 /* SwiftUI.framework in Frameworks */,
+				04FE91AD29FAB48400D3B729 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		97C146EB1CF9000F007C117D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -61,6 +111,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04FE91B029FAB48400D3B729 /* habit_app */ = {
+			isa = PBXGroup;
+			children = (
+				04FE91B129FAB48400D3B729 /* habit_appBundle.swift */,
+				04FE91B329FAB48400D3B729 /* habit_appLiveActivity.swift */,
+				04FE91B529FAB48400D3B729 /* habit_app.swift */,
+				04FE91B729FAB48400D3B729 /* habit_app.intentdefinition */,
+				04FE91B829FAB48500D3B729 /* Assets.xcassets */,
+				04FE91BA29FAB48500D3B729 /* Info.plist */,
+			);
+			path = habit_app;
+			sourceTree = "<group>";
+		};
 		0C84DA92E221B2F9BAE563FB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -68,7 +131,6 @@
 				8B8D9E9E362DC71253450E41 /* Pods-Runner.release.xcconfig */,
 				8919E111F01A3710C8805984 /* Pods-Runner.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -76,6 +138,8 @@
 			isa = PBXGroup;
 			children = (
 				873EDF6AF16C99914A9D0980 /* Pods_Runner.framework */,
+				04FE91AC29FAB48400D3B729 /* WidgetKit.framework */,
+				04FE91AE29FAB48400D3B729 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -94,8 +158,10 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
+				04FE91C629FB8D7600D3B729 /* habit_appExtension.entitlements */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
+				04FE91B029FAB48400D3B729 /* habit_app */,
 				97C146EF1CF9000F007C117D /* Products */,
 				0C84DA92E221B2F9BAE563FB /* Pods */,
 				8C694406C338EAA8B1E8AC2B /* Frameworks */,
@@ -106,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				97C146EE1CF9000F007C117D /* Runner.app */,
+				04FE91AB29FAB48400D3B729 /* habit_appExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -113,6 +180,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				04FE91C529FB895C00D3B729 /* Runner.entitlements */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
@@ -128,6 +196,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		04FE91AA29FAB48400D3B729 /* habit_appExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04FE91C429FAB48500D3B729 /* Build configuration list for PBXNativeTarget "habit_appExtension" */;
+			buildPhases = (
+				04FE91A729FAB48400D3B729 /* Sources */,
+				04FE91A829FAB48400D3B729 /* Frameworks */,
+				04FE91A929FAB48400D3B729 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = habit_appExtension;
+			productName = habit_appExtension;
+			productReference = 04FE91AB29FAB48400D3B729 /* habit_appExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		97C146ED1CF9000F007C117D /* Runner */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
@@ -140,10 +225,12 @@
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				60EA10EAD84537804705F60C /* [CP] Embed Pods Frameworks */,
+				04FE91C029FAB48500D3B729 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				04FE91BE29FAB48500D3B729 /* PBXTargetDependency */,
 			);
 			name = Runner;
 			productName = Runner;
@@ -156,9 +243,13 @@
 		97C146E61CF9000F007C117D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1300;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
+					04FE91AA29FAB48400D3B729 = {
+						CreatedOnToolsVersion = 14.2;
+					};
 					97C146ED1CF9000F007C117D = {
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 1100;
@@ -179,11 +270,20 @@
 			projectRoot = "";
 			targets = (
 				97C146ED1CF9000F007C117D /* Runner */,
+				04FE91AA29FAB48400D3B729 /* habit_appExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		04FE91A929FAB48400D3B729 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04FE91B929FAB48500D3B729 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		97C146EC1CF9000F007C117D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -263,21 +363,41 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		04FE91A729FAB48400D3B729 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04FE91B629FAB48400D3B729 /* habit_app.swift in Sources */,
+				04FE91B229FAB48400D3B729 /* habit_appBundle.swift in Sources */,
+				04FE91B429FAB48400D3B729 /* habit_appLiveActivity.swift in Sources */,
+				04FE91BB29FAB48500D3B729 /* habit_app.intentdefinition in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		97C146EA1CF9000F007C117D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04FE91BC29FAB48500D3B729 /* habit_app.intentdefinition in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		04FE91BE29FAB48500D3B729 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04FE91AA29FAB48400D3B729 /* habit_appExtension */;
+			targetProxy = 04FE91BD29FAB48500D3B729 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		97C146FA1CF9000F007C117D /* Main.storyboard */ = {
@@ -299,6 +419,120 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		04FE91C129FAB48500D3B729 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = habit_appExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KXXDJNZ9GK;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = habit_app/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = habit_app;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.habitFlutterApp.extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		04FE91C229FAB48500D3B729 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = habit_appExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KXXDJNZ9GK;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = habit_app/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = habit_app;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.habitFlutterApp.extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		04FE91C329FAB48500D3B729 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = habit_appExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KXXDJNZ9GK;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = habit_app/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = habit_app;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.habitFlutterApp.extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Profile;
+		};
 		249021D3217E4FDB00AE95B9 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -353,17 +587,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 243H8V7QHQ;
+				DEVELOPMENT_TEAM = KXXDJNZ9GK;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.habitApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.habitFlutterApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -482,17 +718,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 243H8V7QHQ;
+				DEVELOPMENT_TEAM = KXXDJNZ9GK;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.habitApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.habitFlutterApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -505,17 +743,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 243H8V7QHQ;
+				DEVELOPMENT_TEAM = KXXDJNZ9GK;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.habitApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.habitFlutterApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -526,6 +766,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		04FE91C429FAB48500D3B729 /* Build configuration list for PBXNativeTarget "habit_appExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FE91C129FAB48500D3B729 /* Debug */,
+				04FE91C229FAB48500D3B729 /* Release */,
+				04FE91C329FAB48500D3B729 /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		97C146E91CF9000F007C117D /* Build configuration list for PBXProject "Runner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

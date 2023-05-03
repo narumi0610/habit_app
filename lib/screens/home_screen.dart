@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:habit_app/models/habit.dart';
 import 'package:habit_app/screens/set_goal_screen.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:realm/realm.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,7 +30,7 @@ class HomeScreenState extends State<HomeScreen> {
   Future<void> _getCurrentHabit() async {
     var habits = realm.all<Habit>();
     setState(() {
-      _currentHabit = habits.first;
+      _currentHabit = habits.isNotEmpty ? habits[0] : null;
     });
   }
 
@@ -39,6 +41,23 @@ class HomeScreenState extends State<HomeScreen> {
         _currentHabit!.currentState++;
       });
     });
+
+    try {
+      await Future.wait([
+        // Widgetで扱うデータを保存
+        HomeWidget.saveWidgetData<int>(
+            'currentState', _currentHabit!.currentState),
+      ]);
+    } on PlatformException catch (exception) {
+      print(exception);
+    }
+
+    try {
+      // iOSのWidgetの処理は「iOSName」→「name」の順で探す。
+      await HomeWidget.updateWidget(iOSName: 'habit_app');
+    } on PlatformException catch (exception) {
+      print(exception);
+    }
   }
 
   @override

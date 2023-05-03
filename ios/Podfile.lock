@@ -1,21 +1,33 @@
 PODS:
   - Flutter (1.0.0)
+  - home_widget (0.0.1):
+    - Flutter
   - realm (1.0.3):
+    - Flutter
+  - workmanager (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - home_widget (from `.symlinks/plugins/home_widget/ios`)
   - realm (from `.symlinks/plugins/realm/ios`)
+  - workmanager (from `.symlinks/plugins/workmanager/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  home_widget:
+    :path: ".symlinks/plugins/home_widget/ios"
   realm:
     :path: ".symlinks/plugins/realm/ios"
+  workmanager:
+    :path: ".symlinks/plugins/workmanager/ios"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  home_widget: 0434835a4c9a75704264feff6be17ea40e0f0d57
   realm: 8d0d170b7b6a6c1886668b6ceb56b687cfcc8abe
+  workmanager: 0afdcf5628bbde6924c21af7836fed07b42e30e6
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
