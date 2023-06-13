@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:habit_app/screens/goal_history_screen.dart';
 import 'package:habit_app/screens/home_screen.dart';
 import 'package:habit_app/utils/global_const.dart';
+import 'package:habit_app/utils/theme.dart';
 import 'package:home_widget/home_widget.dart';
 
 void main() {
@@ -17,9 +18,7 @@ class HabitApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Habit App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: AppTheme.light,
       home: MyStatefulWidget(),
     );
   }
