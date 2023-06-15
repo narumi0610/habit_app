@@ -41,6 +41,7 @@ dependencies:
   home_widget: ^0.2.0+1
   workmanager: ^0.5.1
   animated_flip_counter: ^0.2.5
+  flutter_bounce: ^1.1.0
 
 dev_dependencies:
   flutter_test:
