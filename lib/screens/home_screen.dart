@@ -5,6 +5,8 @@ import 'package:habit_app/models/habit.dart';
 import 'package:habit_app/screens/parts/continuous_days_animation.dart';
 import 'package:habit_app/screens/set_goal_screen.dart';
 import 'package:habit_app/utils/app_color.dart';
+import 'package:habit_app/utils/global_const.dart';
+import 'package:habit_app/utils/rounded_button.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:realm/realm.dart';
 
@@ -15,7 +17,6 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   Habit? _currentHabit;
-  String? _praiseText;
   late Realm realm;
 
   HomeScreenState() {
@@ -39,11 +40,13 @@ class HomeScreenState extends State<HomeScreen> {
 
   // 習慣を更新
   Future<void> _updateCurrentState() async {
-    setState(() {
-      realm.write(() {
-        _currentHabit!.currentState++;
+    if ((_currentHabit?.currentState ?? 0) < GlobalConst.maxContinuousDays) {
+      setState(() {
+        realm.write(() {
+          _currentHabit!.currentState++;
+        });
       });
-    });
+    }
 
     try {
       await Future.wait([
@@ -66,62 +69,77 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     // 端末のサイズを取得
-    final width = MediaQuery.of(context).size.width / 1.5;
+    final width = MediaQuery.of(context).size.width;
+
+    final setGoalButton = RoundedButton(
+        title: '目標を設定する',
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SetGoalScreen(),
+            ),
+          );
+        });
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: Center(
-        child: Bounce(
-          duration: const Duration(milliseconds: 300),
-          onPressed: () async {
-            await _updateCurrentState();
-          },
-          child: Container(
-            width: width,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColor.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  blurRadius: 16,
-                  offset: Offset(0, 8),
+      appBar: AppBar(title: const Text('記録')),
+      body: Container(
+        margin: const EdgeInsets.all(16),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (_currentHabit != null) ...[
+                Bounce(
+                  duration: const Duration(milliseconds: 300),
+                  onPressed: () async {
+                    await _updateCurrentState();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(32),
+                    width: width,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColor.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 16,
+                          offset: Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Text(_currentHabit!.title,
+                            style: const TextStyle(fontSize: 24)),
+                        const SizedBox(height: 8),
+                        ContinuousDaysAnimation(_currentHabit!.currentState),
+                      ],
+                    ),
+                  ),
+                ),
+              ] else ...[
+                Column(
+                  children: [
+                    const Text('目標を設定しよう！', style: TextStyle(fontSize: 24)),
+                    const SizedBox(height: 16),
+                    setGoalButton,
+                  ],
                 ),
               ],
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (_currentHabit != null) ...[
-                  Text(_currentHabit!.title,
-                      style: const TextStyle(fontSize: 24)),
-                  const SizedBox(height: 8),
-                  ContinuousDaysAnimation(_currentHabit!.currentState),
-                  if (_praiseText != null) ...[
-                    const SizedBox(height: 16),
-                    const Text('AI Praise:', style: TextStyle(fontSize: 18)),
-                    const SizedBox(height: 8),
-                    Text(_praiseText!, style: const TextStyle(fontSize: 16)),
-                  ],
-                ] else ...[
-                  const Text('目標がありません。設定してください',
-                      style: TextStyle(fontSize: 24)),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SetGoalScreen(),
-                        ),
-                      ).then((_) {
-                        setState(() {});
-                      });
-                    },
-                    child: const Text('目標を設定する'),
-                  ),
-                ],
+              if ((_currentHabit?.currentState ?? 0) ==
+                  GlobalConst.maxContinuousDays) ...[
+                const SizedBox(height: 32),
+                const Text(GlobalConst.praiseText,
+                    style: TextStyle(fontSize: 16)),
+                if (_currentHabit!.currentState ==
+                    GlobalConst.maxContinuousDays)
+                  const SizedBox(height: 24),
+                setGoalButton
               ],
-            ),
+            ],
           ),
         ),
       ),

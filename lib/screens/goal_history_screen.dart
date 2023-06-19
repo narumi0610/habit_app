@@ -26,7 +26,7 @@ class _GoalHistoryScreenState extends State<GoalHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Goal History')),
+      appBar: AppBar(title: Text('履歴')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView.builder(
