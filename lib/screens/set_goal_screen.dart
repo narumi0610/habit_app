@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:habit_app/main.dart';
 import 'package:habit_app/models/habit.dart';
+import 'package:habit_app/screens/home_screen.dart';
 import 'package:habit_app/utils/rounded_button.dart';
 import 'package:realm/realm.dart';
 
@@ -26,8 +28,13 @@ class SetGoalScreenState extends State<SetGoalScreen> {
       realm.write(() {
         realm.add(habit);
       });
-      // 目標を保存する
-      Navigator.pop(context);
+      // SetGoalScreenの画面を削除してHomeScreenにpushする
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => MainScreen(index: 0)),
+        (_) => false,
+      );
     }
   }
 
@@ -43,6 +50,7 @@ class SetGoalScreenState extends State<SetGoalScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
+                maxLength: 20,
                 style: const TextStyle(color: AppColor.text),
                 controller: _habitTitleController,
                 decoration: const InputDecoration(

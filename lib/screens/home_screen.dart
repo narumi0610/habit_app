@@ -33,8 +33,9 @@ class HomeScreenState extends State<HomeScreen> {
   // 現在の習慣を取得
   Future<void> _getCurrentHabit() async {
     var habits = realm.all<Habit>();
+
     setState(() {
-      _currentHabit = habits.isNotEmpty ? habits[0] : null;
+      _currentHabit = habits.isNotEmpty ? habits[habits.length - 1] : null;
     });
   }
 
@@ -73,13 +74,15 @@ class HomeScreenState extends State<HomeScreen> {
 
     final setGoalButton = RoundedButton(
         title: '目標を設定する',
-        onPressed: () {
+        onPressed: () async {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => SetGoalScreen(),
             ),
           );
+          print('きた');
+          _getCurrentHabit();
         });
 
     return Scaffold(
@@ -90,6 +93,14 @@ class HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                child: FittedBox(
+                  child: Text(_currentHabit?.title ?? 'No current habit',
+                      style: const TextStyle(fontSize: 16)),
+                ),
+              ),
+              const SizedBox(height: 32),
               if (_currentHabit != null) ...[
                 Bounce(
                   duration: const Duration(milliseconds: 300),
@@ -97,11 +108,11 @@ class HomeScreenState extends State<HomeScreen> {
                     await _updateCurrentState();
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(32),
+                    padding: const EdgeInsets.all(64),
                     width: width,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColor.white,
+                      color: Colors.white,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey,
@@ -110,14 +121,7 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
-                    child: Column(
-                      children: [
-                        Text(_currentHabit!.title,
-                            style: const TextStyle(fontSize: 24)),
-                        const SizedBox(height: 8),
-                        ContinuousDaysAnimation(_currentHabit!.currentState),
-                      ],
-                    ),
+                    child: ContinuousDaysAnimation(_currentHabit!.currentState),
                   ),
                 ),
               ] else ...[

@@ -19,24 +19,33 @@ class HabitApp extends StatelessWidget {
     return MaterialApp(
       title: 'Habit App',
       theme: AppTheme.light,
-      home: MyStatefulWidget(),
+      home: MainScreen(),
     );
   }
 }
 
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({super.key});
+class MainScreen extends StatefulWidget {
+  final int index;
+  const MainScreen({this.index = 0});
 
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     GoalHistoryScreen(),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _selectedIndex = widget.index;
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
