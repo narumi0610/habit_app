@@ -96,7 +96,7 @@ class HomeScreenState extends State<HomeScreen> {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 child: FittedBox(
-                  child: Text(_currentHabit?.title ?? 'No current habit',
+                  child: Text(_currentHabit?.title ?? '目標を設定しよう！',
                       style: const TextStyle(fontSize: 16)),
                 ),
               ),
