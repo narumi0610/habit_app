@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:habit_app/models/habit.dart';
 import 'package:intl/intl.dart';
 
 class GoalItem extends StatelessWidget {
-  final Habit habit;
-
-  GoalItem({required this.habit});
+  // final Habit habit;
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +13,9 @@ class GoalItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('目標: ${habit.title}', style: TextStyle(fontSize: 20)),
+            // Text('目標: ${habit.title}', style: TextStyle(fontSize: 20)),
             SizedBox(height: 8),
-            Text('開始日: ${outputFormat.format(habit.startDate)}',
-                style: TextStyle(fontSize: 16)),
+            Text('開始日: ', style: TextStyle(fontSize: 16)),
             SizedBox(height: 8),
             // Text('終了日: ${habit.endDate()}', style: TextStyle(fontSize: 16)),
           ],

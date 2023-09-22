@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habit_app/main.dart';
-import 'package:habit_app/models/habit.dart';
 import 'package:habit_app/screens/home_screen.dart';
 import 'package:habit_app/utils/rounded_button.dart';
-import 'package:realm/realm.dart';
 
 import '../utils/app_color.dart';
 
@@ -17,25 +15,25 @@ class SetGoalScreenState extends State<SetGoalScreen> {
   final TextEditingController _habitTitleController = TextEditingController();
   final DateTime now = DateTime.now();
   SetGoalScreenState() {
-    final config = Configuration.local([Habit.schema]);
-    realm = Realm(config);
+    // final config = Configuration.local([Habit.schema]);
+    // realm = Realm(config);
   }
 
   // 新しい習慣を作成する
   Future<void> _setGoal() async {
-    if (_formKey.currentState!.validate()) {
-      var habit = Habit(ObjectId(), _habitTitleController.text, now, 0, false);
-      realm.write(() {
-        realm.add(habit);
-      });
-      // SetGoalScreenの画面を削除してHomeScreenにpushする
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => MainScreen(index: 0)),
-        (_) => false,
-      );
-    }
+    // if (_formKey.currentState!.validate()) {
+    //   var habit = Habit(ObjectId(), _habitTitleController.text, now, 0, false);
+    //   realm.write(() {
+    //     realm.add(habit);
+    //   });
+    //   // SetGoalScreenの画面を削除してHomeScreenにpushする
+    //   Navigator.pushAndRemoveUntil(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (BuildContext context) => MainScreen(index: 0)),
+    //     (_) => false,
+    //   );
+    // }
   }
 
   @override

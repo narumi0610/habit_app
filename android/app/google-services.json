@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "618393088860",
+    "project_id": "habister-5885a",
+    "storage_bucket": "habister-5885a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618393088860:android:765614a5c8cd3fe46a4799",
+        "android_client_info": {
+          "package_name": "com.example.habit_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmroiZaurSojKzdIj79pzEGeM46UzIPRQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,16 +1,28 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_app/screens/goal_history_screen.dart';
 import 'package:habit_app/screens/home_screen.dart';
+import 'package:habit_app/screens/login_screen.dart';
 import 'package:habit_app/utils/global_const.dart';
 import 'package:habit_app/utils/theme.dart';
 import 'package:home_widget/home_widget.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Firebase を初期化
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   //アプリとウィジェット間でデータを共有するためのグループIDを設定
   HomeWidget.setAppGroupId(GlobalConst.appGroupID);
-  runApp(HabitApp());
+  runApp(
+    ProviderScope(
+      child: HabitApp(),
+    ),
+  );
 }
 
 class HabitApp extends StatelessWidget {
@@ -35,7 +47,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
+    LoginScreen(), // TODO あとでHomeScreenに変更
     GoalHistoryScreen(),
   ];
 

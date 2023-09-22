@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04562C612AB345BA0025BC2E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04562C602AB345BA0025BC2E /* GoogleService-Info.plist */; };
 		04FE91AD29FAB48400D3B729 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FE91AC29FAB48400D3B729 /* WidgetKit.framework */; };
 		04FE91AF29FAB48400D3B729 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FE91AE29FAB48400D3B729 /* SwiftUI.framework */; };
 		04FE91B229FAB48400D3B729 /* habit_appBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FE91B129FAB48400D3B729 /* habit_appBundle.swift */; };
@@ -23,6 +24,7 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		9F4BBF2612B7F15420A508E3 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 873EDF6AF16C99914A9D0980 /* Pods_Runner.framework */; };
+		FB080DC27ACE1213F7816C3A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD3E103807CFF4B0D9D7EFC7 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		04562C602AB345BA0025BC2E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04FE91AB29FAB48400D3B729 /* habit_appExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = habit_appExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		04FE91AC29FAB48400D3B729 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		04FE91AE29FAB48400D3B729 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -88,6 +91,7 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BD3E103807CFF4B0D9D7EFC7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Runner/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +169,7 @@
 				97C146EF1CF9000F007C117D /* Products */,
 				0C84DA92E221B2F9BAE563FB /* Pods */,
 				8C694406C338EAA8B1E8AC2B /* Frameworks */,
+				BD3E103807CFF4B0D9D7EFC7 /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -180,6 +185,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				04562C602AB345BA0025BC2E /* GoogleService-Info.plist */,
 				04FE91C529FB895C00D3B729 /* Runner.entitlements */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
@@ -290,8 +296,10 @@
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
+				04562C612AB345BA0025BC2E /* GoogleService-Info.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
+				FB080DC27ACE1213F7816C3A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
