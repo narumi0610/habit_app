@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:habit_app/providers/firebase_provider.dart';
+import 'package:habit_app/utils/firebase_auth_error.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>(
   (ref) => AuthRepositoryImpl(ref.read(firebaseAuthProvider), ref),
@@ -32,7 +33,8 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       return right(userCredential.user!);
     } on FirebaseAuthException catch (e) {
-      return left(e.message ?? '新規登録に失敗しました');
+      var message = FirebaseAuthErrorExt.fromCode(e.code).message;
+      return left(message);
     }
   }
 
@@ -46,7 +48,8 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       return right(userCredential.user!);
     } on FirebaseAuthException catch (e) {
-      return left(e.message ?? 'ログインに失敗しました');
+      var message = FirebaseAuthErrorExt.fromCode(e.code).message;
+      return left(message);
     }
   }
 }

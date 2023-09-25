@@ -6,6 +6,7 @@ import 'package:habit_app/screens/parts/custom_button.dart';
 import 'package:habit_app/screens/parts/custom_text_field.dart';
 import 'package:habit_app/screens/registration_screen.dart';
 import 'package:habit_app/utils/app_color.dart';
+import 'package:habit_app/utils/validator.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
@@ -14,6 +15,8 @@ class LoginScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+
     ref.listen(authNotifierProvider, (previous, next) {
       next.maybeWhen(
         orElse: () => null,
@@ -24,7 +27,8 @@ class LoginScreen extends ConsumerWidget {
         unauthenticated: (message) => showDialog(
             context: context,
             builder: (context) => AlertDialog(
-                  title: const Text('ログインに失敗しました'),
+                  title: const Text('エラーが発生しました'),
+                  content: Text(message!),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context),
@@ -34,67 +38,72 @@ class LoginScreen extends ConsumerWidget {
                 )),
       );
     });
+
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.all(16),
         alignment: Alignment.center,
         child: Container(
           margin: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomTextField(
-                controller: emailController,
-                text: 'メールアドレス',
-              ),
-              const SizedBox(height: 24),
-              CustomTextField(
-                controller: passwordController,
-                text: 'パスワード',
-              ),
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {}, // TODO パスワード再設定画面へ遷移
-                  child: const Text('パスワードをお忘れですか？'),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CustomTextField(
+                  controller: emailController,
+                  text: 'メールアドレス',
+                  validator: Validator().emailValidator,
                 ),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: CustomButton.primary(
-                  child: const Text('ログインする', style: TextStyle(fontSize: 16)),
-                  isDisabled: false,
-                  loading: ref.watch(authNotifierProvider).maybeWhen(
-                        orElse: () => false,
-                        loading: () => true,
-                      ),
+                const SizedBox(height: 24),
+                CustomTextField(
+                  controller: passwordController,
+                  text: 'パスワード',
+                  validator: Validator().passwordValidator,
+                ),
+                const SizedBox(height: 8),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {}, // TODO パスワード再設定画面へ遷移
+                    child: const Text('パスワードをお忘れですか？'),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: CustomButton.primary(
+                    child: const Text('ログインする', style: TextStyle(fontSize: 16)),
+                    isDisabled: false,
+                    loading: ref.watch(authNotifierProvider).maybeWhen(
+                          orElse: () => false,
+                          loading: () => true,
+                        ),
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        ref.read(authNotifierProvider.notifier).login(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(height: 24),
+                TextButton(
                   onPressed: () {
-                    if (emailController.text.isNotEmpty &&
-                        passwordController.text.isNotEmpty) {
-                      ref.read(authNotifierProvider.notifier).login(
-                            email: emailController.text,
-                            password: passwordController.text,
-                          );
-                      Navigator.pop(context);
-                    }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RegistrationScreen()));
                   },
+                  child: const Text('はじめての方はこちら'),
                 ),
-              ),
-              const SizedBox(height: 24),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RegistrationScreen()));
-                },
-                child: const Text('はじめての方はこちら'),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
