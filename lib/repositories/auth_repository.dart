@@ -31,6 +31,21 @@ class AuthRepositoryImpl implements AuthRepository {
         email: email,
         password: password,
       );
+
+      final uid = userCredential.user!.uid;
+
+      await ref
+          .read(firebaseFirestoreProvider)
+          .collection('users')
+          .doc(uid)
+          .set(
+        {
+          'id': userCredential.user!.uid,
+          'email': userCredential.user!.email,
+          'updated_at': DateTime.now(),
+          'created_at': DateTime.now(),
+        },
+      );
       return right(userCredential.user!);
     } on FirebaseAuthException catch (e) {
       var message = FirebaseAuthErrorExt.fromCode(e.code).message;
