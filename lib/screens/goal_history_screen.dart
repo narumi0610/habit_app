@@ -1,39 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:habit_app/providers/goal_history_async_notifier_provider.dart';
 import 'package:habit_app/widgets/goal_item.dart';
 
-class GoalHistoryScreen extends StatefulWidget {
-  @override
-  _GoalHistoryScreenState createState() => _GoalHistoryScreenState();
-}
-
-class _GoalHistoryScreenState extends State<GoalHistoryScreen> {
-  // List<Habit> _completedHabits = [];
-
-  @override
-  void initState() {
-    super.initState();
-    // _getCompletedHabits();
-  }
+class GoalHistoryScreen extends ConsumerWidget {
+  const GoalHistoryScreen({super.key});
 
   // 完了した習慣を取得
-  // Future<void> _getCompletedHabits() async {
-  //   _completedHabits = realm.all<Habit>().where((habit) {
-  //     return habit.currentState >= 30;
-  //   }).toList();
-  // }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: Text('履歴')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        // child: ListView.builder(
-        //   itemCount: _completedHabits.length,
-        //   itemBuilder: (context, index) {
-        //     return GoalItem(habit: _completedHabits[index]);
-        //   },
-        // ),
+      appBar: AppBar(title: const Text('履歴')),
+      body: Consumer(
+        builder: (context, watch, child) {
+          final state = ref.watch(goalHistoryAsyncNotifierProvider);
+          return state.when(data: (habitHistory) {
+            return ListView.builder(
+              itemCount: habitHistory.length,
+              itemBuilder: (context, index) {
+                return GoalItem(habit: habitHistory[index]);
+              },
+            );
+          }, error: (e, msg) {
+            return const Center(child: Text('履歴の取得に失敗しました'));
+          }, loading: () {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          });
+        },
       ),
     );
   }

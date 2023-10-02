@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:habit_app/main.dart';
 import 'package:habit_app/providers/auth_provider.dart';
-import 'package:habit_app/screens/home_screen.dart';
 import 'package:habit_app/screens/parts/custom_button.dart';
 import 'package:habit_app/screens/parts/custom_text_field.dart';
 import 'package:habit_app/screens/registration_screen.dart';
-import 'package:habit_app/utils/app_color.dart';
 import 'package:habit_app/utils/validator.dart';
 
 class LoginScreen extends ConsumerWidget {
@@ -21,8 +20,8 @@ class LoginScreen extends ConsumerWidget {
       next.maybeWhen(
         orElse: () => null,
         authenticated: (user) {
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const MainScreen()));
         },
         unauthenticated: (message) => showDialog(
             context: context,
@@ -87,7 +86,6 @@ class LoginScreen extends ConsumerWidget {
                               email: emailController.text,
                               password: passwordController.text,
                             );
-                        Navigator.pop(context);
                       }
                     },
                   ),

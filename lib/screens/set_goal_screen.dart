@@ -14,10 +14,6 @@ class SetGoalScreenState extends State<SetGoalScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _habitTitleController = TextEditingController();
   final DateTime now = DateTime.now();
-  SetGoalScreenState() {
-    // final config = Configuration.local([Habit.schema]);
-    // realm = Realm(config);
-  }
 
   // 新しい習慣を作成する
   Future<void> _setGoal() async {
