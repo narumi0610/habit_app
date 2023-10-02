@@ -19,6 +19,9 @@ abstract class HabitRepository {
 
   // 習慣の日数を更新する
   Future<void> updateHabitDays(String habitId, int currentStreak);
+
+  // 現在の習慣を取得する
+  Future<HabitModel?> getCurrentHabit();
 }
 
 class HabitRepositoryImpl implements HabitRepository {
@@ -55,7 +58,7 @@ class HabitRepositoryImpl implements HabitRepository {
                   deleted: 0)
               .toJson());
       return onSuccess();
-    } catch (_) {
+    } catch (e) {
       return onError();
     }
   }
@@ -87,8 +90,28 @@ class HabitRepositoryImpl implements HabitRepository {
         .collection('habits')
         .doc(habitId)
         .update({
-      'current_streak': currentStreak,
+      'current_streak': currentStreak + 1,
       'updated_at': DateTime.now(),
     });
+  }
+
+  @override
+  Future<HabitModel?> getCurrentHabit() async {
+    final uid = ref.read(firebaseAuthProvider).currentUser!.uid;
+    final habitSnap = await ref
+        .read(firebaseFirestoreProvider)
+        .collection('habits')
+        .where('user_id', isEqualTo: uid)
+        .where('completed_flg', isEqualTo: 0)
+        .orderBy('created_at', descending: true)
+        .withConverter<HabitModel>(
+          fromFirestore: (snapshots, _) =>
+              HabitModel.fromJson(snapshots.data()!),
+          toFirestore: (task, _) => task.toJson(),
+        )
+        .get();
+
+    final currentHabit = habitSnap.docs.map((e) => e.data()).toList();
+    return currentHabit.isNotEmpty ? currentHabit[0] : null;
   }
 }

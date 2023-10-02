@@ -18,59 +18,62 @@ class SetGoalScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('目標を設定')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextFormField(
-              maxLength: 20,
-              style: const TextStyle(color: AppColor.text),
-              controller: goalController,
-              decoration: const InputDecoration(
-                  hintText: '例)本を1ページ読む',
-                  hintStyle: TextStyle(color: AppColor.lightGray),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)))),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return '目標を入力してください';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 16),
-            RoundedButton(
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  ref.read(setGoalStateNotifierProvider.notifier).setGoal(
-                      form: goalController.text,
-                      onSuccess: () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const MainScreen(index: 0)),
-                          (_) => false,
-                        );
-                      },
-                      onError: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text('目標の設定に失敗しました'),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text('はい'),
-                              ),
-                            ],
-                          ),
-                        );
-                      });
-                }
-              },
-              title: '決定する',
-            ),
-          ],
+        child: Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextFormField(
+                maxLength: 20,
+                style: const TextStyle(color: AppColor.text),
+                controller: goalController,
+                decoration: const InputDecoration(
+                    hintText: '例)本を1ページ読む',
+                    hintStyle: TextStyle(color: AppColor.lightGray),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '目標を入力してください';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              RoundedButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    ref.read(setGoalStateNotifierProvider.notifier).setGoal(
+                        form: goalController.text,
+                        onSuccess: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    const MainScreen(index: 0)),
+                            (_) => false,
+                          );
+                        },
+                        onError: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('目標の設定に失敗しました'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('はい'),
+                                ),
+                              ],
+                            ),
+                          );
+                        });
+                  }
+                },
+                title: '決定する',
+              ),
+            ],
+          ),
         ),
       ),
     );
