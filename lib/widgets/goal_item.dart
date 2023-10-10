@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_app/models/habit/habit_model.dart';
+import 'package:habit_app/utils/format.dart';
 
 class GoalItem extends StatelessWidget {
   final HabitModel habit;
@@ -15,9 +16,10 @@ class GoalItem extends StatelessWidget {
           children: [
             Text('目標: ${habit.title}', style: const TextStyle(fontSize: 20)),
             const SizedBox(height: 8),
-            const Text('開始日: ', style: TextStyle(fontSize: 16)),
+            Text('開始日: ${Format.yyyymmdd(habit.created_at)}',
+                style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 8),
-            Text('終了日: ${habit.updated_at}',
+            Text('終了日: ${Format.yyyymmdd(habit.updated_at)}',
                 style: const TextStyle(fontSize: 16)),
           ],
         ),

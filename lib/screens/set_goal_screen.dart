@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/main.dart';
+import 'package:habit_app/providers/home_state_notifier_provider.dart';
 import 'package:habit_app/providers/set_goal_state_notifier_provider.dart';
 import 'package:habit_app/utils/rounded_button.dart';
 
@@ -46,6 +47,8 @@ class SetGoalScreen extends ConsumerWidget {
                     ref.read(setGoalStateNotifierProvider.notifier).setGoal(
                         form: goalController.text,
                         onSuccess: () {
+                          // HomeScreenで更新ボタンが表示されないため追加
+                          ref.refresh(homeAsyncNotifierProvider);
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(

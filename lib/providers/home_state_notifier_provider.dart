@@ -12,7 +12,12 @@ final homeAsyncNotifierProvider =
 class HomeAsyncNotifier extends AsyncNotifier<HabitModel?> {
   @override
   FutureOr<HabitModel?> build() async {
-    return await ref.read(habitRepositoryProvider).getCurrentHabit();
+    return await getCurrentHabit();
+  }
+
+  Future<HabitModel?> getCurrentHabit() async {
+    final habit = await ref.read(habitRepositoryProvider).getCurrentHabit();
+    return habit;
   }
 
   // 習慣を更新する
