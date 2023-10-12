@@ -15,6 +15,12 @@ abstract class AuthRepository {
 
   // ログインをする
   Future<Either<String, User>> login(String email, String password);
+
+  // ログアウトをする
+  Future<T> logout<T>({
+    required T Function() onSuccess,
+    required T Function() onError,
+  });
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -65,6 +71,18 @@ class AuthRepositoryImpl implements AuthRepository {
     } on FirebaseAuthException catch (e) {
       var message = FirebaseAuthErrorExt.fromCode(e.code).message;
       return left(message);
+    }
+  }
+
+  Future<T> logout<T>({
+    required T Function() onSuccess,
+    required T Function() onError,
+  }) async {
+    try {
+      await auth.signOut();
+      return onSuccess();
+    } catch (_) {
+      return onError();
     }
   }
 }

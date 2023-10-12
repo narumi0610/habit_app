@@ -24,6 +24,16 @@ class AuthNotifier extends StateNotifier<AuthState> {
       (response) => AuthState.authenticated(user: response),
     );
   }
+
+  Future<T> logout<T>({
+    required T Function() onSuccess,
+    required T Function() onError,
+  }) async {
+    state = const AuthState.loading();
+    final response = await repository.logout(onSuccess: onSuccess, onError: onError);
+    state = const AuthState.unauthenticated();
+    return response;
+  }
 }
 
 final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>(

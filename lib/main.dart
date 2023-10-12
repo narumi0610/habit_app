@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:habit_app/screens/setting_screen.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_app/screens/goal_history_screen.dart';
@@ -46,9 +47,10 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
-  List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    GoalHistoryScreen(),
+  final List<Widget> _widgetOptions = <Widget>[
+    const HomeScreen(),
+    const GoalHistoryScreen(),
+    const SettingScreen()
   ];
 
   @override
@@ -78,6 +80,10 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
             label: '履歴',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: '設定',
           ),
         ],
         currentIndex: _selectedIndex,
