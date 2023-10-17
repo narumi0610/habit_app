@@ -33,7 +33,6 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  # realm: ^1.4.0
   intl: ^0.18.0
   home_widget: ^0.2.0+1
   workmanager: ^0.5.1
@@ -48,8 +47,8 @@ dependencies:
   freezed_annotation: ^2.0.3
   cloud_firestore: ^4.9.2
 flutter_native_splash:
-  image: images/usagi.png
-  color: "F8730E"
+  image: images/habister_icon.png
+  color: "FFFFFF"
 
 dev_dependencies:
   flutter_test:
