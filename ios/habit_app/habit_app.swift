@@ -46,11 +46,16 @@ struct SimpleEntry: TimelineEntry {
     let currentState: Int
 }
 
+// 見た目を定義するためのビュー
 struct habit_appEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
-        Text("\(entry.currentState)")
+        // 背景を白に設定
+        ZStack {
+            Color.white
+            Text("\(entry.currentState)").font(.largeTitle).foregroundColor(Color.black)
+        }
     }
 }
 
