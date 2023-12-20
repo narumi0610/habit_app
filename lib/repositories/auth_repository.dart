@@ -21,6 +21,13 @@ abstract class AuthRepository {
     required T Function() onSuccess,
     required T Function() onError,
   });
+
+  // パスワードを変更する
+  Future<T> passwordReset<T>({
+    required String email,
+    required T Function() onSuccess,
+    required T Function() onError,
+  });
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -74,12 +81,27 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
+  @override
   Future<T> logout<T>({
     required T Function() onSuccess,
     required T Function() onError,
   }) async {
     try {
       await auth.signOut();
+      return onSuccess();
+    } catch (_) {
+      return onError();
+    }
+  }
+
+  @override
+  Future<T> passwordReset<T>({
+    required String email,
+    required T Function() onSuccess,
+    required T Function() onError,
+  }) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email);
       return onSuccess();
     } catch (_) {
       return onError();

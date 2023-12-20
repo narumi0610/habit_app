@@ -15,7 +15,7 @@ abstract class HabitRepository {
   });
 
   // 習慣の履歴を取得する
-  Future<List<HabitModel>> getHabitHistory();
+  Future<List<HabitModel?>> getHabitHistory();
 
   // 習慣の日数を更新する
   Future<void> updateHabitDays(String habitId, int currentStreak);
@@ -64,12 +64,16 @@ class HabitRepositoryImpl implements HabitRepository {
   }
 
   @override
-  Future<List<HabitModel>> getHabitHistory() async {
-    final uid = ref.read(firebaseAuthProvider).currentUser!.uid;
+  Future<List<HabitModel?>> getHabitHistory() async {
+    final user = ref.read(firebaseAuthProvider).currentUser;
+
+    if (user == null) {
+      return [null];
+    }
     final habitSnap = await ref
         .read(firebaseFirestoreProvider)
         .collection('habits')
-        .where('user_id', isEqualTo: uid)
+        .where('user_id', isEqualTo: user.uid)
         .orderBy('created_at', descending: true)
         .withConverter<HabitModel>(
           fromFirestore: (snapshots, _) =>
@@ -97,7 +101,12 @@ class HabitRepositoryImpl implements HabitRepository {
 
   @override
   Future<HabitModel?> getCurrentHabit() async {
-    final uid = ref.read(firebaseAuthProvider).currentUser!.uid;
+    final user = ref.read(firebaseAuthProvider).currentUser;
+
+    if (user == null) {
+      return null;
+    }
+    final uid = user.uid;
     final habitSnap = await ref
         .read(firebaseFirestoreProvider)
         .collection('habits')

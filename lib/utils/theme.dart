@@ -85,7 +85,8 @@ class AppTheme {
     ),
     progressIndicatorTheme:
         const ProgressIndicatorThemeData(color: AppColor.yellow),
-    appBarTheme: const AppBarTheme(backgroundColor: AppColor.primary),
+    appBarTheme:
+        const AppBarTheme(backgroundColor: AppColor.primary, elevation: 0),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: AppColor.white,
       selectedItemColor: AppColor.primary,

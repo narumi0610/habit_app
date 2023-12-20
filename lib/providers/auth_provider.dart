@@ -30,8 +30,22 @@ class AuthNotifier extends StateNotifier<AuthState> {
     required T Function() onError,
   }) async {
     state = const AuthState.loading();
-    final response = await repository.logout(onSuccess: onSuccess, onError: onError);
+    final response =
+        await repository.logout(onSuccess: onSuccess, onError: onError);
     state = const AuthState.unauthenticated();
+    return response;
+  }
+
+  Future<T> passwordReset<T>({
+    required String email,
+    required T Function() onSuccess,
+    required T Function() onError,
+  }) async {
+    final response = await repository.passwordReset(
+      email: email,
+      onSuccess: onSuccess,
+      onError: onError,
+    );
     return response;
   }
 }

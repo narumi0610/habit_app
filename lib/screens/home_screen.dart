@@ -42,7 +42,7 @@ class HomeScreen extends ConsumerWidget {
           );
 
           final congratulationText = Visibility(
-            visible: habit!.current_streak == GlobalConst.maxContinuousDays,
+            visible: habit?.current_streak == GlobalConst.maxContinuousDays,
             child: const Text('目標達成おめでとう！', style: TextStyle(fontSize: 24)),
           );
 
