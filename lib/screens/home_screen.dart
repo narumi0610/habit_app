@@ -83,7 +83,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
               );
             } else {
-              return setGoalText;
+              return Container();
             }
           }
 

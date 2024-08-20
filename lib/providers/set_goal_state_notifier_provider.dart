@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:habit_app/providers/goal_history_async_notifier_provider.dart';
 import 'package:habit_app/repositories/habit_repository.dart';
 
 class SetGoalStateNotifier extends StateNotifier<String> {
@@ -23,6 +24,8 @@ class SetGoalStateNotifier extends StateNotifier<String> {
 }
 
 final setGoalStateNotifierProvider =
-    StateNotifierProvider<SetGoalStateNotifier, String>(
-  (ref) => SetGoalStateNotifier(ref.read(habitRepositoryProvider)),
-);
+    StateNotifierProvider<SetGoalStateNotifier, String>((ref) {
+  // 目標を設定したら履歴を更新する
+  ref.refresh(goalHistoryAsyncNotifierProvider);
+  return SetGoalStateNotifier(ref.read(habitRepositoryProvider));
+});

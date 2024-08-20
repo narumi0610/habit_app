@@ -9,35 +9,30 @@ class GoalHistoryScreen extends ConsumerWidget {
   // 完了した習慣を取得
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(goalHistoryAsyncNotifierProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('履歴')),
-      body: Consumer(
-        builder: (context, watch, child) {
-          final state = ref.watch(goalHistoryAsyncNotifierProvider);
-          return state.when(data: (habitHistory) {
-            return ListView.builder(
-              itemCount: habitHistory.length,
-              itemBuilder: (context, index) {
-                if (habitHistory[0] == null) {
-                  return const Column(
-                    children: [
-                      Text('履歴がありません'),
-                    ],
-                  );
-                } else {
-                  return GoalItem(habit: habitHistory[index]!);
-                }
-              },
-            );
-          }, error: (e, msg) {
-            return const Center(child: Text('履歴の取得に失敗しました'));
-          }, loading: () {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          });
-        },
-      ),
-    );
+        appBar: AppBar(title: const Text('履歴')),
+        body: state.when(data: (habitHistory) {
+          return ListView.builder(
+            itemCount: habitHistory.length,
+            itemBuilder: (context, index) {
+              if (habitHistory[0] == null) {
+                return const Column(
+                  children: [
+                    Text('履歴がありません'),
+                  ],
+                );
+              } else {
+                return GoalItem(habit: habitHistory[index]!);
+              }
+            },
+          );
+        }, error: (e, msg) {
+          return const Center(child: Text('履歴の取得に失敗しました'));
+        }, loading: () {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }));
   }
 }
