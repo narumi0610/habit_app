@@ -22,8 +22,12 @@ class HomeAsyncNotifier extends AsyncNotifier<HabitModel?> {
 
   // 習慣を更新する
   Future<void> updateHabitDays(String habitId, int currentStreak) async {
+
+    
     await ref
         .read(habitRepositoryProvider)
         .updateHabitDays(habitId, currentStreak);
   }
+
+  
 }

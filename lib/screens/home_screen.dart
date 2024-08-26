@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/providers/home_state_notifier_provider.dart';
@@ -6,6 +7,7 @@ import 'package:habit_app/screens/parts/continuous_days_animation.dart';
 import 'package:habit_app/screens/set_goal_screen.dart';
 import 'package:habit_app/utils/global_const.dart';
 import 'package:habit_app/utils/rounded_button.dart';
+import 'package:home_widget/home_widget.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -54,6 +56,22 @@ class HomeScreen extends ConsumerWidget {
                   DateTime.now().year == habit.updated_at.year &&
                       DateTime.now().month == habit.updated_at.month &&
                       DateTime.now().day == habit.updated_at.day;
+              try {
+                Future.wait([
+                  // Widgetで扱うデータを保存
+                  HomeWidget.saveWidgetData<int>(
+                      'currentState', habit.current_streak),
+                ]);
+              } on PlatformException catch (exception) {
+                print(exception);
+              }
+
+              try {
+                // iOSのWidgetの処理は「iOSName」→「name」の順で探す。
+                HomeWidget.updateWidget(iOSName: 'habit_app');
+              } on PlatformException catch (exception) {
+                print(exception);
+              }
               return Bounce(
                 duration: const Duration(milliseconds: 300),
                 onPressed: isUpdatedToday &&
