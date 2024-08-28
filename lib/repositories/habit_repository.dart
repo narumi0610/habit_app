@@ -97,6 +97,17 @@ class HabitRepositoryImpl implements HabitRepository {
       'current_streak': currentStreak + 1,
       'updated_at': DateTime.now(),
     });
+
+    if (currentStreak == 29) {
+      await ref
+          .read(firebaseFirestoreProvider)
+          .collection('habits')
+          .doc(habitId)
+          .update({
+        'completed_flg': 1,
+        'updated_at': DateTime.now(),
+      });
+    }
   }
 
   @override

@@ -19,8 +19,11 @@ class GoalItem extends StatelessWidget {
             Text('開始日: ${Format.yyyymmdd(habit.created_at)}',
                 style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 8),
-            Text('終了日: ${Format.yyyymmdd(habit.updated_at)}',
-                style: const TextStyle(fontSize: 16)),
+            Visibility(
+              visible: habit.completed_flg == 1,
+              child: Text('終了日: ${Format.yyyymmdd(habit.updated_at)}',
+                  style: const TextStyle(fontSize: 16)),
+            ),
           ],
         ),
       ),
