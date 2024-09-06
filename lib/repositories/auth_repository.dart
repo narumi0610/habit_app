@@ -28,6 +28,12 @@ abstract class AuthRepository {
     required T Function() onSuccess,
     required T Function() onError,
   });
+
+  // 退会する
+  Future<T> deletedUser<T>({
+    required T Function() onSuccess,
+    required T Function() onError,
+  });
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -104,6 +110,36 @@ class AuthRepositoryImpl implements AuthRepository {
       await auth.sendPasswordResetEmail(email: email);
       return onSuccess();
     } catch (_) {
+      return onError();
+    }
+  }
+
+  @override
+  Future<T> deletedUser<T>({
+    required T Function() onSuccess,
+    required T Function() onError,
+  }) async {
+    try {
+      print("1️⃣？？");
+      final user = ref.read(firebaseAuthProvider).currentUser;
+      final uid = user?.uid;
+      print("1️⃣ $uid");
+      // delete_usersコレクションに追加
+      await ref
+          .read(firebaseFirestoreProvider)
+          .collection('delete_users')
+          .doc(uid)
+          .set(
+        {
+          'user_id': uid,
+          'created_at': DateTime.now(),
+        },
+      );
+      print("2️⃣");
+      await FirebaseAuth.instance.signOut();
+      return onSuccess();
+    } catch (e) {
+      print(e);
       return onError();
     }
   }

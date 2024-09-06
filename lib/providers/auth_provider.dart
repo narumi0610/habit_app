@@ -48,6 +48,16 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
     return response;
   }
+
+  Future<T> deletedUser<T>({
+    required T Function() onSuccess,
+    required T Function() onError,
+  }) async {
+    return await repository.deletedUser(
+      onSuccess: onSuccess,
+      onError: onError,
+    );
+  }
 }
 
 final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>(
