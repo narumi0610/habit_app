@@ -51,11 +51,15 @@ class HomeScreen extends ConsumerWidget {
           // 更新ボタン
           Widget updateButton() {
             if (habit != null) {
-              // updated_atが今日の日付か確認
+              // 更新日が今日かどうか
               bool isUpdatedToday =
                   DateTime.now().year == habit.updated_at.year &&
                       DateTime.now().month == habit.updated_at.month &&
                       DateTime.now().day == habit.updated_at.day;
+              //　更新日が今日または更新回数が30回以上のときかつ0回目でないとき
+              bool isUpdated = (isUpdatedToday ||
+                      habit.current_streak >= GlobalConst.maxContinuousDays) &&
+                  habit.current_streak != 0;
               try {
                 Future.wait([
                   // Widgetで扱うデータを保存
@@ -72,10 +76,11 @@ class HomeScreen extends ConsumerWidget {
               } on PlatformException catch (exception) {
                 print(exception);
               }
-              return Bounce(
-                duration: const Duration(milliseconds: 300),
-                onPressed: isUpdatedToday &&
-                        habit.current_streak >= GlobalConst.maxContinuousDays
+              return InkWell(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                // 当日更新済みかつ30回以上の場合押せない
+                onTap: isUpdated
                     ? () {}
                     : () {
                         ref
@@ -86,16 +91,18 @@ class HomeScreen extends ConsumerWidget {
                 child: Container(
                   padding: const EdgeInsets.all(64),
                   width: width,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.shade400),
                     shape: BoxShape.circle,
                     color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 16,
-                        offset: Offset(0, 8),
-                      ),
-                    ],
+                    boxShadow: isUpdated
+                        ? null
+                        : [
+                            const BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 16,
+                                offset: Offset(0, 8))
+                          ],
                   ),
                   child: ContinuousDaysAnimation(habit.current_streak),
                 ),
