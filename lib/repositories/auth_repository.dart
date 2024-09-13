@@ -120,10 +120,8 @@ class AuthRepositoryImpl implements AuthRepository {
     required T Function() onError,
   }) async {
     try {
-      print("1️⃣？？");
       final user = ref.read(firebaseAuthProvider).currentUser;
       final uid = user?.uid;
-      print("1️⃣ $uid");
       // delete_usersコレクションに追加
       await ref
           .read(firebaseFirestoreProvider)
@@ -135,11 +133,9 @@ class AuthRepositoryImpl implements AuthRepository {
           'created_at': DateTime.now(),
         },
       );
-      print("2️⃣");
       await FirebaseAuth.instance.signOut();
       return onSuccess();
     } catch (e) {
-      print(e);
       return onError();
     }
   }

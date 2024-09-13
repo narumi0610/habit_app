@@ -65,7 +65,6 @@ class SettingScreen extends ConsumerWidget {
                               ref
                                   .read(authNotifierProvider.notifier)
                                   .deletedUser(onSuccess: () {
-                                print('ユーザーを削除しました!');
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
