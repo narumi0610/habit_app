@@ -30,7 +30,7 @@ class HabitApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Habit App',
+      title: 'ハビスター',
       theme: AppTheme.light,
       home: MainScreen(),
     );
