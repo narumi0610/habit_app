@@ -3,47 +3,47 @@ import 'package:habit_app/utils/app_color.dart';
 
 class AppTheme {
   static const _textTheme = TextTheme(
-    headline1: TextStyle(
+    headlineLarge: TextStyle(
       fontSize: 52,
       color: AppColor.text,
     ),
-    headline2: TextStyle(
+    displayMedium: TextStyle(
       fontSize: 48,
       color: AppColor.text,
     ),
-    headline3: TextStyle(
+    displaySmall: TextStyle(
       fontSize: 42,
       color: AppColor.text,
     ),
-    headline4: TextStyle(
+    headlineMedium: TextStyle(
       fontSize: 36,
       color: AppColor.text,
     ),
-    headline5: TextStyle(
+    headlineSmall: TextStyle(
       fontSize: 30,
       color: AppColor.text,
     ),
-    headline6: TextStyle(
+    titleLarge: TextStyle(
       fontSize: 24,
       color: AppColor.text,
     ),
-    subtitle1: TextStyle(
+    titleMedium: TextStyle(
       fontSize: 18,
       color: AppColor.text,
     ),
-    subtitle2: TextStyle(
+    titleSmall: TextStyle(
       fontSize: 16,
       color: AppColor.text,
     ),
-    bodyText1: TextStyle(
+    bodyLarge: TextStyle(
       fontSize: 14,
       color: AppColor.text,
     ),
-    bodyText2: TextStyle(
+    bodyMedium: TextStyle(
       fontSize: 12,
       color: AppColor.text,
     ),
-    caption: TextStyle(
+    bodySmall: TextStyle(
       fontSize: 10,
       color: AppColor.text,
     ),
