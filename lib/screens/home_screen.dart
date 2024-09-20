@@ -19,7 +19,10 @@ class HomeScreen extends ConsumerWidget {
     final asyncValue = ref.watch(homeAsyncNotifierProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('記録')),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text('記録'),
+      ),
       body: asyncValue.when(
         data: (habit) {
           const setGoalText = Text('目標を設定しよう！', style: TextStyle(fontSize: 16));

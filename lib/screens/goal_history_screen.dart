@@ -11,7 +11,11 @@ class GoalHistoryScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(goalHistoryAsyncNotifierProvider);
     return Scaffold(
-        appBar: AppBar(title: const Text('履歴')),
+        backgroundColor: Colors.grey.shade100,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text('履歴'),
+        ),
         body: state.when(data: (habitHistory) {
           return ListView.builder(
             itemCount: habitHistory.length,
