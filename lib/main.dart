@@ -32,6 +32,7 @@ class HabitApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'ハビスター',
       theme: AppTheme.light,
       home: user == null ? LoginScreen() : MainScreen(),

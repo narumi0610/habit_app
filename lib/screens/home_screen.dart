@@ -7,6 +7,7 @@ import 'package:habit_app/screens/parts/continuous_days_animation.dart';
 import 'package:habit_app/screens/set_goal_screen.dart';
 import 'package:habit_app/utils/global_const.dart';
 import 'package:habit_app/utils/rounded_button.dart';
+import 'package:habit_app/utils/theme.dart';
 import 'package:home_widget/home_widget.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -131,6 +132,12 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
+                  Visibility(
+                      visible: habit != null,
+                      child: Text(
+                        habit?.title ?? "",
+                        style: const TextStyle(fontSize: 16),
+                      )),
                   const SizedBox(height: 32),
                   updateButton(),
                   setGoalButton,
