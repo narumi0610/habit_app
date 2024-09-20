@@ -22,7 +22,10 @@ class RoundedButton extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Text(title),
+      child: Text(
+        title,
+        style: const TextStyle(color: Colors.white),
+      ),
     );
   }
 }

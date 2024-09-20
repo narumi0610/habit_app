@@ -8,7 +8,12 @@ class GoalItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
+      margin: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
