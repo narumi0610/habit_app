@@ -54,13 +54,13 @@ class SettingScreen extends ConsumerWidget {
                 context: context,
                 builder: (_) {
                   return SimpleDialog(
-                    title: Text('退会してもよろしいですか？'),
+                    title: const Text('退会してもよろしいですか？'),
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           SimpleDialogOption(
-                            child: Text('はい'),
+                            child: const Text('はい'),
                             onPressed: () async {
                               ref
                                   .read(authNotifierProvider.notifier)
@@ -68,7 +68,7 @@ class SettingScreen extends ConsumerWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => LoginScreen()));
+                                        builder: (context) => const LoginScreen()));
                               }, onError: () {
                                 showDialog(
                                   context: context,

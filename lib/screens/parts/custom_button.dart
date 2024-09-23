@@ -23,13 +23,13 @@ class CustomButton extends StatefulWidget {
     EdgeInsets padding = const EdgeInsets.all(4.0),
   }) {
     return CustomButton(
-      child: child,
       onPressed: onPressed,
       padding: padding,
       color: AppColor.primary,
       textColor: Colors.white,
       isDisabled: isDisabled,
       loading: loading,
+      child: child,
     );
   }
 
@@ -41,7 +41,6 @@ class CustomButton extends StatefulWidget {
     EdgeInsets padding = const EdgeInsets.all(4.0),
   }) {
     return CustomButton(
-      child: child,
       onPressed: onPressed,
       padding: padding,
       color: Colors.grey,
@@ -49,10 +48,11 @@ class CustomButton extends StatefulWidget {
       borderRadius: BorderRadius.circular(100.0),
       isDisabled: isDisabled,
       loading: loading,
+      child: child,
     );
   }
 
-  CustomButton({
+  const CustomButton({super.key, 
     required this.child,
     required this.onPressed,
     required this.color,

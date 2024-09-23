@@ -20,7 +20,7 @@ class RegistrationScreen extends ConsumerWidget {
         orElse: () => null,
         authenticated: (user) {
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => MainScreen()));
+              context, MaterialPageRoute(builder: (context) => const MainScreen()));
         },
         unauthenticated: (message) => null,
       );

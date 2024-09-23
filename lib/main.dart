@@ -28,6 +28,8 @@ void main() async {
 }
 
 class HabitApp extends StatelessWidget {
+  const HabitApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
@@ -35,14 +37,14 @@ class HabitApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'ハビスター',
       theme: AppTheme.light,
-      home: user == null ? LoginScreen() : MainScreen(),
+      home: user == null ? const LoginScreen() : const MainScreen(),
     );
   }
 }
 
 class MainScreen extends StatefulWidget {
   final int index;
-  const MainScreen({this.index = 0});
+  const MainScreen({super.key, this.index = 0});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -80,7 +82,7 @@ class _MainScreenState extends State<MainScreen> {
               child: _widgetOptions.elementAt(_selectedIndex),
             );
           } else {
-            return Center(child: const Text("ログインしていません。"));
+            return const Center(child: Text("ログインしていません。"));
           }
         }),
         bottomNavigationBar: BottomNavigationBar(

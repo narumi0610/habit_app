@@ -4,7 +4,7 @@ import 'package:habit_app/utils/format.dart';
 
 class GoalItem extends StatelessWidget {
   final HabitModel habit;
-  const GoalItem({required this.habit});
+  const GoalItem({super.key, required this.habit});
 
   @override
   Widget build(BuildContext context) {

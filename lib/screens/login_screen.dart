@@ -103,7 +103,7 @@ class LoginScreen extends ConsumerWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => RegistrationScreen()));
+                            builder: (context) => const RegistrationScreen()));
                   },
                   child: const Text('はじめての方はこちら'),
                 ),
