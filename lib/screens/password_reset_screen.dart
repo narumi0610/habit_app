@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/providers/auth_provider.dart';
 import 'package:habit_app/screens/parts/custom_button.dart';
 import 'package:habit_app/screens/parts/custom_text_field.dart';
-import 'package:habit_app/screens/password_reset_complete_screen.dart';
 import 'package:habit_app/utils/validator.dart';
 
 class PasswordResetScreen extends ConsumerWidget {

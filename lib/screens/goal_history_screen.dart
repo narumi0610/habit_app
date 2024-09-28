@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/providers/goal_history_async_notifier_provider.dart';
-import 'package:habit_app/widgets/goal_item.dart';
+import 'package:habit_app/parts/goal_item.dart';
 
 class GoalHistoryScreen extends ConsumerWidget {
   const GoalHistoryScreen({super.key});

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/main.dart';
 import 'package:habit_app/providers/auth_provider.dart';
 import 'package:habit_app/screens/login_screen.dart';
 import 'package:habit_app/screens/parts/custom_button.dart';

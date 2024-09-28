@@ -1,7 +1,15 @@
+// ext {
+//     compose_version = '1.5.0'
+//     kotlin_version = '2.0.0'
+// }
+
+
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
-    id 'com.google.gms.google-services'
+    id "kotlin-android"
+    id "org.jetbrains.kotlin.android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
 }
 
 def localProperties = new Properties()
@@ -12,10 +20,6 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
-}
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
@@ -27,21 +31,26 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-
-
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
 android {
+    namespace 'com.example.habit_app'
     compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    ndkVersion "26.1.10909125"
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.14"
+    }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
     sourceSets {
@@ -67,6 +76,12 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    lintOptions {
+        baseline file("lint-baseline.xml")
+        abortOnError false
+    }
+    
 }
 
 flutter {
@@ -74,7 +89,9 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
     implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation "androidx.glance:glance-appwidget:1.1.0"
+    implementation "androidx.work:work-runtime-ktx:2.9.1"
+    implementation "androidx.activity:activity-compose:1.5.14"
 }

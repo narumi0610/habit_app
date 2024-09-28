@@ -63,18 +63,23 @@ class HomeScreen extends ConsumerWidget {
                       habit.current_streak >= GlobalConst.maxContinuousDays) &&
                   habit.current_streak != 0;
               try {
+                //iOSでの継続日数を保存するための処理
                 Future.wait([
                   // Widgetで扱うデータを保存
                   HomeWidget.saveWidgetData<int>(
                       'currentState', habit.current_streak),
                 ]);
+                
               } on PlatformException catch (exception) {
                 print(exception);
               }
 
               try {
                 // iOSのWidgetの処理は「iOSName」→「name」の順で探す。
-                HomeWidget.updateWidget(iOSName: 'habit_app');
+                HomeWidget.updateWidget(
+                  iOSName: 'habit_app',
+                  androidName: 'HomeWidgetGlanceReceiver',
+                );
               } on PlatformException catch (exception) {
                 print(exception);
               }

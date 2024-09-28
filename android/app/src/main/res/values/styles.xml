@@ -19,4 +19,5 @@
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
+    <string name="appwidget_text">継続日数</string>
 </resources>

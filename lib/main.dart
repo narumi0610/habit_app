@@ -21,7 +21,7 @@ void main() async {
   //アプリとウィジェット間でデータを共有するためのグループIDを設定
   HomeWidget.setAppGroupId(GlobalConst.appGroupID);
   runApp(
-    ProviderScope(
+    const ProviderScope(
       child: HabitApp(),
     ),
   );
