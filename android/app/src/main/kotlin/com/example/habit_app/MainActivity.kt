@@ -1,4 +1,4 @@
-package com.example.habit_app
+package com.flutter.habit_app
 import HomeWidgetGlanceState
 import HomeWidgetGlanceStateDefinition
 import HomeWidgetGlanceWidgetReceiver

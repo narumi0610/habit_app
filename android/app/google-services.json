@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:618393088860:android:765614a5c8cd3fe46a4799",
         "android_client_info": {
-          "package_name": "com.example.habit_app"
+          "package_name": "com.flutter.habit_app"
         }
       },
       "oauth_client": [],
