@@ -49,14 +49,15 @@ struct SimpleEntry: TimelineEntry {
 // 見た目を定義するためのビュー
 struct habit_appEntryView : View {
     var entry: Provider.Entry
+    @Environment(\.colorScheme) var colorScheme
+
 
     var body: some View {
         // 背景を白に設定
         ZStack {
-            Color.white
             VStack {
                 Text("継続").font(.system(size: 14)).foregroundColor(Color.green)
-                Text("\(entry.currentState)").font(.system(size: 50)).foregroundColor(Color.black)
+                Text("\(entry.currentState)").font(.system(size: 50)).foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                 Text("日").font(.system(size: 14)).foregroundColor(Color.green)
             }
             
