@@ -81,7 +81,9 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       return right(userCredential.user!);
     } on FirebaseAuthException catch (e) {
+      print("$e だよ");
       var message = FirebaseAuthErrorExt.fromCode(e.code).message;
+
       return left(message);
     }
   }
