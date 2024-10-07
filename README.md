@@ -11,8 +11,12 @@
 
 ## スクリーンショット
 ### Android
+<img src="https://github.com/narumi0610/habit_app/blob/main/images/android_home_screen.png?raw=true" width="300">
+<img src="https://github.com/narumi0610/habit_app/blob/main/images/android_widget.png?raw=true" width="300">
 
-<img src="https://github.com/narumi0610/habit_app/blob/main/images/android_home_screen.png?raw=true" width="100">
+### iOS
+<img src="https://github.com/narumi0610/habit_app/blob/main/images/ios_home_screen.png?raw=true" width="300">
+<img src="https://github.com/narumi0610/habit_app/blob/main/images/ios_widget.png?raw=true" width="300">
 
 ## 技術スタック
 - **Flutter**: クロスプラットフォームアプリ開発に使用
