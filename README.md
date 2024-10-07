@@ -11,11 +11,8 @@
 
 ## スクリーンショット
 ### Android
-![Androidホーム画面](images/android_home_screen.png)
-![Androidウィジェット](images/android_widget.png)
-### iOS
-![iOSホーム画面](images/ios_home_screen.png)
-![iOSウィジェット](images/ios_widget.png)
+
+<img src="https://github.com/narumi0610/habit_app/blob/main/images/android_home_screen.png?raw=true" width="100">
 
 ## 技術スタック
 - **Flutter**: クロスプラットフォームアプリ開発に使用
