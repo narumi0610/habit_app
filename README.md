@@ -1,17 +1,69 @@
-# habit_app
+# ハビスター - 習慣を視覚化してモチベーションを維持するアプリ
 
-A new Flutter project.
+## 概要
+ハビスターは、ユーザーが目標達成までの進捗を視覚化し、日々の習慣を管理するためのアプリです。毎日目標を達成することで、モチベーションを維持しやすくし、継続日数や履歴を表示して達成感をサポートします。
 
-## Getting Started
+## 主な機能
+- 毎日1回のタップで目標を達成（1日1回のみ）
+- iPhoneやAndroidのウィジェットから継続日数を確認
+- 30回のタップで目標を達成、進捗が視覚化される
+- 達成した目標の履歴を確認
 
-This project is a starting point for a Flutter application.
+## スクリーンショット
+### Android
+![Androidホーム画面](images/android_home_screen.png)
+![Androidウィジェット](images/android_widget.png)
+### iOS
+![iOSホーム画面](images/ios_home_screen.png)
+![iOSウィジェット](images/ios_widget.png)
 
-A few resources to get you started if this is your first Flutter project:
+## 技術スタック
+- **Flutter**: クロスプラットフォームアプリ開発に使用
+- **Firebase**: Firestoreをデータベースに、Firebase Authenticationでユーザー管理
+- **Swift**: iOSウィジェットのカスタムデザインに使用
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## アーキテクチャ
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# habit_app
+このアプリはMVVMアーキテクチャに基づいて構築されています。
+
+### Model
+Model層は、データやビジネスロジックを管理します。データベースやAPIからデータを取得し、必要な処理を行います。
+
+- ディレクトリ: `models`, `repositories`
+  - `models/habit/habit_model.dart`: 習慣データを表すモデル
+  - `repositories/habit_repository.dart`: 習慣データの操作を行うリポジトリ
+
+### View
+View層は、UIを担当します。画面レイアウトやUIのイベントを処理し、ViewModel層からのデータを表示します。
+
+- ディレクトリ: `screens`, `widgets`
+  - `screens/home_screen.dart`: ホーム画面のUI
+
+### ViewModel
+ViewModel層は、ViewとModelの間を仲介し、UIに表示するためのデータを処理します。状態管理やビジネスロジックを担当し、UIを更新する際に使用されます。
+
+- ディレクトリ: `providers`
+  - `providers/auth_provider.dart`: 認証に関する状態管理
+  - `providers/home_state_notifier_provider.dart`: ホーム画面の状態管理
+
+## 状態管理
+このアプリではRiverpodを使用して状態管理を行っています。
+
+### 実装例
+`providers`ディレクトリ内で、Riverpodを使用して状態管理を行っています。`StateNotifier`や`AsyncNotifier`を使用して、アプリの状態を管理し、各画面に提供しています。
+
+- ディレクトリ: `providers`
+  - `auth_provider.dart`: 認証に関する状態管理を行うプロバイダ
+  - `home_state_notifier_provider.dart`: ホーム画面の状態管理
+  - `goal_history_async_notifier_provider.dart`: ゴール履歴の非同期状態管理
+
+#### プロバイダ例
+
+```dart
+final authProvider = StateNotifierProvider<AuthNotifier, AuthState>(
+  (ref) => AuthNotifier(ref.read(authRepository)),
+);
+
+final homeStateProvider = StateNotifierProvider<HomeStateNotifier, HomeState>(
+  (ref) => HomeStateNotifier(ref.read(habitRepository)),
+);
