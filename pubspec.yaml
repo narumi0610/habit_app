@@ -27,6 +27,7 @@ dependencies:
   freezed_annotation: ^2.0.3
   cloud_firestore: ^4.9.2
   flutter_launcher_icons: ^0.13.1
+  riverpod_annotation: ^2.5.3
 flutter_native_splash:
   image: images/habister_icon.png
   color: "FFFFFF"
@@ -38,6 +39,8 @@ dev_dependencies:
   build_runner: ^2.4.6
   freezed: ^2.4.2
   json_serializable: ^6.7.1
+  riverpod_generator: ^2.4.0
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -12,7 +12,7 @@ part of 'habit_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 HabitModel _$HabitModelFromJson(Map<String, dynamic> json) {
   return _HabitModel.fromJson(json);
@@ -34,8 +34,12 @@ mixin _$HabitModel {
   DateTime? get deleted_at => throw _privateConstructorUsedError;
   int get deleted => throw _privateConstructorUsedError;
 
+  /// Serializes this HabitModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HabitModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HabitModelCopyWith<HabitModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -69,6 +73,8 @@ class _$HabitModelCopyWithImpl<$Res, $Val extends HabitModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HabitModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -129,11 +135,11 @@ class _$HabitModelCopyWithImpl<$Res, $Val extends HabitModel>
 }
 
 /// @nodoc
-abstract class _$$_HabitModelCopyWith<$Res>
+abstract class _$$HabitModelImplCopyWith<$Res>
     implements $HabitModelCopyWith<$Res> {
-  factory _$$_HabitModelCopyWith(
-          _$_HabitModel value, $Res Function(_$_HabitModel) then) =
-      __$$_HabitModelCopyWithImpl<$Res>;
+  factory _$$HabitModelImplCopyWith(
+          _$HabitModelImpl value, $Res Function(_$HabitModelImpl) then) =
+      __$$HabitModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -150,13 +156,15 @@ abstract class _$$_HabitModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_HabitModelCopyWithImpl<$Res>
-    extends _$HabitModelCopyWithImpl<$Res, _$_HabitModel>
-    implements _$$_HabitModelCopyWith<$Res> {
-  __$$_HabitModelCopyWithImpl(
-      _$_HabitModel _value, $Res Function(_$_HabitModel) _then)
+class __$$HabitModelImplCopyWithImpl<$Res>
+    extends _$HabitModelCopyWithImpl<$Res, _$HabitModelImpl>
+    implements _$$HabitModelImplCopyWith<$Res> {
+  __$$HabitModelImplCopyWithImpl(
+      _$HabitModelImpl _value, $Res Function(_$HabitModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HabitModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -171,7 +179,7 @@ class __$$_HabitModelCopyWithImpl<$Res>
     Object? deleted_at = freezed,
     Object? deleted = null,
   }) {
-    return _then(_$_HabitModel(
+    return _then(_$HabitModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -218,8 +226,8 @@ class __$$_HabitModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_HabitModel implements _HabitModel {
-  const _$_HabitModel(
+class _$HabitModelImpl implements _HabitModel {
+  const _$HabitModelImpl(
       {required this.id,
       required this.user_id,
       required this.title,
@@ -231,8 +239,8 @@ class _$_HabitModel implements _HabitModel {
       @TimestampConverter() required this.deleted_at,
       required this.deleted});
 
-  factory _$_HabitModel.fromJson(Map<String, dynamic> json) =>
-      _$$_HabitModelFromJson(json);
+  factory _$HabitModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$HabitModelImplFromJson(json);
 
   @override
   final String id;
@@ -264,10 +272,10 @@ class _$_HabitModel implements _HabitModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_HabitModel &&
+            other is _$HabitModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.user_id, user_id) || other.user_id == user_id) &&
             (identical(other.title, title) || other.title == title) &&
@@ -286,7 +294,7 @@ class _$_HabitModel implements _HabitModel {
             (identical(other.deleted, deleted) || other.deleted == deleted));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -301,15 +309,17 @@ class _$_HabitModel implements _HabitModel {
       deleted_at,
       deleted);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HabitModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$_HabitModelCopyWith<_$_HabitModel> get copyWith =>
-      __$$_HabitModelCopyWithImpl<_$_HabitModel>(this, _$identity);
+  _$$HabitModelImplCopyWith<_$HabitModelImpl> get copyWith =>
+      __$$HabitModelImplCopyWithImpl<_$HabitModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_HabitModelToJson(
+    return _$$HabitModelImplToJson(
       this,
     );
   }
@@ -326,10 +336,10 @@ abstract class _HabitModel implements HabitModel {
       @TimestampConverter() required final DateTime created_at,
       @TimestampConverter() required final DateTime updated_at,
       @TimestampConverter() required final DateTime? deleted_at,
-      required final int deleted}) = _$_HabitModel;
+      required final int deleted}) = _$HabitModelImpl;
 
   factory _HabitModel.fromJson(Map<String, dynamic> json) =
-      _$_HabitModel.fromJson;
+      _$HabitModelImpl.fromJson;
 
   @override
   String get id;
@@ -354,8 +364,11 @@ abstract class _HabitModel implements HabitModel {
   DateTime? get deleted_at;
   @override
   int get deleted;
+
+  /// Create a copy of HabitModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$$_HabitModelCopyWith<_$_HabitModel> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$HabitModelImplCopyWith<_$HabitModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

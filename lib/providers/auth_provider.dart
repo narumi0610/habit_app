@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/models/auth/auth_state.dart';
 import 'package:habit_app/repositories/auth_repository.dart';
 
+//TODO あとで＠riverpodの使用コードに修正
 class AuthNotifier extends StateNotifier<AuthState> {
   AuthNotifier(this.repository) : super(const AuthState.initial());
 

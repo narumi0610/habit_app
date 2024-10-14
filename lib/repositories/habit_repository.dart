@@ -8,11 +8,7 @@ final habitRepositoryProvider = Provider<HabitRepository>(
 
 abstract class HabitRepository {
   // 習慣の目標を作成する
-  Future<T> createHabit<T>({
-    required String title,
-    required T Function() onSuccess,
-    required T Function() onError,
-  });
+  Future<void> createHabit({required String title});
 
   // 習慣の履歴を取得する
   Future<List<HabitModel?>> getHabitHistory();
@@ -30,10 +26,8 @@ class HabitRepositoryImpl implements HabitRepository {
   HabitRepositoryImpl(this.ref);
 
   @override
-  Future<T> createHabit<T>({
+  Future<void> createHabit({
     required String title,
-    required T Function() onSuccess,
-    required T Function() onError,
   }) async {
     try {
       final uid = ref.read(firebaseAuthProvider).currentUser!.uid;
@@ -57,9 +51,8 @@ class HabitRepositoryImpl implements HabitRepository {
                   deleted_at: null,
                   deleted: 0)
               .toJson());
-      return onSuccess();
     } catch (e) {
-      return onError();
+      throw Exception('目標の作成に失敗しました: $e');
     }
   }
 

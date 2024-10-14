@@ -6,24 +6,24 @@ part of 'habit_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_HabitModel _$$_HabitModelFromJson(Map<String, dynamic> json) =>
-    _$_HabitModel(
+_$HabitModelImpl _$$HabitModelImplFromJson(Map<String, dynamic> json) =>
+    _$HabitModelImpl(
       id: json['id'] as String,
       user_id: json['user_id'] as String,
       title: json['title'] as String,
       start_date: DateTime.parse(json['start_date'] as String),
-      current_streak: json['current_streak'] as int,
-      completed_flg: json['completed_flg'] as int,
+      current_streak: (json['current_streak'] as num).toInt(),
+      completed_flg: (json['completed_flg'] as num).toInt(),
       created_at:
           const TimestampConverter().fromJson(json['created_at'] as Timestamp),
       updated_at:
           const TimestampConverter().fromJson(json['updated_at'] as Timestamp),
       deleted_at: _$JsonConverterFromJson<Timestamp, DateTime>(
           json['deleted_at'], const TimestampConverter().fromJson),
-      deleted: json['deleted'] as int,
+      deleted: (json['deleted'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$_HabitModelToJson(_$_HabitModel instance) =>
+Map<String, dynamic> _$$HabitModelImplToJson(_$HabitModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'user_id': instance.user_id,

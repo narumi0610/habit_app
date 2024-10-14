@@ -12,7 +12,7 @@ part of 'auth_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AuthState {
@@ -83,27 +83,34 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
-abstract class _$$_InitialCopyWith<$Res> {
-  factory _$$_InitialCopyWith(
-          _$_Initial value, $Res Function(_$_Initial) then) =
-      __$$_InitialCopyWithImpl<$Res>;
+abstract class _$$InitialImplCopyWith<$Res> {
+  factory _$$InitialImplCopyWith(
+          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
+      __$$InitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_InitialCopyWithImpl<$Res>
-    extends _$AuthStateCopyWithImpl<$Res, _$_Initial>
-    implements _$$_InitialCopyWith<$Res> {
-  __$$_InitialCopyWithImpl(_$_Initial _value, $Res Function(_$_Initial) _then)
+class __$$InitialImplCopyWithImpl<$Res>
+    extends _$AuthStateCopyWithImpl<$Res, _$InitialImpl>
+    implements _$$InitialImplCopyWith<$Res> {
+  __$$InitialImplCopyWithImpl(
+      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$_Initial implements _Initial {
-  const _$_Initial();
+class _$InitialImpl implements _Initial {
+  const _$InitialImpl();
 
   @override
   String toString() {
@@ -111,9 +118,9 @@ class _$_Initial implements _Initial {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Initial);
+        (other.runtimeType == runtimeType && other is _$InitialImpl);
   }
 
   @override
@@ -195,28 +202,32 @@ class _$_Initial implements _Initial {
 }
 
 abstract class _Initial implements AuthState {
-  const factory _Initial() = _$_Initial;
+  const factory _Initial() = _$InitialImpl;
 }
 
 /// @nodoc
-abstract class _$$_LoadingCopyWith<$Res> {
-  factory _$$_LoadingCopyWith(
-          _$_Loading value, $Res Function(_$_Loading) then) =
-      __$$_LoadingCopyWithImpl<$Res>;
+abstract class _$$LoadingImplCopyWith<$Res> {
+  factory _$$LoadingImplCopyWith(
+          _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
+      __$$LoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_LoadingCopyWithImpl<$Res>
-    extends _$AuthStateCopyWithImpl<$Res, _$_Loading>
-    implements _$$_LoadingCopyWith<$Res> {
-  __$$_LoadingCopyWithImpl(_$_Loading _value, $Res Function(_$_Loading) _then)
+class __$$LoadingImplCopyWithImpl<$Res>
+    extends _$AuthStateCopyWithImpl<$Res, _$LoadingImpl>
+    implements _$$LoadingImplCopyWith<$Res> {
+  __$$LoadingImplCopyWithImpl(
+      _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$_Loading implements _Loading {
-  const _$_Loading();
+class _$LoadingImpl implements _Loading {
+  const _$LoadingImpl();
 
   @override
   String toString() {
@@ -224,9 +235,9 @@ class _$_Loading implements _Loading {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Loading);
+        (other.runtimeType == runtimeType && other is _$LoadingImpl);
   }
 
   @override
@@ -308,30 +319,34 @@ class _$_Loading implements _Loading {
 }
 
 abstract class _Loading implements AuthState {
-  const factory _Loading() = _$_Loading;
+  const factory _Loading() = _$LoadingImpl;
 }
 
 /// @nodoc
-abstract class _$$_UnAuthCopyWith<$Res> {
-  factory _$$_UnAuthCopyWith(_$_UnAuth value, $Res Function(_$_UnAuth) then) =
-      __$$_UnAuthCopyWithImpl<$Res>;
+abstract class _$$UnAuthImplCopyWith<$Res> {
+  factory _$$UnAuthImplCopyWith(
+          _$UnAuthImpl value, $Res Function(_$UnAuthImpl) then) =
+      __$$UnAuthImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String? message});
 }
 
 /// @nodoc
-class __$$_UnAuthCopyWithImpl<$Res>
-    extends _$AuthStateCopyWithImpl<$Res, _$_UnAuth>
-    implements _$$_UnAuthCopyWith<$Res> {
-  __$$_UnAuthCopyWithImpl(_$_UnAuth _value, $Res Function(_$_UnAuth) _then)
+class __$$UnAuthImplCopyWithImpl<$Res>
+    extends _$AuthStateCopyWithImpl<$Res, _$UnAuthImpl>
+    implements _$$UnAuthImplCopyWith<$Res> {
+  __$$UnAuthImplCopyWithImpl(
+      _$UnAuthImpl _value, $Res Function(_$UnAuthImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(_$_UnAuth(
+    return _then(_$UnAuthImpl(
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -342,8 +357,8 @@ class __$$_UnAuthCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_UnAuth implements _UnAuth {
-  const _$_UnAuth({this.message});
+class _$UnAuthImpl implements _UnAuth {
+  const _$UnAuthImpl({this.message});
 
   @override
   final String? message;
@@ -354,21 +369,23 @@ class _$_UnAuth implements _UnAuth {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UnAuth &&
+            other is _$UnAuthImpl &&
             (identical(other.message, message) || other.message == message));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UnAuthCopyWith<_$_UnAuth> get copyWith =>
-      __$$_UnAuthCopyWithImpl<_$_UnAuth>(this, _$identity);
+  _$$UnAuthImplCopyWith<_$UnAuthImpl> get copyWith =>
+      __$$UnAuthImplCopyWithImpl<_$UnAuthImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -446,34 +463,41 @@ class _$_UnAuth implements _UnAuth {
 }
 
 abstract class _UnAuth implements AuthState {
-  const factory _UnAuth({final String? message}) = _$_UnAuth;
+  const factory _UnAuth({final String? message}) = _$UnAuthImpl;
 
   String? get message;
-  @JsonKey(ignore: true)
-  _$$_UnAuthCopyWith<_$_UnAuth> get copyWith =>
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UnAuthImplCopyWith<_$UnAuthImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_AuthCopyWith<$Res> {
-  factory _$$_AuthCopyWith(_$_Auth value, $Res Function(_$_Auth) then) =
-      __$$_AuthCopyWithImpl<$Res>;
+abstract class _$$AuthImplCopyWith<$Res> {
+  factory _$$AuthImplCopyWith(
+          _$AuthImpl value, $Res Function(_$AuthImpl) then) =
+      __$$AuthImplCopyWithImpl<$Res>;
   @useResult
   $Res call({User user});
 }
 
 /// @nodoc
-class __$$_AuthCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res, _$_Auth>
-    implements _$$_AuthCopyWith<$Res> {
-  __$$_AuthCopyWithImpl(_$_Auth _value, $Res Function(_$_Auth) _then)
+class __$$AuthImplCopyWithImpl<$Res>
+    extends _$AuthStateCopyWithImpl<$Res, _$AuthImpl>
+    implements _$$AuthImplCopyWith<$Res> {
+  __$$AuthImplCopyWithImpl(_$AuthImpl _value, $Res Function(_$AuthImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? user = null,
   }) {
-    return _then(_$_Auth(
+    return _then(_$AuthImpl(
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -484,8 +508,8 @@ class __$$_AuthCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res, _$_Auth>
 
 /// @nodoc
 
-class _$_Auth implements _Auth {
-  const _$_Auth({required this.user});
+class _$AuthImpl implements _Auth {
+  const _$AuthImpl({required this.user});
 
   @override
   final User user;
@@ -496,21 +520,23 @@ class _$_Auth implements _Auth {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Auth &&
+            other is _$AuthImpl &&
             (identical(other.user, user) || other.user == user));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, user);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AuthCopyWith<_$_Auth> get copyWith =>
-      __$$_AuthCopyWithImpl<_$_Auth>(this, _$identity);
+  _$$AuthImplCopyWith<_$AuthImpl> get copyWith =>
+      __$$AuthImplCopyWithImpl<_$AuthImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -588,9 +614,13 @@ class _$_Auth implements _Auth {
 }
 
 abstract class _Auth implements AuthState {
-  const factory _Auth({required final User user}) = _$_Auth;
+  const factory _Auth({required final User user}) = _$AuthImpl;
 
   User get user;
-  @JsonKey(ignore: true)
-  _$$_AuthCopyWith<_$_Auth> get copyWith => throw _privateConstructorUsedError;
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$AuthImplCopyWith<_$AuthImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

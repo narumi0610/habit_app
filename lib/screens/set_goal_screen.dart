@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/main.dart';
+import 'package:habit_app/providers/goal_provider.dart';
 import 'package:habit_app/providers/home_state_notifier_provider.dart';
 import 'package:habit_app/providers/set_goal_state_notifier_provider.dart';
 import 'package:habit_app/utils/rounded_button.dart';
@@ -44,33 +45,36 @@ class SetGoalScreen extends ConsumerWidget {
               RoundedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    ref.read(setGoalStateNotifierProvider.notifier).setGoal(
-                        form: goalController.text,
-                        onSuccess: () {
-                          // HomeScreenで更新ボタンが表示されないため追加
-                          ref.refresh(homeAsyncNotifierProvider);
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    const MainScreen(index: 0)),
-                            (_) => false,
-                          );
-                        },
-                        onError: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('目標の設定に失敗しました'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text('はい'),
-                                ),
-                              ],
-                            ),
-                          );
-                        });
+                    final goalAsyncValue =
+                        ref.read(setGoalProvider(form: goalController.text));
+                    return goalAsyncValue.when(
+                      data: (_) {
+                        // HomeScreenで更新ボタンが表示されないため追加
+                        ref.refresh(homeAsyncNotifierProvider);
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const MainScreen(index: 0)),
+                          (_) => false,
+                        );
+                      },
+                      error: (error, _) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('目標の設定に失敗しました'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('はい'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      loading: () => const CircularProgressIndicator(),
+                    );
                   }
                 },
                 title: '決定する',

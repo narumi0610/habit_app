@@ -5,11 +5,12 @@ import 'package:habit_app/models/habit/habit_model.dart';
 import 'package:habit_app/providers/goal_history_async_notifier_provider.dart';
 import 'package:habit_app/repositories/habit_repository.dart';
 
+//TODO あとで@riverpodを使用したコードに修正
 final homeAsyncNotifierProvider =
     AsyncNotifierProvider<HomeAsyncNotifier, HabitModel?>(
   HomeAsyncNotifier.new,
 );
-
+//TODO あとで@riverpodを使用したコードに修正
 class HomeAsyncNotifier extends AsyncNotifier<HabitModel?> {
   @override
   FutureOr<HabitModel?> build() async {
