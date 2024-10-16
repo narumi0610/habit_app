@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/main.dart';
 import 'package:habit_app/providers/goal_provider.dart';
 import 'package:habit_app/providers/home_state_notifier_provider.dart';
-import 'package:habit_app/providers/set_goal_state_notifier_provider.dart';
 import 'package:habit_app/utils/rounded_button.dart';
 
 import '../utils/app_color.dart';
@@ -43,38 +42,38 @@ class SetGoalScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 16),
               RoundedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (formKey.currentState!.validate()) {
-                    final goalAsyncValue =
-                        ref.read(setGoalProvider(form: goalController.text));
-                    return goalAsyncValue.when(
-                      data: (_) {
-                        // HomeScreenで更新ボタンが表示されないため追加
-                        ref.refresh(homeAsyncNotifierProvider);
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const MainScreen(index: 0)),
-                          (_) => false,
-                        );
-                      },
-                      error: (error, _) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text('目標の設定に失敗しました'),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text('はい'),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      loading: () => const CircularProgressIndicator(),
-                    );
+                    try {
+                      // 非同期処理が完了するのを待つ
+                      await ref.read(
+                          setGoalProvider(form: goalController.text).future);
+
+                      // 成功時の処理
+                      ref.refresh(homeAsyncNotifierProvider);
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const MainScreen(index: 0),
+                        ),
+                        (_) => false,
+                      );
+                    } catch (error) {
+                      // エラー時の処理
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('目標の設定に失敗しました'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('はい'),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
                   }
                 },
                 title: '決定する',
