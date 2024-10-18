@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/parts/goal_item.dart';
-import 'package:habit_app/providers/habit_history_provider.dart';
+import 'package:habit_app/screens/parts/goal_item.dart';
+import 'package:habit_app/providers/habit_providers.dart';
 
 class GoalHistoryScreen extends ConsumerWidget {
   const GoalHistoryScreen({super.key});

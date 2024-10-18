@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/providers/home_state_notifier_provider.dart';
+import 'package:habit_app/providers/habit_providers.dart';
 import 'package:habit_app/screens/parts/continuous_days_animation.dart';
-import 'package:habit_app/screens/set_goal_screen.dart';
+import 'package:habit_app/screens/create_habit_screen.dart';
 import 'package:habit_app/utils/global_const.dart';
 import 'package:habit_app/utils/rounded_button.dart';
 import 'package:home_widget/home_widget.dart';
@@ -15,14 +15,14 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // 端末のサイズを取得
     final width = MediaQuery.of(context).size.width;
-    final asyncValue = ref.watch(homeAsyncNotifierProvider);
+    final asyncGetCurrentHabit = ref.watch(getCurrentHabitProvider);
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text('記録'),
       ),
-      body: asyncValue.when(
+      body: asyncGetCurrentHabit.when(
         data: (habit) {
           const setGoalText = Text('目標を設定しよう！', style: TextStyle(fontSize: 16));
 
@@ -69,7 +69,6 @@ class HomeScreen extends ConsumerWidget {
                   HomeWidget.saveWidgetData<int>(
                       'currentState', habit.current_streak),
                 ]);
-                
               } on PlatformException catch (exception) {
                 print(exception);
               }
@@ -89,11 +88,12 @@ class HomeScreen extends ConsumerWidget {
                 // 当日更新済みかつ30回以上の場合押せない
                 onTap: isUpdated
                     ? () {}
-                    : () {
-                        ref
-                            .watch(homeAsyncNotifierProvider.notifier)
-                            .updateHabitDays(habit.id, habit.current_streak);
-                        ref.refresh(homeAsyncNotifierProvider);
+                    : () async {
+                        await ref.read(updateHabitDaysProvider(
+                                habitId: habit.id,
+                                currentStreak: habit.current_streak)
+                            .future);
+                       
                       },
                 child: Container(
                   padding: const EdgeInsets.all(64),

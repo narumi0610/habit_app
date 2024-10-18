@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/main.dart';
-import 'package:habit_app/providers/goal_provider.dart';
-import 'package:habit_app/providers/home_state_notifier_provider.dart';
+import 'package:habit_app/providers/habit_providers.dart';
 import 'package:habit_app/utils/rounded_button.dart';
 
 import '../utils/app_color.dart';
@@ -47,10 +46,10 @@ class SetGoalScreen extends ConsumerWidget {
                     try {
                       // 非同期処理が完了するのを待つ
                       await ref.read(
-                          setGoalProvider(form: goalController.text).future);
+                          createHabitProvider(form: goalController.text)
+                              .future);
 
                       // 成功時の処理
-                      ref.refresh(homeAsyncNotifierProvider);
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/screens/setting_screen.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
-import 'package:habit_app/screens/goal_history_screen.dart';
+import 'package:habit_app/screens/habit_history_screen.dart';
 import 'package:habit_app/screens/home_screen.dart';
 import 'package:habit_app/screens/login_screen.dart';
 import 'package:habit_app/utils/global_const.dart';
