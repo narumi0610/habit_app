@@ -1,28 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/main.dart';
-import 'package:habit_app/providers/auth_provider.dart';
+import 'package:habit_app/providers/auth_providers.dart';
 import 'package:habit_app/screens/parts/custom_button.dart';
 import 'package:habit_app/screens/parts/custom_text_field.dart';
+import 'package:habit_app/screens/parts/error_dialog.dart';
 import 'package:habit_app/utils/validator.dart';
 
-class RegistrationScreen extends ConsumerWidget {
+class RegistrationScreen extends ConsumerStatefulWidget {
   const RegistrationScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final formKey = GlobalKey<FormState>();
+  RegistrationScreenState createState() => RegistrationScreenState();
+}
+
+class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+  final formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final asyncAuth = ref.watch(authNotifierProvider);
 
     ref.listen(authNotifierProvider, (previous, next) {
       next.maybeWhen(
-        orElse: () => null,
-        authenticated: (user) {
+        data: (_) {
+          //成功時（data状態）になったら画面遷移を行う
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => const MainScreen()));
+            context,
+            MaterialPageRoute(builder: (context) => const MainScreen()),
+          );
         },
-        unauthenticated: (message) => null,
+        error: (error, stackTrace) {
+          showErrorDialog(context, '新規登録に失敗しました');
+        },
+        orElse: () => null,
       );
     });
 
@@ -56,11 +83,8 @@ class RegistrationScreen extends ConsumerWidget {
                 height: 50,
                 child: CustomButton.primary(
                   child: const Text('新規登録をする', style: TextStyle(fontSize: 16)),
-                  isDisabled: false,
-                  loading: ref.watch(authNotifierProvider).maybeWhen(
-                        orElse: () => false,
-                        loading: () => true,
-                      ),
+                  loading: asyncAuth is AsyncLoading, // ローディング状態の表示
+                  isDisabled: asyncAuth is AsyncLoading, // ローディング中は無効化
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       ref.read(authNotifierProvider.notifier).signUp(

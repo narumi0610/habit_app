@@ -21,7 +21,7 @@ final getCurrentHabitProvider = AutoDisposeFutureProvider<HabitModel?>.internal(
 );
 
 typedef GetCurrentHabitRef = AutoDisposeFutureProviderRef<HabitModel?>;
-String _$updateHabitDaysHash() => r'caa1f7c660d03d53f09d7ac3b9dd695c5b570bc4';
+String _$updateHabitDaysHash() => r'bd2ab9da43a6f1b14be2fdb2adf4f1b0331b9fbf';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -187,7 +187,7 @@ class _UpdateHabitDaysProviderElement
   int get currentStreak => (origin as UpdateHabitDaysProvider).currentStreak;
 }
 
-String _$createHabitHash() => r'7359b28041ff71f1b1706acdbe77657258d07f81';
+String _$createHabitHash() => r'b1da64706464575887a183341e878d653dcc9eb0';
 
 /// See also [createHabit].
 @ProviderFor(createHabit)

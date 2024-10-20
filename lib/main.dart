@@ -36,6 +36,9 @@ class HabitApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ハビスター',
+      routes: {
+        '/login': (context) => LoginScreen(),
+      },
       theme: AppTheme.light,
       home: user == null ? const LoginScreen() : const MainScreen(),
     );

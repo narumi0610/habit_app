@@ -1,16 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/providers/auth_provider.dart';
+import 'package:habit_app/providers/auth_providers.dart';
 import 'package:habit_app/screens/parts/custom_button.dart';
 import 'package:habit_app/screens/parts/custom_text_field.dart';
+import 'package:habit_app/screens/parts/error_dialog.dart';
 import 'package:habit_app/utils/validator.dart';
 
-class PasswordResetScreen extends ConsumerWidget {
+class PasswordResetScreen extends ConsumerStatefulWidget {
   const PasswordResetScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final TextEditingController emailController = TextEditingController();
+  PasswordResetScreenState createState() => PasswordResetScreenState();
+}
+
+class PasswordResetScreenState extends ConsumerState<PasswordResetScreen> {
+  late TextEditingController emailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    emailController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final asyncAuth = ref.watch(authNotifierProvider);
+
+    ref.listen(authNotifierProvider, (previous, next) {
+      next.maybeWhen(
+          data: (_) {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('パスワードリセット用のメールを送信しました。'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('戻る'),
+                  ),
+                ],
+              ),
+            );
+          },
+          error: (error, stack) {
+            showErrorDialog(context, 'パスワードリセット用のメールの送信に失敗しました');
+          },
+          orElse: () => null);
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -41,46 +83,12 @@ class PasswordResetScreen extends ConsumerWidget {
               child: CustomButton.primary(
                   child:
                       const Text('パスワードを変更する', style: TextStyle(fontSize: 16)),
-                  isDisabled: false,
-                  loading: false,
+                  loading: asyncAuth is AsyncLoading, // ローディング状態の表示
+                  isDisabled: asyncAuth is AsyncLoading, // ローディング中は無効化
                   onPressed: () {
-                    ref.read(authNotifierProvider.notifier).passwordReset(
-                        email: emailController.text,
-                        onSuccess: () {
-                          // Navigator.pushReplacement(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             const PasswordResetCompleteScreen()));
-
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('パスワードリセット用のメールを送信しました。'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text('戻る'),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        onError: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('エラーが発生しました'),
-                              content: const Text('パスワードリセット用のメールの送信に失敗しました。'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text('はい'),
-                                ),
-                              ],
-                            ),
-                          );
-                        });
+                    ref
+                        .read(authNotifierProvider.notifier)
+                        .passwordReset(email: emailController.text);
                   },
                   padding: const EdgeInsets.all(10)),
             ),

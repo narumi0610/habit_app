@@ -16,23 +16,13 @@ abstract class AuthRepository {
   Future<Either<String, User>> login(String email, String password);
 
   // ログアウトをする
-  Future<T> logout<T>({
-    required T Function() onSuccess,
-    required T Function() onError,
-  });
+  Future<void> logout();
 
   // パスワードを変更する
-  Future<T> passwordReset<T>({
-    required String email,
-    required T Function() onSuccess,
-    required T Function() onError,
-  });
+  Future<void> passwordReset({required String email});
 
   // 退会する
-  Future<T> deletedUser<T>({
-    required T Function() onSuccess,
-    required T Function() onError,
-  });
+  Future<void> deletedUser();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -89,37 +79,25 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<T> logout<T>({
-    required T Function() onSuccess,
-    required T Function() onError,
-  }) async {
+  Future<void> logout() async {
     try {
       await auth.signOut();
-      return onSuccess();
-    } catch (_) {
-      return onError();
+    } catch (e) {
+      throw Exception("ログアウトに失敗しました $e");
     }
   }
 
   @override
-  Future<T> passwordReset<T>({
-    required String email,
-    required T Function() onSuccess,
-    required T Function() onError,
-  }) async {
+  Future<void> passwordReset({required String email}) async {
     try {
       await auth.sendPasswordResetEmail(email: email);
-      return onSuccess();
-    } catch (_) {
-      return onError();
+    } catch (e) {
+      throw Exception("パスワードリセットリンクの送信に失敗しました $e");
     }
   }
 
   @override
-  Future<T> deletedUser<T>({
-    required T Function() onSuccess,
-    required T Function() onError,
-  }) async {
+  Future<void> deletedUser() async {
     try {
       final user = ref.read(firebaseAuthProvider).currentUser;
       final uid = user?.uid;
@@ -135,9 +113,8 @@ class AuthRepositoryImpl implements AuthRepository {
         },
       );
       await FirebaseAuth.instance.signOut();
-      return onSuccess();
     } catch (e) {
-      return onError();
+      throw Exception("退会処理に失敗しました $e");
     }
   }
 }

@@ -1,52 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/providers/auth_provider.dart';
-import 'package:habit_app/screens/login_screen.dart';
+import 'package:habit_app/providers/auth_providers.dart';
 import 'package:habit_app/screens/parts/custom_button.dart';
+import 'package:habit_app/screens/parts/error_dialog.dart';
 
 class SettingScreen extends ConsumerWidget {
   const SettingScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final asyncAuth = ref.watch(authNotifierProvider);
+
+    // エラー発生時にダイアログを表示するためのリスナー
+    ref.listen(authNotifierProvider, (previous, next) {
+      next.maybeWhen(
+        data: (_) {
+          //成功時（data状態）になったら画面遷移を行う
+          Navigator.pushReplacementNamed(context, '/login');
+        },
+        error: (error, stack) {
+          showErrorDialog(context, 'エラーが発生しました');
+        },
+        orElse: () => null,
+      );
+    });
+
     final logoutButton = Container(
       margin: const EdgeInsets.all(8),
       child: CustomButton.grey(
-          child: const Text('ログアウト'),
-          onPressed: () {
-            ref.read(authNotifierProvider.notifier).logout(
-              onSuccess: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
-                  (route) => false,
-                );
-              },
-              onError: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text('エラーが発生しました'),
-                    content: const Text('ログアウトに失敗しました'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('はい'),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            );
-          },
-          loading: false,
-          isDisabled: false,
-          padding: const EdgeInsets.all(16)),
+        child: const Text('ログアウト'),
+        onPressed: () async {
+          await ref.read(authNotifierProvider.notifier).logout();
+        },
+        loading: asyncAuth is AsyncLoading, // ローディング状態の表示
+        isDisabled: asyncAuth is AsyncLoading, // ローディング中は無効化
+        padding: const EdgeInsets.all(16),
+      ),
     );
 
     final deleteUserButton = Container(
-      margin: const EdgeInsets.only(bottom: 20),
-      child: TextButton(
+        margin: const EdgeInsets.only(bottom: 20),
+        child: TextButton(
           onPressed: () async {
             await showDialog(
                 barrierDismissible: true,
@@ -61,28 +55,9 @@ class SettingScreen extends ConsumerWidget {
                           SimpleDialogOption(
                             child: const Text('はい'),
                             onPressed: () async {
-                              ref
+                              await ref
                                   .read(authNotifierProvider.notifier)
-                                  .deletedUser(onSuccess: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const LoginScreen()));
-                              }, onError: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: const Text('エラーが発生しました'),
-                                    content: const Text('退会に失敗しました。'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text('はい'),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              });
+                                  .deletedUser();
                             },
                           ),
                           SimpleDialogOption(
@@ -97,8 +72,8 @@ class SettingScreen extends ConsumerWidget {
                   );
                 });
           },
-          child: const Text("退会する")),
-    );
+          child: const Text("退会する"),
+        ));
 
     return Scaffold(
       appBar: AppBar(
