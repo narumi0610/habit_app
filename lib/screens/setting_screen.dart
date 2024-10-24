@@ -19,7 +19,7 @@ class SettingScreen extends ConsumerWidget {
           Navigator.pushReplacementNamed(context, '/login');
         },
         error: (error, stack) {
-          showErrorDialog(context, 'エラーが発生しました');
+          showErrorDialog(context, error.toString());
         },
         orElse: () => null,
       );

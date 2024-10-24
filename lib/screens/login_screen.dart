@@ -13,10 +13,10 @@ class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class _LoginScreenState extends ConsumerState<LoginScreen> {
+class LoginScreenState extends ConsumerState<LoginScreen> {
   late TextEditingController emailController = TextEditingController();
   late TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -38,22 +38,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final asyncAuth = ref.watch(authNotifierProvider);
-    ref.listen(authNotifierProvider, (previous, next) {
-      next.maybeWhen(
-        data: (_) {
-          //成功時（data状態）になったら画面遷移を行う
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const MainScreen()),
-          );
-        },
-        error: (error, stack) {
-          showErrorDialog(context, 'ログインに失敗しました');
-        },
-        orElse: () => null,
-      );
-    });
 
+    //新規登録とログインの状態を監視
+    ref.listen<AsyncValue<void>>(
+      authNotifierProvider,
+      (previous, next) {
+        next.maybeWhen(
+          data: (_) {
+            // 成功した場合の処理
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const MainScreen()),
+            );
+          },
+          error: (error, stack) {
+            showErrorDialog(context, error.toString());
+          },
+          orElse: () => null,
+        );
+      },
+    );
     return PopScope(
       canPop: false,
       child: Scaffold(

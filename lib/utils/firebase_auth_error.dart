@@ -1,5 +1,5 @@
 enum FirebaseAuthError {
-  invalidLoginCredentials,
+  invalidCredentials,
   userDisabled,
   requiresRecentLogin,
   emailAlreadyInUse,
@@ -15,7 +15,7 @@ extension FirebaseAuthErrorExt on FirebaseAuthError {
 
   /// 表示用メッセージ一覧
   static final _messages = {
-    FirebaseAuthError.invalidLoginCredentials:
+    FirebaseAuthError.invalidCredentials:
         'メールアドレスまたはパスワードが間違っているか、指定されたユーザーは登録されていません。',
     FirebaseAuthError.userDisabled: '指定されたユーザーは無効化されています。',
     FirebaseAuthError.requiresRecentLogin:
@@ -30,8 +30,8 @@ extension FirebaseAuthErrorExt on FirebaseAuthError {
 
   static FirebaseAuthError fromCode(String code) {
     switch (code) {
-      case 'INVALID_LOGIN_CREDENTIALS':
-        return FirebaseAuthError.invalidLoginCredentials;
+      case 'invalid-credential':
+        return FirebaseAuthError.invalidCredentials;
       case 'user-disabled':
         return FirebaseAuthError.userDisabled;
       case 'requires-recent-login':

@@ -49,7 +49,7 @@ class PasswordResetScreenState extends ConsumerState<PasswordResetScreen> {
             );
           },
           error: (error, stack) {
-            showErrorDialog(context, 'パスワードリセット用のメールの送信に失敗しました');
+            showErrorDialog(context, error.toString());
           },
           orElse: () => null);
     });

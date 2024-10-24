@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/main.dart';
 import 'package:habit_app/providers/auth_providers.dart';
 import 'package:habit_app/screens/parts/custom_button.dart';
 import 'package:habit_app/screens/parts/custom_text_field.dart';
-import 'package:habit_app/screens/parts/error_dialog.dart';
 import 'package:habit_app/utils/validator.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
@@ -36,22 +34,6 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     final asyncAuth = ref.watch(authNotifierProvider);
-
-    ref.listen(authNotifierProvider, (previous, next) {
-      next.maybeWhen(
-        data: (_) {
-          //成功時（data状態）になったら画面遷移を行う
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const MainScreen()),
-          );
-        },
-        error: (error, stackTrace) {
-          showErrorDialog(context, '新規登録に失敗しました');
-        },
-        orElse: () => null,
-      );
-    });
 
     return Scaffold(
       appBar: AppBar(

@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:habit_app/providers/firebase_provider.dart';
 import 'package:habit_app/utils/firebase_auth_error.dart';
 
@@ -10,10 +9,10 @@ final authRepositoryProvider = Provider<AuthRepository>(
 
 abstract class AuthRepository {
   // 新規登録をする
-  Future<Either<String, User>> signUp(String email, String password);
+  Future<String?> signUp(String email, String password);
 
   // ログインをする
-  Future<Either<String, User>> login(String email, String password);
+  Future<String?> login(String email, String password);
 
   // ログアウトをする
   Future<void> logout();
@@ -32,7 +31,7 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this.auth, this.ref);
 
   @override
-  Future<Either<String, User>> signUp(String email, String password) async {
+  Future<String?> signUp(String email, String password) async {
     try {
       final UserCredential userCredential =
           await auth.createUserWithEmailAndPassword(
@@ -54,27 +53,21 @@ class AuthRepositoryImpl implements AuthRepository {
           'created_at': DateTime.now(),
         },
       );
-      return right(userCredential.user!);
+      return null;
     } on FirebaseAuthException catch (e) {
       var message = FirebaseAuthErrorExt.fromCode(e.code).message;
-      return left(message);
+      return message;
     }
   }
 
   @override
-  Future<Either<String, User>> login(String email, String password) async {
+  Future<String?> login(String email, String password) async {
     try {
-      final UserCredential userCredential =
-          await auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      return right(userCredential.user!);
+      await auth.signInWithEmailAndPassword(email: email, password: password);
+      return null;
     } on FirebaseAuthException catch (e) {
-      print("$e だよ");
       var message = FirebaseAuthErrorExt.fromCode(e.code).message;
-
-      return left(message);
+      return message;
     }
   }
 
@@ -101,18 +94,22 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final user = ref.read(firebaseAuthProvider).currentUser;
       final uid = user?.uid;
-      // delete_usersコレクションに追加
-      await ref
-          .read(firebaseFirestoreProvider)
-          .collection('delete_users')
-          .doc(uid)
-          .set(
-        {
-          'user_id': uid,
-          'created_at': DateTime.now(),
-        },
+      throw FirebaseAuthException(
+        code: 'sign-out-failed',
+        message: 'デバッグ用の意図的なログアウトエラーです',
       );
-      await FirebaseAuth.instance.signOut();
+      // delete_usersコレクションに追加
+      // await ref
+      //     .read(firebaseFirestoreProvider)
+      //     .collection('delete_users')
+      //     .doc(uid)
+      //     .set(
+      //   {
+      //     'user_id': uid,
+      //     'created_at': DateTime.now(),
+      //   },
+      // );
+      // await FirebaseAuth.instance.signOut();
     } catch (e) {
       throw Exception("退会処理に失敗しました $e");
     }

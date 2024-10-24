@@ -12,11 +12,18 @@ class AuthNotifier extends _$AuthNotifier {
     repository = ref.read(authRepositoryProvider);
   }
 
-  Future<void> login({required String email, required String password}) async {
-    state = const AsyncValue.loading(); //非同期処理中にローディング状態にする
+  Future<void> login({
+    required String email,
+    required String password,
+  }) async {
+    state = const AsyncValue.loading();
     try {
-      final response = await repository.login(email, password);
-      state = AsyncValue.data(response);
+      final errorMessage = await repository.login(email, password);
+      if (errorMessage != null) {
+        state = AsyncValue.error(errorMessage, StackTrace.current);
+      } else {
+        state = const AsyncValue.data(null);
+      }
     } catch (error, stack) {
       state = AsyncValue.error(error, stack);
     }
@@ -25,8 +32,12 @@ class AuthNotifier extends _$AuthNotifier {
   Future<void> signUp({required String email, required String password}) async {
     state = const AsyncValue.loading();
     try {
-      final response = await repository.signUp(email, password);
-      state = AsyncData(response);
+      final errorMessage = await repository.signUp(email, password);
+      if (errorMessage != null) {
+        state = AsyncValue.error(errorMessage, StackTrace.current);
+      } else {
+        state = AsyncValue.data(null);
+      }
     } catch (error, stack) {
       state = AsyncValue.error(error, stack);
     }
