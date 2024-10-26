@@ -67,7 +67,6 @@ void main() {
 
     addTearDown(container.dispose); // テスト終了後にリソースを解放
 
-    // リポジトリを初期化し、Providerを経由して依存関係を渡す
     final habitRepository = container.read(habitRepositoryProvider);
 
     // テストデータを追加

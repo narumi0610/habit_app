@@ -94,22 +94,18 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final user = ref.read(firebaseAuthProvider).currentUser;
       final uid = user?.uid;
-      throw FirebaseAuthException(
-        code: 'sign-out-failed',
-        message: 'デバッグ用の意図的なログアウトエラーです',
-      );
       // delete_usersコレクションに追加
-      // await ref
-      //     .read(firebaseFirestoreProvider)
-      //     .collection('delete_users')
-      //     .doc(uid)
-      //     .set(
-      //   {
-      //     'user_id': uid,
-      //     'created_at': DateTime.now(),
-      //   },
-      // );
-      // await FirebaseAuth.instance.signOut();
+      await ref
+          .read(firebaseFirestoreProvider)
+          .collection('delete_users')
+          .doc(uid)
+          .set(
+        {
+          'user_id': uid,
+          'created_at': DateTime.now(),
+        },
+      );
+      await FirebaseAuth.instance.signOut();
     } catch (e) {
       throw Exception("退会処理に失敗しました $e");
     }
