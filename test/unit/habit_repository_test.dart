@@ -65,8 +65,6 @@ void main() {
       ],
     );
 
-    addTearDown(container.dispose); // テスト終了後にリソースを解放
-
     final habitRepository = container.read(habitRepositoryProvider);
 
     // テストデータを追加
@@ -194,12 +192,9 @@ void main() {
 
     // 手動で例外をスローするように、テストを設定
     try {
-      // テスト対象のメソッドを呼び出す
       await habitRepository.updateHabitDays('habit1', 5);
-      // 失敗しない場合、明示的に失敗を示す
       fail('Exception was expected but not thrown');
     } catch (e) {
-      // 期待通り例外が発生しているか確認
       expect(e.toString(), contains('Some requested document was not found'));
     }
   });
@@ -242,10 +237,8 @@ void main() {
         .doc('habit1')
         .set(habitData.toJson());
 
-    // テスト対象のメソッドを呼び出す
     final currentHabit = await habitRepository.getCurrentHabit();
 
-    // 期待されるデータと取得データが一致するか確認
     expect(currentHabit?.title, 'test');
     expect(currentHabit?.current_streak, 5);
   });

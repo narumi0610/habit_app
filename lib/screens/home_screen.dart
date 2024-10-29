@@ -37,7 +37,7 @@ class HomeScreen extends ConsumerWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SetGoalScreen(),
+                      builder: (context) => const CreateHabitScreen(),
                     ),
                   );
                 },
@@ -93,7 +93,6 @@ class HomeScreen extends ConsumerWidget {
                                 habitId: habit.id,
                                 currentStreak: habit.current_streak)
                             .future);
-                       
                       },
                 child: Container(
                   padding: const EdgeInsets.all(64),

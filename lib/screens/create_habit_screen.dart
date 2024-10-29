@@ -6,8 +6,8 @@ import 'package:habit_app/utils/rounded_button.dart';
 
 import '../utils/app_color.dart';
 
-class SetGoalScreen extends ConsumerWidget {
-  const SetGoalScreen({super.key});
+class CreateHabitScreen extends ConsumerWidget {
+  const CreateHabitScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -48,7 +48,6 @@ class SetGoalScreen extends ConsumerWidget {
                       await ref.read(
                           createHabitProvider(form: goalController.text)
                               .future);
-
                       // 成功時の処理
                       Navigator.pushAndRemoveUntil(
                         context,
