@@ -30,7 +30,11 @@ dependencies:
   riverpod_annotation: ^2.5.3
   fake_cloud_firestore: ^2.5.2
   firebase_auth_mocks: ^0.13.0
+  shared_preferences: ^2.3.2
+  flutter_local_notifications: ^17.2.4
   mockito: ^5.4.4
+  timezone: ^0.9.4
+  flutter_app_badger: ^1.5.0
 flutter_native_splash:
   image: images/habister_icon.png
   color: "FFFFFF"

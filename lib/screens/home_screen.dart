@@ -2,17 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/providers/habit_providers.dart';
+import 'package:habit_app/providers/notification_setting_providers.dart';
 import 'package:habit_app/screens/parts/continuous_days_animation.dart';
 import 'package:habit_app/screens/create_habit_screen.dart';
 import 'package:habit_app/utils/global_const.dart';
 import 'package:habit_app/utils/rounded_button.dart';
 import 'package:home_widget/home_widget.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  HomeScreenState createState() => HomeScreenState();
+}
+
+class HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  Widget build(BuildContext context) {
     // 端末のサイズを取得
     final width = MediaQuery.of(context).size.width;
     final asyncGetCurrentHabit = ref.watch(getCurrentHabitProvider);
@@ -89,10 +94,16 @@ class HomeScreen extends ConsumerWidget {
                 onTap: isUpdated
                     ? () {}
                     : () async {
+                        // 継続日数を更新
                         await ref.read(updateHabitDaysProvider(
                                 habitId: habit.id,
                                 currentStreak: habit.current_streak)
                             .future);
+
+                        // 通知を再スケジュール
+                        ref
+                            .read(notificationSettingNotifierProvider.notifier)
+                            .rescheduleNotification(habit);
                       },
                 child: Container(
                   padding: const EdgeInsets.all(64),

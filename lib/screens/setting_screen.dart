@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/providers/auth_providers.dart';
+import 'package:habit_app/providers/notification_setting_providers.dart';
 import 'package:habit_app/screens/parts/custom_button.dart';
 import 'package:habit_app/screens/parts/error_dialog.dart';
 
-class SettingScreen extends ConsumerWidget {
+class SettingScreen extends ConsumerStatefulWidget {
   const SettingScreen({super.key});
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  SettingScreenState createState() => SettingScreenState();
+}
+
+class SettingScreenState extends ConsumerState<SettingScreen> {
+  @override
+  Widget build(BuildContext context) {
     final asyncAuth = ref.watch(authNotifierProvider);
+    final notificationSetting = ref.watch(notificationSettingNotifierProvider);
 
     // エラー発生時にダイアログを表示するためのリスナー
     ref.listen(authNotifierProvider, (previous, next) {
@@ -75,6 +81,48 @@ class SettingScreen extends ConsumerWidget {
           child: const Text("退会する"),
         ));
 
+    final notificationSettingItem = Container(
+        height: 60,
+        decoration: const BoxDecoration(
+          border: Border(
+            top: BorderSide(color: Colors.grey, width: 0.5),
+            bottom: BorderSide(color: Colors.grey, width: 0.5),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('習慣のリマインド通知',
+                  style: Theme.of(context).textTheme.titleMedium),
+              notificationSetting.when(
+                data: (setting) {
+                  return Switch(
+                    value: setting.isGranted,
+                    onChanged: (bool value) async {
+                      if (!value) {
+                        // 通知設定をオフにした場合は通知をキャンセル
+                        await ref
+                            .read(notificationSettingNotifierProvider.notifier)
+                            .cancelNotification();
+                      }
+                      await ref
+                          .read(notificationSettingNotifierProvider.notifier)
+                          .updatePermission(value);
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.grey.shade400,
+                    inactiveTrackColor: Colors.grey.shade200,
+                  );
+                },
+                loading: () => const CircularProgressIndicator(),
+                error: (error, stack) => const Text('エラーが発生しました'),
+              ),
+            ],
+          ),
+        ));
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -83,9 +131,13 @@ class SettingScreen extends ConsumerWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const SizedBox(height: 20),
-          logoutButton,
-          deleteUserButton,
+          notificationSettingItem,
+          Column(
+            children: [
+              logoutButton,
+              deleteUserButton,
+            ],
+          ),
         ],
       ),
     );

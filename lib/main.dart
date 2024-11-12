@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:habit_app/providers/notification_setting_providers.dart';
 import 'package:habit_app/screens/setting_screen.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +11,15 @@ import 'package:habit_app/screens/login_screen.dart';
 import 'package:habit_app/utils/global_const.dart';
 import 'package:habit_app/utils/theme.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() async {
+  tz.initializeTimeZones(); // タイムゾーンの初期化
+  tz.setLocalLocation(tz.getLocation('Asia/Tokyo'));
+
   WidgetsFlutterBinding.ensureInitialized();
+
   // Firebase を初期化
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -45,15 +52,15 @@ class HabitApp extends StatelessWidget {
   }
 }
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerStatefulWidget {
   final int index;
   const MainScreen({super.key, this.index = 0});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  MainScreenState createState() => MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class MainScreenState extends ConsumerState<MainScreen> {
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
     const HomeScreen(),
@@ -65,6 +72,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _selectedIndex = widget.index;
+    ref.read(notificationSettingNotifierProvider.notifier).requestPermissions();
   }
 
   void _onItemTapped(int index) {

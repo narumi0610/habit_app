@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-   <application
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <application
         android:label="ハビスター"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
@@ -17,7 +20,7 @@
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
+              android:resource="@mipmap/notification_icon"
               />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -33,6 +36,13 @@
         android:name="es.antonborri.home_widget.HomeWidgetBackgroundService"
         android:permission="android.permission.BIND_JOB_SERVICE"
         android:exported="true"/>
+        <!-- Foreground Service の設定 ここから-->
+        <service
+            android:name="com.dexterous.flutterlocalnotifications.ForegroundService"
+            android:exported="false"
+            android:stopWithTask="false"
+            android:foregroundServiceType="remoteMessaging" />
+        <!-- Foreground Service の設定 ここまで-->
         <receiver android:name="HomeWidgetGlanceReceiver"
             android:exported="false">
             <intent-filter>
@@ -41,6 +51,15 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/home_widget"/>
+        </receiver>
+        <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
+        <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
         </receiver>
     </application>
 </manifest>

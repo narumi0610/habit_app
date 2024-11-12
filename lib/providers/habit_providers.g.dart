@@ -20,6 +20,8 @@ final getCurrentHabitProvider = AutoDisposeFutureProvider<HabitModel?>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef GetCurrentHabitRef = AutoDisposeFutureProviderRef<HabitModel?>;
 String _$updateHabitDaysHash() => r'bd2ab9da43a6f1b14be2fdb2adf4f1b0331b9fbf';
 
@@ -169,6 +171,8 @@ class UpdateHabitDaysProvider extends AutoDisposeFutureProvider<void> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin UpdateHabitDaysRef on AutoDisposeFutureProviderRef<void> {
   /// The parameter `habitId` of this provider.
   String get habitId;
@@ -302,6 +306,8 @@ class CreateHabitProvider extends AutoDisposeFutureProvider<void> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin CreateHabitRef on AutoDisposeFutureProviderRef<void> {
   /// The parameter `form` of this provider.
   String get form;
@@ -330,6 +336,8 @@ final getHabitHistoryProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef GetHabitHistoryRef = AutoDisposeFutureProviderRef<List<HabitModel?>>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

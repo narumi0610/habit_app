@@ -42,8 +42,8 @@ class CustomButton extends StatefulWidget {
     return CustomButton(
       onPressed: onPressed,
       padding: padding,
-      color: Colors.grey,
-      textColor: Colors.white,
+      color: Colors.grey.shade200,
+      textColor: AppColor.text,
       borderRadius: BorderRadius.circular(100.0),
       isDisabled: isDisabled,
       loading: loading,
@@ -51,7 +51,8 @@ class CustomButton extends StatefulWidget {
     );
   }
 
-  const CustomButton({super.key, 
+  const CustomButton({
+    super.key,
     required this.child,
     required this.onPressed,
     required this.color,
