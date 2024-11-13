@@ -55,6 +55,7 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
               ),
               const SizedBox(height: 24),
               CustomTextField(
+                isPassword: true,
                 controller: passwordController,
                 text: 'パスワード',
                 validator: Validator().passwordValidator,
