@@ -79,6 +79,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   const SizedBox(height: 24),
                   CustomTextField(
+                    isPassword: true,
                     controller: passwordController,
                     text: 'パスワード',
                     validator: Validator().passwordValidator,
