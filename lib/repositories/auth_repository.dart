@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/providers/firebase_provider.dart';
 import 'package:habit_app/utils/firebase_auth_error.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>(
   (ref) => AuthRepositoryImpl(ref.read(firebaseAuthProvider), ref),
@@ -75,6 +76,10 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> logout() async {
     try {
       await auth.signOut();
+      // SharedPreferencesのインスタンスを取得
+      final prefs = await SharedPreferences.getInstance();
+      // ローカルデータを削除
+      await prefs.clear();
     } catch (e) {
       throw Exception("ログアウトに失敗しました $e");
     }
@@ -106,6 +111,10 @@ class AuthRepositoryImpl implements AuthRepository {
         },
       );
       await FirebaseAuth.instance.signOut();
+      // SharedPreferencesのインスタンスを取得
+      final prefs = await SharedPreferences.getInstance();
+      // ローカルデータを削除
+      await prefs.clear();
     } catch (e) {
       throw Exception("退会処理に失敗しました $e");
     }

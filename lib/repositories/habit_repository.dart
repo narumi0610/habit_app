@@ -52,7 +52,6 @@ class HabitRepositoryImpl implements HabitRepository {
                   deleted: 0)
               .toJson());
     } catch (e) {
-      print(e);
       throw Exception('目標の作成に失敗しました: $e');
     }
   }

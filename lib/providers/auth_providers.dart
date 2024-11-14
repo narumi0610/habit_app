@@ -12,7 +12,7 @@ class AuthNotifier extends _$AuthNotifier {
     repository = ref.read(authRepositoryProvider);
   }
 
-  Future<void> login({
+  Future<String?> login({
     required String email,
     required String password,
   }) async {
@@ -21,25 +21,34 @@ class AuthNotifier extends _$AuthNotifier {
       final errorMessage = await repository.login(email, password);
       if (errorMessage != null) {
         state = AsyncValue.error(errorMessage, StackTrace.current);
+
+        return errorMessage;
       } else {
         state = const AsyncValue.data(null);
+        return null;
       }
     } catch (error, stack) {
       state = AsyncValue.error(error, stack);
+      return error.toString();
     }
   }
 
-  Future<void> signUp({required String email, required String password}) async {
+  Future<String?> signUp(
+      {required String email, required String password}) async {
     state = const AsyncValue.loading();
     try {
       final errorMessage = await repository.signUp(email, password);
       if (errorMessage != null) {
         state = AsyncValue.error(errorMessage, StackTrace.current);
+
+        return errorMessage;
       } else {
         state = AsyncValue.data(null);
+        return null;
       }
     } catch (error, stack) {
       state = AsyncValue.error(error, stack);
+      return error.toString();
     }
   }
 
