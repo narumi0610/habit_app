@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:habit_app/main.dart';
 import 'package:habit_app/providers/auth_providers.dart';
 import 'package:habit_app/screens/parts/custom_button.dart';
 import 'package:habit_app/screens/parts/custom_text_field.dart';
+import 'package:habit_app/screens/parts/error_dialog.dart';
 import 'package:habit_app/utils/validator.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
@@ -68,12 +70,24 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                   child: const Text('新規登録をする', style: TextStyle(fontSize: 16)),
                   loading: asyncAuth is AsyncLoading, // ローディング状態の表示
                   isDisabled: asyncAuth is AsyncLoading, // ローディング中は無効化
-                  onPressed: () {
+                  onPressed: () async {
                     if (formKey.currentState!.validate()) {
-                      ref.read(authNotifierProvider.notifier).signUp(
-                            email: emailController.text,
-                            password: passwordController.text,
-                          );
+                      final result =
+                          await ref.read(authNotifierProvider.notifier).signUp(
+                                email: emailController.text,
+                                password: passwordController.text,
+                              );
+
+                      if (result != null) {
+                        showErrorDialog(context, result.toString());
+                      } else {
+                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MainScreen()),
+                        );
+                      }
                     }
                   },
                 ),

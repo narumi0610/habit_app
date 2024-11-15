@@ -39,25 +39,6 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final asyncAuth = ref.watch(authNotifierProvider);
 
-    //新規登録とログインの状態を監視
-    ref.listen<AsyncValue<void>>(
-      authNotifierProvider,
-      (previous, next) {
-        next.maybeWhen(
-          data: (_) {
-            // 成功した場合の処理
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const MainScreen()),
-            );
-          },
-          error: (error, stack) {
-            showErrorDialog(context, error.toString());
-          },
-          orElse: () => null,
-        );
-      },
-    );
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -107,12 +88,24 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           const Text('ログインする', style: TextStyle(fontSize: 16)),
                       isDisabled: asyncAuth is AsyncLoading, // ローディング状態の表示
                       loading: asyncAuth is AsyncLoading, // ローディング中は無効化
-                      onPressed: () {
+                      onPressed: () async {
                         if (formKey.currentState!.validate()) {
-                          ref.read(authNotifierProvider.notifier).login(
+                          final result = await ref
+                              .read(authNotifierProvider.notifier)
+                              .login(
                                 email: emailController.text,
                                 password: passwordController.text,
                               );
+
+                          if (result != null) {
+                            showErrorDialog(context, result.toString());
+                          } else {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MainScreen()),
+                            );
+                          }
                         }
                       },
                     ),
