@@ -71,12 +71,12 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('目標を設定')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: Center(
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Center(
                 child: Form(
                   key: formKey,
                   child: Column(
@@ -204,71 +204,71 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
                   ),
                 ),
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 16),
-              child: RoundedButton(
-                onPressed: () async {
-                  if (formKey.currentState!.validate()) {
-                    final isEnabled = ref.read(isNotificationEnabled);
-                    final hour = ref.read(selectedHour);
-                    final minute = ref.read(selectedMinute);
+              Container(
+                margin: const EdgeInsets.only(top: 32, bottom: 16),
+                child: RoundedButton(
+                  onPressed: () async {
+                    if (formKey.currentState!.validate()) {
+                      final isEnabled = ref.read(isNotificationEnabled);
+                      final hour = ref.read(selectedHour);
+                      final minute = ref.read(selectedMinute);
 
-                    if (isEnabled && (hour == null || minute == null)) {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text('時間を設定してください'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('はい'),
-                            ),
-                          ],
-                        ),
-                      );
-                      return;
+                      if (isEnabled && (hour == null || minute == null)) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('時間を設定してください'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('はい'),
+                              ),
+                            ],
+                          ),
+                        );
+                        return;
+                      }
+
+                      try {
+                        await ref.read(
+                            createHabitProvider(form: goalController.text)
+                                .future);
+                        ref
+                            .read(notificationSettingNotifierProvider.notifier)
+                            .scheduleDailyNotification(
+                                hour, minute, goalController.text);
+
+                        // 成功時の処理
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const MainScreen(index: 0),
+                          ),
+                          (_) => false,
+                        );
+                      } catch (error) {
+                        // エラー時の処理
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('目標の設定に失敗しました'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('はい'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                     }
-
-                    try {
-                      await ref.read(
-                          createHabitProvider(form: goalController.text)
-                              .future);
-                      ref
-                          .read(notificationSettingNotifierProvider.notifier)
-                          .scheduleDailyNotification(
-                              hour, minute, goalController.text);
-
-                      // 成功時の処理
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const MainScreen(index: 0),
-                        ),
-                        (_) => false,
-                      );
-                    } catch (error) {
-                      // エラー時の処理
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text('目標の設定に失敗しました'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('はい'),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  }
-                },
-                title: '決定する',
+                  },
+                  title: '決定する',
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
