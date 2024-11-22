@@ -115,7 +115,6 @@ class HabitRepositoryImpl implements HabitRepository {
         .read(firebaseFirestoreProvider)
         .collection('habits')
         .where('user_id', isEqualTo: uid)
-        .where('completed_flg', isEqualTo: 0)
         .orderBy('created_at', descending: true)
         .withConverter<HabitModel>(
           fromFirestore: (snapshots, _) =>

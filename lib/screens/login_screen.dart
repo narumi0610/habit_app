@@ -42,86 +42,86 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        body: Container(
-          margin: const EdgeInsets.all(16),
-          alignment: Alignment.center,
-          child: Container(
-            margin: const EdgeInsets.all(16),
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CustomTextField(
-                    controller: emailController,
-                    text: 'メールアドレス',
-                    validator: Validator().emailValidator,
-                  ),
-                  const SizedBox(height: 24),
-                  CustomTextField(
-                    isPassword: true,
-                    controller: passwordController,
-                    text: 'パスワード',
-                    validator: Validator().passwordValidator,
-                  ),
-                  const SizedBox(height: 8),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
+        body: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              margin: const EdgeInsets.all(32),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CustomTextField(
+                      controller: emailController,
+                      text: 'メールアドレス',
+                      validator: Validator().emailValidator,
+                    ),
+                    const SizedBox(height: 24),
+                    CustomTextField(
+                      isPassword: true,
+                      controller: passwordController,
+                      text: 'パスワード',
+                      validator: Validator().passwordValidator,
+                    ),
+                    const SizedBox(height: 8),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const PasswordResetScreen()));
+                        },
+                        child: const Text('パスワードをお忘れですか？'),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: CustomButton.primary(
+                        child: const Text('ログインする',
+                            style: TextStyle(fontSize: 16)),
+                        isDisabled: asyncAuth is AsyncLoading, // ローディング状態の表示
+                        loading: asyncAuth is AsyncLoading, // ローディング中は無効化
+                        onPressed: () async {
+                          if (formKey.currentState!.validate()) {
+                            final result = await ref
+                                .read(authNotifierProvider.notifier)
+                                .login(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                );
+
+                            if (result != null) {
+                              showErrorDialog(context, result.toString());
+                            } else {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MainScreen()),
+                              );
+                            }
+                          }
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    TextButton(
                       onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const PasswordResetScreen()));
+                                    const RegistrationScreen()));
                       },
-                      child: const Text('パスワードをお忘れですか？'),
+                      child: const Text('はじめての方はこちら'),
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: CustomButton.primary(
-                      child:
-                          const Text('ログインする', style: TextStyle(fontSize: 16)),
-                      isDisabled: asyncAuth is AsyncLoading, // ローディング状態の表示
-                      loading: asyncAuth is AsyncLoading, // ローディング中は無効化
-                      onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          final result = await ref
-                              .read(authNotifierProvider.notifier)
-                              .login(
-                                email: emailController.text,
-                                password: passwordController.text,
-                              );
-
-                          if (result != null) {
-                            showErrorDialog(context, result.toString());
-                          } else {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MainScreen()),
-                            );
-                          }
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const RegistrationScreen()));
-                    },
-                    child: const Text('はじめての方はこちら'),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

@@ -35,6 +35,8 @@ dependencies:
   mockito: ^5.4.4
   timezone: ^0.9.4
   flutter_app_badger: ^1.5.0
+  confetti: ^0.8.0
+  vibration: ^2.0.1
 flutter_native_splash:
   image: images/habister_icon.png
   color: "FFFFFF"
@@ -67,9 +69,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+
+  assets:
+    - images/
 
 
   # example:

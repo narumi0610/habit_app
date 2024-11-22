@@ -41,58 +41,64 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       appBar: AppBar(
         title: const Text('新規登録'),
       ),
-      body: Container(
-        margin: const EdgeInsets.all(16),
-        alignment: Alignment.center,
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomTextField(
-                controller: emailController,
-                text: 'メールアドレス',
-                validator: Validator().emailValidator,
-              ),
-              const SizedBox(height: 24),
-              CustomTextField(
-                isPassword: true,
-                controller: passwordController,
-                text: 'パスワード',
-                validator: Validator().passwordValidator,
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: CustomButton.primary(
-                  child: const Text('新規登録をする', style: TextStyle(fontSize: 16)),
-                  loading: asyncAuth is AsyncLoading, // ローディング状態の表示
-                  isDisabled: asyncAuth is AsyncLoading, // ローディング中は無効化
-                  onPressed: () async {
-                    if (formKey.currentState!.validate()) {
-                      final result =
-                          await ref.read(authNotifierProvider.notifier).signUp(
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.all(16),
+            alignment: Alignment.center,
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CustomTextField(
+                    controller: emailController,
+                    text: 'メールアドレス',
+                    validator: Validator().emailValidator,
+                  ),
+                  const SizedBox(height: 24),
+                  CustomTextField(
+                    isPassword: true,
+                    controller: passwordController,
+                    text: 'パスワード',
+                    validator: Validator().passwordValidator,
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: CustomButton.primary(
+                      child:
+                          const Text('新規登録をする', style: TextStyle(fontSize: 16)),
+                      loading: asyncAuth is AsyncLoading, // ローディング状態の表示
+                      isDisabled: asyncAuth is AsyncLoading, // ローディング中は無効化
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          final result = await ref
+                              .read(authNotifierProvider.notifier)
+                              .signUp(
                                 email: emailController.text,
                                 password: passwordController.text,
                               );
 
-                      if (result != null) {
-                        showErrorDialog(context, result.toString());
-                      } else {
-                        Navigator.pop(context);
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MainScreen()),
-                        );
-                      }
-                    }
-                  },
-                ),
+                          if (result != null) {
+                            showErrorDialog(context, result.toString());
+                          } else {
+                            Navigator.pop(context);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MainScreen()),
+                            );
+                          }
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
