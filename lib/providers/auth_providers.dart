@@ -52,13 +52,15 @@ class AuthNotifier extends _$AuthNotifier {
     }
   }
 
-  Future<void> logout() async {
+  Future<String?> logout() async {
     state = const AsyncValue.loading();
     try {
-      await repository.logout();
+      final errorMessage = await repository.logout();
       state = const AsyncValue.data(null);
+      return errorMessage;
     } catch (error, stack) {
       state = AsyncValue.error(error, stack);
+      return error.toString();
     }
   }
 
@@ -72,13 +74,15 @@ class AuthNotifier extends _$AuthNotifier {
     }
   }
 
-  Future<void> deletedUser() async {
+  Future<String?> deletedUser() async {
     state = const AsyncValue.loading();
     try {
-      await repository.deletedUser();
+      final errorMessage = await repository.deletedUser();
       state = const AsyncValue.data(null);
+      return errorMessage;
     } catch (error, stack) {
       state = AsyncValue.error(error, stack);
+      return error.toString();
     }
   }
 }
