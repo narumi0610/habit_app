@@ -16,13 +16,13 @@ abstract class AuthRepository {
   Future<String?> login(String email, String password);
 
   // ログアウトをする
-  Future<void> logout();
+  Future<String?> logout();
 
   // パスワードを変更する
   Future<void> passwordReset({required String email});
 
   // 退会する
-  Future<void> deletedUser();
+  Future<String?> deletedUser();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -73,15 +73,16 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> logout() async {
+  Future<String?> logout() async {
     try {
       await auth.signOut();
       // SharedPreferencesのインスタンスを取得
       final prefs = await SharedPreferences.getInstance();
       // ローカルデータを削除
       await prefs.clear();
-    } catch (e) {
-      throw Exception("ログアウトに失敗しました $e");
+      return null;
+    } catch (_) {
+      return "ログアウトに失敗しました";
     }
   }
 
@@ -95,7 +96,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> deletedUser() async {
+  Future<String?> deletedUser() async {
     try {
       final user = ref.read(firebaseAuthProvider).currentUser;
       final uid = user?.uid;
@@ -115,8 +116,9 @@ class AuthRepositoryImpl implements AuthRepository {
       final prefs = await SharedPreferences.getInstance();
       // ローカルデータを削除
       await prefs.clear();
+      return null;
     } catch (e) {
-      throw Exception("退会処理に失敗しました $e");
+      return "退会処理に失敗しました";
     }
   }
 }
