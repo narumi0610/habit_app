@@ -88,3 +88,10 @@ bin/export_options
 
 # fvm related
 .fvm
+
+# Firebase related
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+
+*.p12
+*.mobileprovision
