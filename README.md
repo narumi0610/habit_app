@@ -38,23 +38,15 @@ Model層は、データやビジネスロジックを管理します。データ
 ### View
 View層は、UIを担当します。画面レイアウトやUIのイベントを処理し、ViewModel層からのデータを表示します。
 
-- ディレクトリ: `screens`, `widgets`
+- ディレクトリ: `screens`
   - `screens/home_screen.dart`: ホーム画面のUI
 
 ### ViewModel
 ViewModel層は、ViewとModelの間を仲介し、UIに表示するためのデータを処理します。状態管理やビジネスロジックを担当し、UIを更新する際に使用されます。
 
 - ディレクトリ: `providers`
-  - `providers/auth_provider.dart`: 認証に関する状態管理
-  - `providers/home_state_notifier_provider.dart`: ホーム画面の状態管理
+  - `providers/auth_providers.dart`: 認証に関する状態管理
+  - `providers/habit_providers.dart`: 習慣に関する状態管理
 
 ## 状態管理
-このアプリではRiverpodを使用して状態管理を行っています。
-
-### 実装例
-`providers`ディレクトリ内で、Riverpodを使用して状態管理を行っています。`StateNotifier`や`AsyncNotifier`を使用して、アプリの状態を管理し、各画面に提供しています。
-
-- ディレクトリ: `providers`
-  - `auth_provider.dart`: 認証に関する状態管理を行うプロバイダ
-  - `home_state_notifier_provider.dart`: ホーム画面の状態管理
-  - `goal_history_async_notifier_provider.dart`: ゴール履歴の非同期状態管理
+このアプリではRiverpodv2を使用して状態管理を行っています。
