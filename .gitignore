@@ -87,7 +87,7 @@ bin/certificates
 bin/export_options
 
 # fvm related
-.fvm
+.fvm/flutter_sdk
 
 # Firebase related
 android/app/google-services.json
