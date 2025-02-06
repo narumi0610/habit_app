@@ -5,3 +5,10 @@ linter:
     public_member_api_docs: false
     always_use_package_imports: false
 
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+  errors:
+    invalid_annotation_target: ignore
+

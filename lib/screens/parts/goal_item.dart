@@ -25,14 +25,14 @@ class GoalItem extends StatelessWidget {
             Text('目標: ${habit.title}', style: const TextStyle(fontSize: 20)),
             const SizedBox(height: 8),
             Text(
-              '開始日: ${Format.yyyymmdd(habit.created_at)}',
+              '開始日: ${Format.yyyymmdd(habit.createdAt)}',
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 8),
             Visibility(
-              visible: habit.completed_flg == 1,
+              visible: habit.completedFlg == 1,
               child: Text(
-                '終了日: ${Format.yyyymmdd(habit.updated_at)}',
+                '終了日: ${Format.yyyymmdd(habit.updatedAt)}',
                 style: const TextStyle(fontSize: 16),
               ),
             ),

@@ -106,7 +106,7 @@ class NotificationSettingNotifier extends _$NotificationSettingNotifier {
     // 通知バッジを削除
     await FlutterAppBadger.removeBadge();
 
-    if (habit?.current_streak != GlobalConst.maxContinuousDays) {
+    if (habit?.currentStreak != GlobalConst.maxContinuousDays) {
       // 継続日数を更新したので通知を翌日に再スケジュール
       scheduledDate = scheduledDate.add(const Duration(days: 1));
 

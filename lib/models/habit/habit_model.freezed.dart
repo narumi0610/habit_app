@@ -21,17 +21,24 @@ HabitModel _$HabitModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$HabitModel {
   String get id => throw _privateConstructorUsedError;
-  String get user_id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_id')
+  String get userId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  DateTime get start_date => throw _privateConstructorUsedError;
-  int get current_streak => throw _privateConstructorUsedError;
-  int get completed_flg => throw _privateConstructorUsedError;
+  @JsonKey(name: 'start_date')
+  DateTime get startDate => throw _privateConstructorUsedError;
+  @JsonKey(name: 'current_streak')
+  int get currentStreak => throw _privateConstructorUsedError;
+  @JsonKey(name: 'completed_flg')
+  int get completedFlg => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
   @TimestampConverter()
-  DateTime get created_at => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'updated_at')
   @TimestampConverter()
-  DateTime get updated_at => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'deleted_at')
   @TimestampConverter()
-  DateTime? get deleted_at => throw _privateConstructorUsedError;
+  DateTime? get deletedAt => throw _privateConstructorUsedError;
   int get deleted => throw _privateConstructorUsedError;
 
   /// Serializes this HabitModel to a JSON map.
@@ -52,14 +59,14 @@ abstract class $HabitModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String user_id,
+      @JsonKey(name: 'user_id') String userId,
       String title,
-      DateTime start_date,
-      int current_streak,
-      int completed_flg,
-      @TimestampConverter() DateTime created_at,
-      @TimestampConverter() DateTime updated_at,
-      @TimestampConverter() DateTime? deleted_at,
+      @JsonKey(name: 'start_date') DateTime startDate,
+      @JsonKey(name: 'current_streak') int currentStreak,
+      @JsonKey(name: 'completed_flg') int completedFlg,
+      @JsonKey(name: 'created_at') @TimestampConverter() DateTime createdAt,
+      @JsonKey(name: 'updated_at') @TimestampConverter() DateTime updatedAt,
+      @JsonKey(name: 'deleted_at') @TimestampConverter() DateTime? deletedAt,
       int deleted});
 }
 
@@ -79,14 +86,14 @@ class _$HabitModelCopyWithImpl<$Res, $Val extends HabitModel>
   @override
   $Res call({
     Object? id = null,
-    Object? user_id = null,
+    Object? userId = null,
     Object? title = null,
-    Object? start_date = null,
-    Object? current_streak = null,
-    Object? completed_flg = null,
-    Object? created_at = null,
-    Object? updated_at = null,
-    Object? deleted_at = freezed,
+    Object? startDate = null,
+    Object? currentStreak = null,
+    Object? completedFlg = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+    Object? deletedAt = freezed,
     Object? deleted = null,
   }) {
     return _then(_value.copyWith(
@@ -94,37 +101,37 @@ class _$HabitModelCopyWithImpl<$Res, $Val extends HabitModel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      user_id: null == user_id
-          ? _value.user_id
-          : user_id // ignore: cast_nullable_to_non_nullable
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      start_date: null == start_date
-          ? _value.start_date
-          : start_date // ignore: cast_nullable_to_non_nullable
+      startDate: null == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      current_streak: null == current_streak
-          ? _value.current_streak
-          : current_streak // ignore: cast_nullable_to_non_nullable
+      currentStreak: null == currentStreak
+          ? _value.currentStreak
+          : currentStreak // ignore: cast_nullable_to_non_nullable
               as int,
-      completed_flg: null == completed_flg
-          ? _value.completed_flg
-          : completed_flg // ignore: cast_nullable_to_non_nullable
+      completedFlg: null == completedFlg
+          ? _value.completedFlg
+          : completedFlg // ignore: cast_nullable_to_non_nullable
               as int,
-      created_at: null == created_at
-          ? _value.created_at
-          : created_at // ignore: cast_nullable_to_non_nullable
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      updated_at: null == updated_at
-          ? _value.updated_at
-          : updated_at // ignore: cast_nullable_to_non_nullable
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      deleted_at: freezed == deleted_at
-          ? _value.deleted_at
-          : deleted_at // ignore: cast_nullable_to_non_nullable
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       deleted: null == deleted
           ? _value.deleted
@@ -144,14 +151,14 @@ abstract class _$$HabitModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      String user_id,
+      @JsonKey(name: 'user_id') String userId,
       String title,
-      DateTime start_date,
-      int current_streak,
-      int completed_flg,
-      @TimestampConverter() DateTime created_at,
-      @TimestampConverter() DateTime updated_at,
-      @TimestampConverter() DateTime? deleted_at,
+      @JsonKey(name: 'start_date') DateTime startDate,
+      @JsonKey(name: 'current_streak') int currentStreak,
+      @JsonKey(name: 'completed_flg') int completedFlg,
+      @JsonKey(name: 'created_at') @TimestampConverter() DateTime createdAt,
+      @JsonKey(name: 'updated_at') @TimestampConverter() DateTime updatedAt,
+      @JsonKey(name: 'deleted_at') @TimestampConverter() DateTime? deletedAt,
       int deleted});
 }
 
@@ -169,14 +176,14 @@ class __$$HabitModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? user_id = null,
+    Object? userId = null,
     Object? title = null,
-    Object? start_date = null,
-    Object? current_streak = null,
-    Object? completed_flg = null,
-    Object? created_at = null,
-    Object? updated_at = null,
-    Object? deleted_at = freezed,
+    Object? startDate = null,
+    Object? currentStreak = null,
+    Object? completedFlg = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+    Object? deletedAt = freezed,
     Object? deleted = null,
   }) {
     return _then(_$HabitModelImpl(
@@ -184,37 +191,37 @@ class __$$HabitModelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      user_id: null == user_id
-          ? _value.user_id
-          : user_id // ignore: cast_nullable_to_non_nullable
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      start_date: null == start_date
-          ? _value.start_date
-          : start_date // ignore: cast_nullable_to_non_nullable
+      startDate: null == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      current_streak: null == current_streak
-          ? _value.current_streak
-          : current_streak // ignore: cast_nullable_to_non_nullable
+      currentStreak: null == currentStreak
+          ? _value.currentStreak
+          : currentStreak // ignore: cast_nullable_to_non_nullable
               as int,
-      completed_flg: null == completed_flg
-          ? _value.completed_flg
-          : completed_flg // ignore: cast_nullable_to_non_nullable
+      completedFlg: null == completedFlg
+          ? _value.completedFlg
+          : completedFlg // ignore: cast_nullable_to_non_nullable
               as int,
-      created_at: null == created_at
-          ? _value.created_at
-          : created_at // ignore: cast_nullable_to_non_nullable
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      updated_at: null == updated_at
-          ? _value.updated_at
-          : updated_at // ignore: cast_nullable_to_non_nullable
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      deleted_at: freezed == deleted_at
-          ? _value.deleted_at
-          : deleted_at // ignore: cast_nullable_to_non_nullable
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       deleted: null == deleted
           ? _value.deleted
@@ -229,14 +236,20 @@ class __$$HabitModelImplCopyWithImpl<$Res>
 class _$HabitModelImpl implements _HabitModel {
   const _$HabitModelImpl(
       {required this.id,
-      required this.user_id,
+      @JsonKey(name: 'user_id') required this.userId,
       required this.title,
-      required this.start_date,
-      required this.current_streak,
-      required this.completed_flg,
-      @TimestampConverter() required this.created_at,
-      @TimestampConverter() required this.updated_at,
-      @TimestampConverter() required this.deleted_at,
+      @JsonKey(name: 'start_date') required this.startDate,
+      @JsonKey(name: 'current_streak') required this.currentStreak,
+      @JsonKey(name: 'completed_flg') required this.completedFlg,
+      @JsonKey(name: 'created_at')
+      @TimestampConverter()
+      required this.createdAt,
+      @JsonKey(name: 'updated_at')
+      @TimestampConverter()
+      required this.updatedAt,
+      @JsonKey(name: 'deleted_at')
+      @TimestampConverter()
+      required this.deletedAt,
       required this.deleted});
 
   factory _$HabitModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -245,30 +258,37 @@ class _$HabitModelImpl implements _HabitModel {
   @override
   final String id;
   @override
-  final String user_id;
+  @JsonKey(name: 'user_id')
+  final String userId;
   @override
   final String title;
   @override
-  final DateTime start_date;
+  @JsonKey(name: 'start_date')
+  final DateTime startDate;
   @override
-  final int current_streak;
+  @JsonKey(name: 'current_streak')
+  final int currentStreak;
   @override
-  final int completed_flg;
+  @JsonKey(name: 'completed_flg')
+  final int completedFlg;
   @override
+  @JsonKey(name: 'created_at')
   @TimestampConverter()
-  final DateTime created_at;
+  final DateTime createdAt;
   @override
+  @JsonKey(name: 'updated_at')
   @TimestampConverter()
-  final DateTime updated_at;
+  final DateTime updatedAt;
   @override
+  @JsonKey(name: 'deleted_at')
   @TimestampConverter()
-  final DateTime? deleted_at;
+  final DateTime? deletedAt;
   @override
   final int deleted;
 
   @override
   String toString() {
-    return 'HabitModel(id: $id, user_id: $user_id, title: $title, start_date: $start_date, current_streak: $current_streak, completed_flg: $completed_flg, created_at: $created_at, updated_at: $updated_at, deleted_at: $deleted_at, deleted: $deleted)';
+    return 'HabitModel(id: $id, userId: $userId, title: $title, startDate: $startDate, currentStreak: $currentStreak, completedFlg: $completedFlg, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, deleted: $deleted)';
   }
 
   @override
@@ -277,37 +297,27 @@ class _$HabitModelImpl implements _HabitModel {
         (other.runtimeType == runtimeType &&
             other is _$HabitModelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.user_id, user_id) || other.user_id == user_id) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.start_date, start_date) ||
-                other.start_date == start_date) &&
-            (identical(other.current_streak, current_streak) ||
-                other.current_streak == current_streak) &&
-            (identical(other.completed_flg, completed_flg) ||
-                other.completed_flg == completed_flg) &&
-            (identical(other.created_at, created_at) ||
-                other.created_at == created_at) &&
-            (identical(other.updated_at, updated_at) ||
-                other.updated_at == updated_at) &&
-            (identical(other.deleted_at, deleted_at) ||
-                other.deleted_at == deleted_at) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.currentStreak, currentStreak) ||
+                other.currentStreak == currentStreak) &&
+            (identical(other.completedFlg, completedFlg) ||
+                other.completedFlg == completedFlg) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt) &&
             (identical(other.deleted, deleted) || other.deleted == deleted));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      user_id,
-      title,
-      start_date,
-      current_streak,
-      completed_flg,
-      created_at,
-      updated_at,
-      deleted_at,
-      deleted);
+  int get hashCode => Object.hash(runtimeType, id, userId, title, startDate,
+      currentStreak, completedFlg, createdAt, updatedAt, deletedAt, deleted);
 
   /// Create a copy of HabitModel
   /// with the given fields replaced by the non-null parameter values.
@@ -328,14 +338,20 @@ class _$HabitModelImpl implements _HabitModel {
 abstract class _HabitModel implements HabitModel {
   const factory _HabitModel(
       {required final String id,
-      required final String user_id,
+      @JsonKey(name: 'user_id') required final String userId,
       required final String title,
-      required final DateTime start_date,
-      required final int current_streak,
-      required final int completed_flg,
-      @TimestampConverter() required final DateTime created_at,
-      @TimestampConverter() required final DateTime updated_at,
-      @TimestampConverter() required final DateTime? deleted_at,
+      @JsonKey(name: 'start_date') required final DateTime startDate,
+      @JsonKey(name: 'current_streak') required final int currentStreak,
+      @JsonKey(name: 'completed_flg') required final int completedFlg,
+      @JsonKey(name: 'created_at')
+      @TimestampConverter()
+      required final DateTime createdAt,
+      @JsonKey(name: 'updated_at')
+      @TimestampConverter()
+      required final DateTime updatedAt,
+      @JsonKey(name: 'deleted_at')
+      @TimestampConverter()
+      required final DateTime? deletedAt,
       required final int deleted}) = _$HabitModelImpl;
 
   factory _HabitModel.fromJson(Map<String, dynamic> json) =
@@ -344,24 +360,31 @@ abstract class _HabitModel implements HabitModel {
   @override
   String get id;
   @override
-  String get user_id;
+  @JsonKey(name: 'user_id')
+  String get userId;
   @override
   String get title;
   @override
-  DateTime get start_date;
+  @JsonKey(name: 'start_date')
+  DateTime get startDate;
   @override
-  int get current_streak;
+  @JsonKey(name: 'current_streak')
+  int get currentStreak;
   @override
-  int get completed_flg;
+  @JsonKey(name: 'completed_flg')
+  int get completedFlg;
   @override
+  @JsonKey(name: 'created_at')
   @TimestampConverter()
-  DateTime get created_at;
+  DateTime get createdAt;
   @override
+  @JsonKey(name: 'updated_at')
   @TimestampConverter()
-  DateTime get updated_at;
+  DateTime get updatedAt;
   @override
+  @JsonKey(name: 'deleted_at')
   @TimestampConverter()
-  DateTime? get deleted_at;
+  DateTime? get deletedAt;
   @override
   int get deleted;
 

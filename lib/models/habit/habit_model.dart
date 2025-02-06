@@ -9,14 +9,20 @@ part 'habit_model.g.dart';
 class HabitModel with _$HabitModel {
   const factory HabitModel({
     required String id,
-    required String user_id,
+    @JsonKey(name: 'user_id') required String userId,
     required String title,
-    required DateTime start_date,
-    required int current_streak,
-    required int completed_flg,
-    @TimestampConverter() required DateTime created_at,
-    @TimestampConverter() required DateTime updated_at,
-    @TimestampConverter() required DateTime? deleted_at,
+    @JsonKey(name: 'start_date') required DateTime startDate,
+    @JsonKey(name: 'current_streak') required int currentStreak,
+    @JsonKey(name: 'completed_flg') required int completedFlg,
+    @JsonKey(name: 'created_at')
+    @TimestampConverter()
+    required DateTime createdAt,
+    @JsonKey(name: 'updated_at')
+    @TimestampConverter()
+    required DateTime updatedAt,
+    @JsonKey(name: 'deleted_at')
+    @TimestampConverter()
+    required DateTime? deletedAt,
     required int deleted,
   }) = _HabitModel;
 

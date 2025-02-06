@@ -71,14 +71,14 @@ void main() {
     // テストデータを追加
     final habitData = HabitModel(
       id: 'habit1',
-      user_id: 'user1',
+      userId: 'user1',
       title: 'test',
-      start_date: DateTime.now(),
-      current_streak: 5,
-      completed_flg: 0,
-      created_at: DateTime.now(),
-      updated_at: DateTime.now(),
-      deleted_at: null,
+      startDate: DateTime.now(),
+      currentStreak: 5,
+      completedFlg: 0,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      deletedAt: null,
       deleted: 0,
     );
 
@@ -97,7 +97,7 @@ void main() {
     // 期待されるデータと取得データが一致するか確認
     expect(habitHistory.length, 1);
     expect(habitHistory.first?.title, 'test');
-    expect(habitHistory.first?.current_streak, 5);
+    expect(habitHistory.first?.currentStreak, 5);
   });
 
   test('getHabitHistory returns empty list when no habits are found', () async {
@@ -147,14 +147,14 @@ void main() {
     // テストデータを追加
     final habitData = HabitModel(
       id: 'habit1',
-      user_id: 'user1',
+      userId: 'user1',
       title: 'Test Habit',
-      start_date: DateTime.now(),
-      current_streak: 29,
-      completed_flg: 0,
-      created_at: DateTime.now(),
-      updated_at: DateTime.now(),
-      deleted_at: null,
+      startDate: DateTime.now(),
+      currentStreak: 29,
+      completedFlg: 0,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      deletedAt: null,
       deleted: 0,
     );
 
@@ -223,14 +223,14 @@ void main() {
 
     final habitData = HabitModel(
       id: 'habit1',
-      user_id: 'user1',
+      userId: 'user1',
       title: 'test',
-      start_date: DateTime.now(),
-      current_streak: 5,
-      completed_flg: 0, // 未完了の習慣
-      created_at: DateTime.now(),
-      updated_at: DateTime.now(),
-      deleted_at: null,
+      startDate: DateTime.now(),
+      currentStreak: 5,
+      completedFlg: 0, // 未完了の習慣
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      deletedAt: null,
       deleted: 0,
     );
 
@@ -243,6 +243,6 @@ void main() {
     final currentHabit = await habitRepository.getCurrentHabit();
 
     expect(currentHabit?.title, 'test');
-    expect(currentHabit?.current_streak, 5);
+    expect(currentHabit?.currentStreak, 5);
   });
 }

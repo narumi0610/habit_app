@@ -43,14 +43,14 @@ class HabitRepositoryImpl implements HabitRepository {
           .set(
             HabitModel(
               id: habitId,
-              user_id: uid,
+              userId: uid,
               title: title,
-              start_date: DateTime.now(),
-              current_streak: 0,
-              completed_flg: 0,
-              created_at: DateTime.now(),
-              updated_at: DateTime.now(),
-              deleted_at: null,
+              startDate: DateTime.now(),
+              currentStreak: 0,
+              completedFlg: 0,
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+              deletedAt: null,
               deleted: 0,
             ).toJson(),
           );

@@ -43,14 +43,14 @@ void main() {
   testWidgets('habit update button', (WidgetTester tester) async {
     final habitData = HabitModel(
       id: 'habit1',
-      user_id: uid,
+      userId: uid,
       title: 'test',
-      start_date: DateTime.now(),
-      current_streak: 5,
-      completed_flg: 0, // 未完了の習慣
-      created_at: DateTime.now(),
-      updated_at: DateTime.now(),
-      deleted_at: null,
+      startDate: DateTime.now(),
+      currentStreak: 5,
+      completedFlg: 0, // 未完了の習慣
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      deletedAt: null,
       deleted: 0,
     );
 

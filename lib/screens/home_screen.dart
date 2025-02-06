@@ -53,7 +53,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
         data: (habit) {
           //目標達成したかどうか
           final isGoalAchieved =
-              habit?.current_streak == GlobalConst.maxContinuousDays;
+              habit?.currentStreak == GlobalConst.maxContinuousDays;
 
           final setGoalButton = Visibility(
             visible: habit == null || isGoalAchieved,
@@ -144,20 +144,20 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             if (habit != null) {
               // 更新日が今日かどうか
               final isUpdatedToday =
-                  DateTime.now().year == habit.updated_at.year &&
-                      DateTime.now().month == habit.updated_at.month &&
-                      DateTime.now().day == habit.updated_at.day;
+                  DateTime.now().year == habit.updatedAt.year &&
+                      DateTime.now().month == habit.updatedAt.month &&
+                      DateTime.now().day == habit.updatedAt.day;
               //　更新日が今日または更新回数が30回以上のときかつ0回目でないとき
               final isUpdated = (isUpdatedToday ||
-                      habit.current_streak >= GlobalConst.maxContinuousDays) &&
-                  habit.current_streak != 0;
+                      habit.currentStreak >= GlobalConst.maxContinuousDays) &&
+                  habit.currentStreak != 0;
               try {
                 //iOSでの継続日数を保存するための処理
                 Future.wait([
                   // Widgetで扱うデータを保存
                   HomeWidget.saveWidgetData<int>(
                     'currentState',
-                    habit.current_streak,
+                    habit.currentStreak,
                   ),
                 ]);
               } on PlatformException catch (exception) {
@@ -186,7 +186,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                         await ref.read(
                           updateHabitDaysProvider(
                             habitId: habit.id,
-                            currentStreak: habit.current_streak,
+                            currentStreak: habit.currentStreak,
                           ).future,
                         );
 
@@ -212,7 +212,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                           ],
                   ),
-                  child: ContinuousDaysAnimation(habit.current_streak),
+                  child: ContinuousDaysAnimation(habit.currentStreak),
                 ),
               );
             } else {

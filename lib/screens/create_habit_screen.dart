@@ -224,7 +224,7 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
                       final hour = ref.read(selectedHour);
                       final minute = ref.read(selectedMinute);
 
-                      if (isEnabled && (hour == null || minute == null)) {
+                      if (isEnabled) {
                         await showDialog<void>(
                           context: context,
                           builder: (context) => AlertDialog(

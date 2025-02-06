@@ -9,36 +9,32 @@ part of 'habit_model.dart';
 _$HabitModelImpl _$$HabitModelImplFromJson(Map<String, dynamic> json) =>
     _$HabitModelImpl(
       id: json['id'] as String,
-      user_id: json['user_id'] as String,
+      userId: json['user_id'] as String,
       title: json['title'] as String,
-      start_date: DateTime.parse(json['start_date'] as String),
-      current_streak: (json['current_streak'] as num).toInt(),
-      completed_flg: (json['completed_flg'] as num).toInt(),
-      created_at:
+      startDate: DateTime.parse(json['start_date'] as String),
+      currentStreak: (json['current_streak'] as num).toInt(),
+      completedFlg: (json['completed_flg'] as num).toInt(),
+      createdAt:
           const TimestampConverter().fromJson(json['created_at'] as Timestamp),
-      updated_at:
+      updatedAt:
           const TimestampConverter().fromJson(json['updated_at'] as Timestamp),
-      deleted_at: _$JsonConverterFromJson<Timestamp, DateTime>(
-        json['deleted_at'],
-        const TimestampConverter().fromJson,
-      ),
+      deletedAt: _$JsonConverterFromJson<Timestamp, DateTime>(
+          json['deleted_at'], const TimestampConverter().fromJson),
       deleted: (json['deleted'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$HabitModelImplToJson(_$HabitModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'user_id': instance.user_id,
+      'user_id': instance.userId,
       'title': instance.title,
-      'start_date': instance.start_date.toIso8601String(),
-      'current_streak': instance.current_streak,
-      'completed_flg': instance.completed_flg,
-      'created_at': const TimestampConverter().toJson(instance.created_at),
-      'updated_at': const TimestampConverter().toJson(instance.updated_at),
+      'start_date': instance.startDate.toIso8601String(),
+      'current_streak': instance.currentStreak,
+      'completed_flg': instance.completedFlg,
+      'created_at': const TimestampConverter().toJson(instance.createdAt),
+      'updated_at': const TimestampConverter().toJson(instance.updatedAt),
       'deleted_at': _$JsonConverterToJson<Timestamp, DateTime>(
-        instance.deleted_at,
-        const TimestampConverter().toJson,
-      ),
+          instance.deletedAt, const TimestampConverter().toJson),
       'deleted': instance.deleted,
     };
 
