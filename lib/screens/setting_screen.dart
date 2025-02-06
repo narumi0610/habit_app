@@ -138,7 +138,7 @@ class SettingScreenState extends ConsumerState<SettingScreen> {
                   }
                   await ref
                       .read(notificationSettingNotifierProvider.notifier)
-                      .updatePermission(value);
+                      .updatePermission(isGranted: value);
                 },
                 activeColor: Colors.green,
                 inactiveThumbColor: Colors.grey.shade400,

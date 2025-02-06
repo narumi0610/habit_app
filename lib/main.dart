@@ -1,18 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/providers/notification_setting_providers.dart';
-import 'package:habit_app/screens/setting_screen.dart';
-import 'firebase_options.dart';
-import 'package:flutter/material.dart';
 import 'package:habit_app/screens/habit_history_screen.dart';
 import 'package:habit_app/screens/home_screen.dart';
 import 'package:habit_app/screens/login_screen.dart';
+import 'package:habit_app/screens/setting_screen.dart';
 import 'package:habit_app/utils/global_const.dart';
 import 'package:habit_app/utils/theme.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'firebase_options.dart';
 
 void main() async {
   tz.initializeTimeZones(); // タイムゾーンの初期化
@@ -26,7 +26,7 @@ void main() async {
   );
 
   //アプリとウィジェット間でデータを共有するためのグループIDを設定
-  HomeWidget.setAppGroupId(GlobalConst.appGroupID);
+  await HomeWidget.setAppGroupId(GlobalConst.appGroupID);
   runApp(
     const ProviderScope(
       child: HabitApp(),
@@ -44,7 +44,7 @@ class HabitApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'ハビスター',
       routes: {
-        '/login': (context) => LoginScreen(),
+        '/login': (context) => const LoginScreen(),
       },
       theme: AppTheme.light,
       home: user == null ? const LoginScreen() : const MainScreen(),
@@ -53,8 +53,8 @@ class HabitApp extends StatelessWidget {
 }
 
 class MainScreen extends ConsumerStatefulWidget {
-  final int index;
   const MainScreen({super.key, this.index = 0});
+  final int index;
 
   @override
   MainScreenState createState() => MainScreenState();
@@ -65,7 +65,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
   final List<Widget> _widgetOptions = <Widget>[
     const HomeScreen(),
     const GoalHistoryScreen(),
-    const SettingScreen()
+    const SettingScreen(),
   ];
 
   @override
@@ -87,15 +87,17 @@ class MainScreenState extends ConsumerState<MainScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        body: Builder(builder: (context) {
-          if (user != null) {
-            return Center(
-              child: _widgetOptions.elementAt(_selectedIndex),
-            );
-          } else {
-            return const Center(child: Text("ログインしていません。"));
-          }
-        }),
+        body: Builder(
+          builder: (context) {
+            if (user != null) {
+              return Center(
+                child: _widgetOptions.elementAt(_selectedIndex),
+              );
+            } else {
+              return const Center(child: Text('ログインしていません。'));
+            }
+          },
+        ),
         bottomNavigationBar: BottomNavigationBar(
           items: const [
             BottomNavigationBarItem(

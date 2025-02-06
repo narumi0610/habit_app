@@ -38,6 +38,7 @@ dependencies:
   confetti: ^0.8.0
   vibration: ^2.0.1
   webview_flutter: ^4.10.0
+  very_good_analysis: ^7.0.0
 flutter_native_splash:
   image: images/habister_icon.png
   color: "FFFFFF"

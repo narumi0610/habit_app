@@ -33,7 +33,7 @@ class NotificationSettingNotifier extends _$NotificationSettingNotifier {
       FlutterLocalNotificationsPlugin();
   final repo = SharedPreferencesRepository();
 
-  Future<void> updatePermission(bool isGranted) async {
+  Future<void> updatePermission({required bool isGranted}) async {
     await repo.setIsGranted(isGranted);
 
     // stateがデータを持っている場合にのみ更新
@@ -41,8 +41,8 @@ class NotificationSettingNotifier extends _$NotificationSettingNotifier {
   }
 
   tz.TZDateTime nextInstanceOfTime(int hour, int minute) {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate =
+    final now = tz.TZDateTime.now(tz.local);
+    var scheduledDate =
         tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
@@ -73,8 +73,8 @@ class NotificationSettingNotifier extends _$NotificationSettingNotifier {
         matchDateTimeComponents:
             DateTimeComponents.dateAndTime, //毎日指定した時間・分で通知を繰り返す
       );
-    } catch (e) {
-      print("通知スケジュールエラー$e");
+    } on Exception catch (e) {
+      print('通知スケジュールエラー$e');
     }
   }
 

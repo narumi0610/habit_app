@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:habit_app/repositories/auth_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -21,15 +22,17 @@ class AuthNotifier extends _$AuthNotifier {
       final errorMessage = await repository.login(email, password);
       if (errorMessage != null) {
         state = AsyncValue.error(errorMessage, StackTrace.current);
-
         return errorMessage;
       } else {
         state = const AsyncValue.data(null);
         return null;
       }
-    } catch (error, stack) {
-      state = AsyncValue.error(error, stack);
-      return error.toString();
+    } on FirebaseAuthException catch (e, stack) {
+      state = AsyncValue.error(e, stack);
+      return e.message;
+    } on Exception catch (e, stack) {
+      state = AsyncValue.error(e, stack);
+      return e.toString();
     }
   }
 
@@ -43,10 +46,13 @@ class AuthNotifier extends _$AuthNotifier {
 
         return errorMessage;
       } else {
-        state = AsyncValue.data(null);
+        state = const AsyncValue.data(null);
         return null;
       }
-    } catch (error, stack) {
+    } on FirebaseAuthException catch (e, stack) {
+      state = AsyncValue.error(e, stack);
+      return e.message;
+    } on Exception catch (error, stack) {
       state = AsyncValue.error(error, stack);
       return error.toString();
     }
@@ -58,7 +64,10 @@ class AuthNotifier extends _$AuthNotifier {
       final errorMessage = await repository.logout();
       state = const AsyncValue.data(null);
       return errorMessage;
-    } catch (error, stack) {
+    } on FirebaseAuthException catch (e, stack) {
+      state = AsyncValue.error(e, stack);
+      return e.message;
+    } on Exception catch (error, stack) {
       state = AsyncValue.error(error, stack);
       return error.toString();
     }
@@ -69,7 +78,9 @@ class AuthNotifier extends _$AuthNotifier {
     try {
       await repository.passwordReset(email: email);
       state = const AsyncValue.data(null);
-    } catch (error, stack) {
+    } on FirebaseAuthException catch (e, stack) {
+      state = AsyncValue.error(e, stack);
+    } on Exception catch (error, stack) {
       state = AsyncValue.error(error, stack);
     }
   }
@@ -80,7 +91,10 @@ class AuthNotifier extends _$AuthNotifier {
       final errorMessage = await repository.deletedUser();
       state = const AsyncValue.data(null);
       return errorMessage;
-    } catch (error, stack) {
+    } on FirebaseAuthException catch (e, stack) {
+      state = AsyncValue.error(e, stack);
+      return e.message;
+    } on Exception catch (error, stack) {
       state = AsyncValue.error(error, stack);
       return error.toString();
     }
