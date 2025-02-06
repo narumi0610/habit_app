@@ -1,9 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/models/habit/habit_model.dart';
 import 'package:habit_app/providers/firebase_provider.dart';
+import 'package:logger/logger.dart';
 
 final habitRepositoryProvider = Provider<HabitRepository>(
-  (ref) => HabitRepositoryImpl(ref),
+  HabitRepositoryImpl.new,
 );
 
 abstract class HabitRepository {
@@ -21,9 +22,9 @@ abstract class HabitRepository {
 }
 
 class HabitRepositoryImpl implements HabitRepository {
-  final Ref ref;
-
   HabitRepositoryImpl(this.ref);
+  final Ref ref;
+  final logger = Logger();
 
   @override
   Future<void> createHabit({
@@ -39,19 +40,22 @@ class HabitRepositoryImpl implements HabitRepository {
           .read(firebaseFirestoreProvider)
           .collection('habits')
           .doc(habitId)
-          .set(HabitModel(
-                  id: habitId,
-                  user_id: uid,
-                  title: title,
-                  start_date: DateTime.now(),
-                  current_streak: 0,
-                  completed_flg: 0,
-                  created_at: DateTime.now(),
-                  updated_at: DateTime.now(),
-                  deleted_at: null,
-                  deleted: 0)
-              .toJson());
+          .set(
+            HabitModel(
+              id: habitId,
+              user_id: uid,
+              title: title,
+              start_date: DateTime.now(),
+              current_streak: 0,
+              completed_flg: 0,
+              created_at: DateTime.now(),
+              updated_at: DateTime.now(),
+              deleted_at: null,
+              deleted: 0,
+            ).toJson(),
+          );
     } catch (e) {
+      logger.e(e);
       throw Exception('目標の作成に失敗しました: $e');
     }
   }

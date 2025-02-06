@@ -34,24 +34,25 @@ class PasswordResetScreenState extends ConsumerState<PasswordResetScreen> {
 
     ref.listen(authNotifierProvider, (previous, next) {
       next.maybeWhen(
-          data: (_) {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: const Text('パスワードリセット用のメールを送信しました。'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('戻る'),
-                  ),
-                ],
-              ),
-            );
-          },
-          error: (error, stack) {
-            showErrorDialog(context, error.toString());
-          },
-          orElse: () => null);
+        data: (_) {
+          showDialog<void>(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('パスワードリセット用のメールを送信しました。'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('戻る'),
+                ),
+              ],
+            ),
+          );
+        },
+        error: (error, stack) {
+          showErrorDialog(context, error.toString());
+        },
+        orElse: () => null,
+      );
     });
 
     return Scaffold(
@@ -65,7 +66,6 @@ class PasswordResetScreenState extends ConsumerState<PasswordResetScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const Text('パスワードを変更する', style: TextStyle(fontSize: 20)),
                 const SizedBox(height: 30),
@@ -81,16 +81,16 @@ class PasswordResetScreenState extends ConsumerState<PasswordResetScreen> {
             Container(
               margin: const EdgeInsets.only(bottom: 10),
               child: CustomButton.primary(
-                  child:
-                      const Text('パスワードを変更する', style: TextStyle(fontSize: 16)),
-                  loading: asyncAuth is AsyncLoading, // ローディング状態の表示
-                  isDisabled: asyncAuth is AsyncLoading, // ローディング中は無効化
-                  onPressed: () {
-                    ref
-                        .read(authNotifierProvider.notifier)
-                        .passwordReset(email: emailController.text);
-                  },
-                  padding: const EdgeInsets.all(10)),
+                loading: asyncAuth is AsyncLoading, // ローディング状態の表示
+                isDisabled: asyncAuth is AsyncLoading, // ローディング中は無効化
+                onPressed: () {
+                  ref
+                      .read(authNotifierProvider.notifier)
+                      .passwordReset(email: emailController.text);
+                },
+                padding: const EdgeInsets.all(10),
+                child: const Text('パスワードを変更する', style: TextStyle(fontSize: 16)),
+              ),
             ),
           ],
         ),

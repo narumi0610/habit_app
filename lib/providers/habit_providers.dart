@@ -26,8 +26,10 @@ Future<void> updateHabitDays(
         .read(habitRepositoryProvider)
         .updateHabitDays(habitId, currentStreak);
     ref
+      // 更新するだけなので結果は使用しない
       // ignore: unused_result
       ..refresh(getCurrentHabitProvider)
+      // 更新するだけなので結果は使用しない
       // ignore: unused_result
       ..refresh(getHabitHistoryProvider);
   } catch (e) {
@@ -40,6 +42,7 @@ Future<void> createHabit(Ref ref, {required String form}) async {
   final repository = ref.read(habitRepositoryProvider);
   try {
     await repository.createHabit(title: form);
+    // 更新するだけなので結果は使用しない
     // ignore: unused_result
     ref.refresh(getCurrentHabitProvider);
   } catch (e) {

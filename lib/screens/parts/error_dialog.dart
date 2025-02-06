@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 void showErrorDialog(BuildContext context, String message) {
-  showDialog(
+  showDialog<void>(
     context: context,
     builder: (context) => AlertDialog(
       title: const Text('エラーが発生しました'),

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:habit_app/utils/app_color.dart';
 
 class ContinuousDaysAnimation extends StatelessWidget {
-  final int currentState;
   const ContinuousDaysAnimation(this.currentState, {super.key});
+  final int currentState;
 
   @override
   Widget build(BuildContext context) {

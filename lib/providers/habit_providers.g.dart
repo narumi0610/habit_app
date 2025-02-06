@@ -6,7 +6,7 @@ part of 'habit_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getCurrentHabitHash() => r'c3608c002dbcd62a4b0a987cb620d7597ad525ca';
+String _$getCurrentHabitHash() => r'6a6b70db728c0ef497d11aa0a710e7f871c4b077';
 
 /// See also [getCurrentHabit].
 @ProviderFor(getCurrentHabit)
@@ -23,7 +23,7 @@ final getCurrentHabitProvider = AutoDisposeFutureProvider<HabitModel?>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GetCurrentHabitRef = AutoDisposeFutureProviderRef<HabitModel?>;
-String _$updateHabitDaysHash() => r'bd2ab9da43a6f1b14be2fdb2adf4f1b0331b9fbf';
+String _$updateHabitDaysHash() => r'126337d20e825ba888f7f6ab69a760e691a60054';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -191,7 +191,7 @@ class _UpdateHabitDaysProviderElement
   int get currentStreak => (origin as UpdateHabitDaysProvider).currentStreak;
 }
 
-String _$createHabitHash() => r'b1da64706464575887a183341e878d653dcc9eb0';
+String _$createHabitHash() => r'05cb2141c22c95c22e92e3105ac44dcd2e94420e';
 
 /// See also [createHabit].
 @ProviderFor(createHabit)
@@ -321,7 +321,7 @@ class _CreateHabitProviderElement extends AutoDisposeFutureProviderElement<void>
   String get form => (origin as CreateHabitProvider).form;
 }
 
-String _$getHabitHistoryHash() => r'40fcfb7ce2ef747cd2de9323ac888537761603ec';
+String _$getHabitHistoryHash() => r'03c952b497e25b93199cd43c018c4935d9d89d5c';
 
 /// See also [getHabitHistory].
 @ProviderFor(getHabitHistory)

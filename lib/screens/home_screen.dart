@@ -4,13 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/providers/habit_providers.dart';
 import 'package:habit_app/providers/notification_setting_providers.dart';
-import 'package:habit_app/screens/parts/continuous_days_animation.dart';
 import 'package:habit_app/screens/create_habit_screen.dart';
+import 'package:habit_app/screens/parts/continuous_days_animation.dart';
 import 'package:habit_app/screens/parts/custom_button.dart';
 import 'package:habit_app/utils/global_const.dart';
 import 'package:habit_app/utils/image_paths.dart';
 import 'package:habit_app/utils/rounded_button.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:logger/logger.dart';
 import 'package:vibration/vibration.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -41,6 +42,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
     // 端末のサイズを取得
     final width = MediaQuery.of(context).size.width;
     final asyncGetCurrentHabit = ref.watch(getCurrentHabitProvider);
+    final logger = Logger();
 
     return Scaffold(
       appBar: AppBar(
@@ -50,7 +52,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
       body: asyncGetCurrentHabit.when(
         data: (habit) {
           //目標達成したかどうか
-          bool isGoalAchieved =
+          final isGoalAchieved =
               habit?.current_streak == GlobalConst.maxContinuousDays;
 
           final setGoalButton = Visibility(
@@ -58,9 +60,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             child: RoundedButton(
               title: '目標を設定する',
               onPressed: () async {
-                Navigator.push(
+                await Navigator.push(
                   context,
-                  MaterialPageRoute(
+                  MaterialPageRoute<CreateHabitScreen>(
                     builder: (context) => const CreateHabitScreen(),
                   ),
                 );
@@ -69,15 +71,15 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           );
 
           final cancelButton = CustomButton.grey(
-            child: const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text('キャンセル'),
-            ),
             onPressed: () {
               Navigator.pop(context);
             },
             isDisabled: false,
             loading: false,
+            child: const Padding(
+              padding: EdgeInsets.all(10),
+              child: Text('キャンセル'),
+            ),
           );
 
           // 目標達成ダイアログを表示
@@ -89,7 +91,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             Vibration.vibrate(); // バイブレーション
 
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              showDialog(
+              showDialog<void>(
                 context: context,
                 builder: (context) => AlertDialog(
                   content: Column(
@@ -121,27 +123,32 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
               child: const FittedBox(
-                  child: Text('目標を設定しよう！', style: TextStyle(fontSize: 16))),
+                child: Text(
+                  '目標を設定しよう！',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
             ),
           );
 
           final title = Visibility(
-              visible: habit != null,
-              child: Text(
-                habit?.title ?? "",
-                style: const TextStyle(fontSize: 16),
-              ));
+            visible: habit != null,
+            child: Text(
+              habit?.title ?? '',
+              style: const TextStyle(fontSize: 16),
+            ),
+          );
 
           // 更新ボタン
           Widget updateButton() {
             if (habit != null) {
               // 更新日が今日かどうか
-              bool isUpdatedToday =
+              final isUpdatedToday =
                   DateTime.now().year == habit.updated_at.year &&
                       DateTime.now().month == habit.updated_at.month &&
                       DateTime.now().day == habit.updated_at.day;
               //　更新日が今日または更新回数が30回以上のときかつ0回目でないとき
-              bool isUpdated = (isUpdatedToday ||
+              final isUpdated = (isUpdatedToday ||
                       habit.current_streak >= GlobalConst.maxContinuousDays) &&
                   habit.current_streak != 0;
               try {
@@ -149,10 +156,12 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                 Future.wait([
                   // Widgetで扱うデータを保存
                   HomeWidget.saveWidgetData<int>(
-                      'currentState', habit.current_streak),
+                    'currentState',
+                    habit.current_streak,
+                  ),
                 ]);
               } on PlatformException catch (exception) {
-                print(exception);
+                logger.e(exception);
               }
 
               try {
@@ -161,7 +170,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                   androidName: 'HomeWidgetGlanceReceiver',
                 );
               } on PlatformException catch (exception) {
-                print(exception);
+                logger.e(exception);
               }
               return InkWell(
                 splashColor: Colors.transparent,
@@ -171,16 +180,18 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                     ? () {}
                     : () async {
                         // バイブレーション
-                        HapticFeedback.heavyImpact();
+                        await HapticFeedback.heavyImpact();
 
                         // 継続日数を更新
-                        await ref.read(updateHabitDaysProvider(
-                                habitId: habit.id,
-                                currentStreak: habit.current_streak)
-                            .future);
+                        await ref.read(
+                          updateHabitDaysProvider(
+                            habitId: habit.id,
+                            currentStreak: habit.current_streak,
+                          ).future,
+                        );
 
                         // 通知を再スケジュール
-                        ref
+                        await ref
                             .read(notificationSettingNotifierProvider.notifier)
                             .rescheduleNotification(habit);
                       },
@@ -195,9 +206,10 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                         ? null
                         : [
                             const BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 16,
-                                offset: Offset(0, 8))
+                              color: Colors.grey,
+                              blurRadius: 16,
+                              offset: Offset(0, 8),
+                            ),
                           ],
                   ),
                   child: ContinuousDaysAnimation(habit.current_streak),
@@ -213,7 +225,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             child: ConfettiWidget(
               confettiController: confettiController,
               blastDirectionality: BlastDirectionality.explosive,
-              emissionFrequency: 1.0,
+              emissionFrequency: 1,
               numberOfParticles: 40,
               maxBlastForce: 100,
               minBlastForce: 60,

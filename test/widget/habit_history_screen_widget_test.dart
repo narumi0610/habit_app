@@ -16,7 +16,6 @@ void main() {
 
   setUp(() {
     mockUser = MockUser(
-      isAnonymous: false,
       email: 'test@example.com',
       uid: uid,
     );

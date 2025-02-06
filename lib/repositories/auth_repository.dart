@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/providers/firebase_provider.dart';
 import 'package:habit_app/utils/firebase_auth_error.dart';
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>(
@@ -26,16 +27,15 @@ abstract class AuthRepository {
 }
 
 class AuthRepositoryImpl implements AuthRepository {
+  AuthRepositoryImpl(this.auth, this.ref);
   final FirebaseAuth auth;
   final Ref ref; // 他のプロバイダーを読むのに使う
-
-  AuthRepositoryImpl(this.auth, this.ref);
+  final logger = Logger();
 
   @override
   Future<String?> signUp(String email, String password) async {
     try {
-      final UserCredential userCredential =
-          await auth.createUserWithEmailAndPassword(
+      final userCredential = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -56,7 +56,8 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       return null;
     } on FirebaseAuthException catch (e) {
-      var message = FirebaseAuthErrorExt.fromCode(e.code).message;
+      final message = FirebaseAuthErrorExt.fromCode(e.code).message;
+      logger.e(message);
       return message;
     }
   }
@@ -67,7 +68,8 @@ class AuthRepositoryImpl implements AuthRepository {
       await auth.signInWithEmailAndPassword(email: email, password: password);
       return null;
     } on FirebaseAuthException catch (e) {
-      var message = FirebaseAuthErrorExt.fromCode(e.code).message;
+      final message = FirebaseAuthErrorExt.fromCode(e.code).message;
+      logger.e(message);
       return message;
     }
   }
@@ -81,8 +83,9 @@ class AuthRepositoryImpl implements AuthRepository {
       // ローカルデータを削除
       await prefs.clear();
       return null;
-    } catch (_) {
-      return "ログアウトに失敗しました";
+    } on Exception catch (e) {
+      logger.e(e);
+      return 'ログアウトに失敗しました';
     }
   }
 
@@ -91,7 +94,8 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       await auth.sendPasswordResetEmail(email: email);
     } catch (e) {
-      throw Exception("パスワードリセットリンクの送信に失敗しました $e");
+      logger.e(e);
+      throw Exception('パスワードリセットリンクの送信に失敗しました $e');
     }
   }
 
@@ -117,8 +121,9 @@ class AuthRepositoryImpl implements AuthRepository {
       // ローカルデータを削除
       await prefs.clear();
       return null;
-    } catch (e) {
-      return "退会処理に失敗しました";
+    } on Exception catch (e) {
+      logger.e(e);
+      return '退会処理に失敗しました';
     }
   }
 }

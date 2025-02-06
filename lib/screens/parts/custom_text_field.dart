@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:habit_app/utils/app_color.dart';
 
 class CustomTextField extends StatefulWidget {
+  const CustomTextField({
+    required this.controller,
+    required this.text,
+    required this.validator,
+    super.key,
+    this.isPassword = false,
+  });
   final TextEditingController controller;
   final String text;
   final FormFieldValidator<String>? validator;
   final bool isPassword;
-
-  const CustomTextField({
-    super.key,
-    required this.controller,
-    required this.text,
-    required this.validator,
-    this.isPassword = false,
-  });
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -26,7 +25,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      obscureText: widget.isPassword ? obscureText : false,
+      obscureText: widget.isPassword && obscureText,
       decoration: InputDecoration(
         labelText: widget.text,
         labelStyle: const TextStyle(

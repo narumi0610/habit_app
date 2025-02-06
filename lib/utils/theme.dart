@@ -73,7 +73,7 @@ class AppTheme {
       errorStyle: TextStyle(
         color: Color(0xFFD21B29),
       ),
-      contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
+      contentPadding: EdgeInsets.symmetric(horizontal: 8),
       fillColor: Color(0xFFFFFFFF),
       filled: true,
       errorMaxLines: 3,
@@ -81,15 +81,15 @@ class AppTheme {
     ),
     colorScheme: ColorScheme.fromSwatch(
       accentColor: AppColor.yellow,
-      brightness: Brightness.light,
     ),
     progressIndicatorTheme:
         const ProgressIndicatorThemeData(color: AppColor.yellow),
     appBarTheme: const AppBarTheme(
-        backgroundColor: AppColor.primary,
-        elevation: 0,
-        titleTextStyle: TextStyle(color: Colors.white, fontSize: 24),
-        iconTheme: IconThemeData(color: Colors.white)),
+      backgroundColor: AppColor.primary,
+      elevation: 0,
+      titleTextStyle: TextStyle(color: Colors.white, fontSize: 24),
+      iconTheme: IconThemeData(color: Colors.white),
+    ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: AppColor.white,
       selectedItemColor: AppColor.primary,

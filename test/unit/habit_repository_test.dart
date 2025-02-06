@@ -38,7 +38,7 @@ void main() {
       await mockHabitRepository.createHabit(title: 'test');
       // 例外をスローしないときに強制的にエラーにする
       fail('Exception was expected but not thrown');
-    } catch (e) {
+    } on Exception catch (e) {
       // 期待される例外がスローされたか確認
       expect(e.toString(), contains('Failed to create habit'));
     }
@@ -51,11 +51,12 @@ void main() {
     // FakeFirestoreインスタンスを作成
     final fakeFirestore = FakeFirebaseFirestore();
     final fakeAuth = MockFirebaseAuth(
-        mockUser: MockUser(
-          uid: 'user1',
-          email: 'test@example.com',
-        ),
-        signedIn: true);
+      mockUser: MockUser(
+        uid: 'user1',
+        email: 'test@example.com',
+      ),
+      signedIn: true,
+    );
 
     // テスト用のProviderContainerを作成し、Firestoreのモックを注入
     final container = ProviderContainer(
@@ -103,11 +104,12 @@ void main() {
     // FakeFirestoreインスタンスを作成
     final fakeFirestore = FakeFirebaseFirestore();
     final fakeAuth = MockFirebaseAuth(
-        mockUser: MockUser(
-          uid: 'user1',
-          email: 'test@example.com',
-        ),
-        signedIn: true);
+      mockUser: MockUser(
+        uid: 'user1',
+        email: 'test@example.com',
+      ),
+      signedIn: true,
+    );
 
     // テスト用のProviderContainerを作成し、Firestoreのモックを注入
     final container = ProviderContainer(
@@ -194,7 +196,7 @@ void main() {
     try {
       await habitRepository.updateHabitDays('habit1', 5);
       fail('Exception was expected but not thrown');
-    } catch (e) {
+    } on Exception catch (e) {
       expect(e.toString(), contains('Some requested document was not found'));
     }
   });
@@ -202,11 +204,12 @@ void main() {
   test('getCurrentHabit retrieves the current active habit', () async {
     final fakeFirestore = FakeFirebaseFirestore();
     final fakeAuth = MockFirebaseAuth(
-        mockUser: MockUser(
-          uid: 'user1',
-          email: 'test@example.com',
-        ),
-        signedIn: true);
+      mockUser: MockUser(
+        uid: 'user1',
+        email: 'test@example.com',
+      ),
+      signedIn: true,
+    );
 
     final container = ProviderContainer(
       overrides: [

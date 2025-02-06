@@ -15,8 +15,10 @@ class PasswordResetCompleteScreen extends StatelessWidget {
           children: [
             const Expanded(
               child: Center(
-                child: Text('パスワードリセット用のメールを送信しました',
-                    style: TextStyle(fontSize: 16)),
+                child: Text(
+                  'パスワードリセット用のメールを送信しました',
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -25,15 +27,17 @@ class PasswordResetCompleteScreen extends StatelessWidget {
               width: double.infinity,
               height: 50,
               child: CustomButton.grey(
-                child: const Text('戻る', style: TextStyle(fontSize: 16)),
                 isDisabled: false,
                 loading: false,
                 onPressed: () {
                   Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()));
+                    context,
+                    MaterialPageRoute<LoginScreen>(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                  );
                 },
+                child: const Text('戻る', style: TextStyle(fontSize: 16)),
               ),
             ),
           ],

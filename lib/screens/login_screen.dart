@@ -70,10 +70,11 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                       child: TextButton(
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const PasswordResetScreen()));
+                            context,
+                            MaterialPageRoute<PasswordResetScreen>(
+                              builder: (context) => const PasswordResetScreen(),
+                            ),
+                          );
                         },
                         child: const Text('パスワードをお忘れですか？'),
                       ),
@@ -83,8 +84,6 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                       width: double.infinity,
                       height: 50,
                       child: CustomButton.primary(
-                        child: const Text('ログインする',
-                            style: TextStyle(fontSize: 16)),
                         isDisabled: asyncAuth is AsyncLoading, // ローディング状態の表示
                         loading: asyncAuth is AsyncLoading, // ローディング中は無効化
                         onPressed: () async {
@@ -97,26 +96,32 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                                 );
 
                             if (result != null) {
-                              showErrorDialog(context, result.toString());
+                              showErrorDialog(context, result);
                             } else {
-                              Navigator.pushReplacement(
+                              await Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => const MainScreen()),
+                                MaterialPageRoute<MainScreen>(
+                                  builder: (context) => const MainScreen(),
+                                ),
                               );
                             }
                           }
                         },
+                        child: const Text(
+                          'ログインする',
+                          style: TextStyle(fontSize: 16),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 24),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const RegistrationScreen()));
+                          context,
+                          MaterialPageRoute<RegistrationScreen>(
+                            builder: (context) => const RegistrationScreen(),
+                          ),
+                        );
                       },
                       child: const Text('はじめての方はこちら'),
                     ),

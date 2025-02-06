@@ -19,7 +19,9 @@ _$HabitModelImpl _$$HabitModelImplFromJson(Map<String, dynamic> json) =>
       updated_at:
           const TimestampConverter().fromJson(json['updated_at'] as Timestamp),
       deleted_at: _$JsonConverterFromJson<Timestamp, DateTime>(
-          json['deleted_at'], const TimestampConverter().fromJson),
+        json['deleted_at'],
+        const TimestampConverter().fromJson,
+      ),
       deleted: (json['deleted'] as num).toInt(),
     );
 
@@ -34,7 +36,9 @@ Map<String, dynamic> _$$HabitModelImplToJson(_$HabitModelImpl instance) =>
       'created_at': const TimestampConverter().toJson(instance.created_at),
       'updated_at': const TimestampConverter().toJson(instance.updated_at),
       'deleted_at': _$JsonConverterToJson<Timestamp, DateTime>(
-          instance.deleted_at, const TimestampConverter().toJson),
+        instance.deleted_at,
+        const TimestampConverter().toJson,
+      ),
       'deleted': instance.deleted,
     };
 

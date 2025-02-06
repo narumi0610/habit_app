@@ -69,8 +69,6 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                     width: double.infinity,
                     height: 50,
                     child: CustomButton.primary(
-                      child:
-                          const Text('新規登録をする', style: TextStyle(fontSize: 16)),
                       loading: asyncAuth is AsyncLoading, // ローディング状態の表示
                       isDisabled: asyncAuth is AsyncLoading, // ローディング中は無効化
                       onPressed: () async {
@@ -83,17 +81,20 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                               );
 
                           if (result != null) {
-                            showErrorDialog(context, result.toString());
+                            showErrorDialog(context, result);
                           } else {
                             Navigator.pop(context);
-                            Navigator.pushReplacement(
+                            await Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MainScreen()),
+                              MaterialPageRoute<MainScreen>(
+                                builder: (context) => const MainScreen(),
+                              ),
                             );
                           }
                         }
                       },
+                      child:
+                          const Text('新規登録をする', style: TextStyle(fontSize: 16)),
                     ),
                   ),
                 ],

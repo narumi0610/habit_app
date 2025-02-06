@@ -1,7 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:habit_app/utils/app_color.dart';
 
-class CustomButton extends StatefulWidget {
+class CustomButton extends StatelessWidget {
+  const CustomButton({
+    required this.child,
+    required this.onPressed,
+    required this.color,
+    required this.loading,
+    required this.isDisabled,
+    super.key,
+    this.textColor,
+    this.padding = const EdgeInsets.all(4),
+    this.border = BorderSide.none,
+    this.borderRadius,
+    this.blockDoubleClick = false,
+  });
+
+  const CustomButton.primary({
+    required this.child,
+    required this.onPressed,
+    required this.isDisabled,
+    required this.loading,
+    super.key,
+    this.padding = const EdgeInsets.all(4),
+  })  : color = AppColor.primary,
+        textColor = Colors.white,
+        border = BorderSide.none,
+        borderRadius = null,
+        blockDoubleClick = false;
+
+  CustomButton.grey({
+    required this.child,
+    required this.onPressed,
+    required this.isDisabled,
+    required this.loading,
+    super.key,
+    this.padding = const EdgeInsets.all(4),
+  })  : color = Colors.grey.shade200,
+        textColor = AppColor.text,
+        borderRadius = BorderRadius.circular(100),
+        border = BorderSide.none,
+        blockDoubleClick = false;
+
   final Widget child;
   final VoidCallback onPressed;
   final Color color;
@@ -9,92 +49,35 @@ class CustomButton extends StatefulWidget {
   final EdgeInsets padding;
   final BorderSide border;
   final BorderRadius? borderRadius;
-  // trueのとき2回目以降はonPressedを呼ばない（1回だけ押せるボタン）
   final bool blockDoubleClick;
   final bool loading;
   final bool isDisabled;
 
-  static CustomButton primary({
-    required Widget child,
-    required bool isDisabled,
-    required bool loading,
-    required VoidCallback onPressed,
-    EdgeInsets padding = const EdgeInsets.all(4.0),
-  }) {
-    return CustomButton(
-      onPressed: onPressed,
-      padding: padding,
-      color: AppColor.primary,
-      textColor: Colors.white,
-      isDisabled: isDisabled,
-      loading: loading,
-      child: child,
-    );
-  }
-
-  static CustomButton grey({
-    required Widget child,
-    required bool isDisabled,
-    required bool loading,
-    required VoidCallback onPressed,
-    EdgeInsets padding = const EdgeInsets.all(4.0),
-  }) {
-    return CustomButton(
-      onPressed: onPressed,
-      padding: padding,
-      color: Colors.grey.shade200,
-      textColor: AppColor.text,
-      borderRadius: BorderRadius.circular(100.0),
-      isDisabled: isDisabled,
-      loading: loading,
-      child: child,
-    );
-  }
-
-  const CustomButton({
-    super.key,
-    required this.child,
-    required this.onPressed,
-    required this.color,
-    this.textColor,
-    this.padding = const EdgeInsets.all(4.0),
-    this.border = BorderSide.none,
-    this.borderRadius,
-    this.blockDoubleClick = false,
-    required this.loading,
-    required this.isDisabled,
-  });
-
-  @override
-  State<CustomButton> createState() => _CustomButtonState();
-}
-
-class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: widget.borderRadius,
+        borderRadius: borderRadius,
       ),
       child: Material(
-        color: widget.color,
+        color: color,
         shape: RoundedRectangleBorder(
-          side: widget.border,
-          borderRadius: BorderRadius.circular(50.0),
+          side: border,
+          borderRadius: BorderRadius.circular(50),
         ),
         clipBehavior: Clip.antiAliasWithSaveLayer,
-        textStyle: TextStyle(color: widget.textColor),
+        textStyle: TextStyle(color: textColor),
         child: InkWell(
           splashColor: Colors.transparent,
-          onTap: widget.isDisabled || widget.loading
+          onTap: isDisabled || loading
               ? null
               : () async {
-                  widget.onPressed();
+                  onPressed();
                 },
           child: Center(
             child: Container(
-              margin: widget.padding,
-              child: widget.loading
+              margin: padding,
+              child: loading
                   ? const SizedBox(
                       width: 24,
                       height: 24,
@@ -103,7 +86,7 @@ class _CustomButtonState extends State<CustomButton> {
                         strokeWidth: 2,
                       ),
                     )
-                  : widget.child,
+                  : child,
             ),
           ),
         ),

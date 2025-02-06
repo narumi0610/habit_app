@@ -38,74 +38,77 @@ class SettingScreenState extends ConsumerState<SettingScreen> {
     final logoutButton = Container(
       margin: const EdgeInsets.all(8),
       child: CustomButton.grey(
-        child: const Text('ログアウト'),
         onPressed: () async {
           final result = await ref.read(authNotifierProvider.notifier).logout();
           if (result == null) {
-            Navigator.pushAndRemoveUntil(
+            await Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const LoginScreen()),
+              MaterialPageRoute<LoginScreen>(
+                builder: (context) => const LoginScreen(),
+              ),
               (route) => false,
             );
           } else {
             // エラーメッセージを表示するなどの処理
-            showErrorDialog(context, result.toString());
+            showErrorDialog(context, result);
           }
         },
         loading: asyncAuth is AsyncLoading, // ローディング状態の表示
         isDisabled: asyncAuth is AsyncLoading, // ローディング中は無効化
         padding: const EdgeInsets.all(16),
+        child: const Text('ログアウト'),
       ),
     );
 
     final deleteUserButton = Container(
-        margin: const EdgeInsets.only(bottom: 20),
-        child: TextButton(
-          onPressed: () async {
-            await showDialog(
-                barrierDismissible: true,
-                context: context,
-                builder: (_) {
-                  return SimpleDialog(
-                    title: const Text('退会してもよろしいですか？'),
+      margin: const EdgeInsets.only(bottom: 20),
+      child: TextButton(
+        onPressed: () async {
+          await showDialog<void>(
+            context: context,
+            builder: (_) {
+              return SimpleDialog(
+                title: const Text('退会してもよろしいですか？'),
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          SimpleDialogOption(
-                            child: const Text('はい'),
-                            onPressed: () async {
-                              final result = await ref
-                                  .read(authNotifierProvider.notifier)
-                                  .deletedUser();
-                              if (result == null) {
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LoginScreen()),
-                                  (route) => false,
-                                );
-                              } else {
-                                // エラーメッセージを表示するなどの処理
-                                showErrorDialog(context, result.toString());
-                              }
-                            },
-                          ),
-                          SimpleDialogOption(
-                            child: const Text('いいえ'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          )
-                        ],
+                      SimpleDialogOption(
+                        child: const Text('はい'),
+                        onPressed: () async {
+                          final result = await ref
+                              .read(authNotifierProvider.notifier)
+                              .deletedUser();
+                          if (result == null) {
+                            await Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute<LoginScreen>(
+                                builder: (context) => const LoginScreen(),
+                              ),
+                              (route) => false,
+                            );
+                          } else {
+                            // エラーメッセージを表示するなどの処理
+                            showErrorDialog(context, result);
+                          }
+                        },
+                      ),
+                      SimpleDialogOption(
+                        child: const Text('いいえ'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                       ),
                     ],
-                  );
-                });
-          },
-          child: const Text("退会する"),
-        ));
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: const Text('退会する'),
+      ),
+    );
 
     Container itemContainer(Widget child) {
       return Container(
@@ -156,7 +159,7 @@ class SettingScreenState extends ConsumerState<SettingScreen> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
+          MaterialPageRoute<WebViewScreen>(
             builder: (context) => const WebViewScreen(
               url: GlobalConst.privacyPolicyURL,
               title: privacyPolicyText,
@@ -168,8 +171,10 @@ class SettingScreenState extends ConsumerState<SettingScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(privacyPolicyText,
-                style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              privacyPolicyText,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const Icon(Icons.arrow_forward_ios, color: Colors.grey),
           ],
         ),

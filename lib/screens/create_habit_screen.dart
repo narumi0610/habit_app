@@ -5,6 +5,7 @@ import 'package:habit_app/main.dart';
 import 'package:habit_app/providers/habit_providers.dart';
 import 'package:habit_app/providers/notification_setting_providers.dart';
 import 'package:habit_app/utils/rounded_button.dart';
+import 'package:logger/logger.dart';
 
 import '../utils/app_color.dart';
 
@@ -17,14 +18,15 @@ class CreateHabitScreen extends ConsumerStatefulWidget {
 class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
   @override
   Widget build(BuildContext context) {
-    final TextEditingController goalController = TextEditingController();
+    final goalController = TextEditingController();
     final formKey = GlobalKey<FormState>();
     final selectedHour = StateProvider<int>((ref) => TimeOfDay.now().hour);
     final selectedMinute = StateProvider<int>((ref) => TimeOfDay.now().minute);
     final isNotificationEnabled = StateProvider<bool>((ref) => false);
+    final logger = Logger();
 
     Future<void> selectTime(BuildContext context, WidgetRef ref) async {
-      showModalBottomSheet(
+      await showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext builder) {
           return SizedBox(
@@ -34,7 +36,7 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
               children: [
                 Expanded(
                   child: CupertinoPicker(
-                    itemExtent: 32.0,
+                    itemExtent: 32,
                     onSelectedItemChanged: (int hour) {
                       ref.read(selectedHour.notifier).state = hour;
                     },
@@ -49,7 +51,7 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
                 ),
                 Expanded(
                   child: CupertinoPicker(
-                    itemExtent: 32.0,
+                    itemExtent: 32,
                     onSelectedItemChanged: (int minute) {
                       ref.read(selectedMinute.notifier).state = minute;
                     },
@@ -73,7 +75,7 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
       appBar: AppBar(title: const Text('目標を設定')),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16),
           child: Column(
             children: [
               Center(
@@ -91,12 +93,11 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
                           hintText: '例)本を1ページ読む',
                           hintStyle: const TextStyle(color: AppColor.lightGray),
                           border: const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(10.0)),
+                                const BorderRadius.all(Radius.circular(10)),
                             borderSide: BorderSide(color: Colors.grey.shade600),
                           ),
                         ),
@@ -148,7 +149,8 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
                                       if (value != null) {
                                         ref
                                             .read(
-                                                isNotificationEnabled.notifier)
+                                              isNotificationEnabled.notifier,
+                                            )
                                             .state = value;
                                       }
                                     },
@@ -164,36 +166,45 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
                                   final minute = ref.watch(selectedMinute);
 
                                   return GestureDetector(
-                                      onTap: isEnabled
-                                          ? () => selectTime(context, ref)
-                                          : null, // 「はい」の場合のみタップ可能
-                                      child: Container(
-                                        width: 100,
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: isEnabled
-                                                  ? Colors.grey.shade600
-                                                  : AppColor.text
-                                                      .withOpacity(0.3)),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10.0)),
+                                    onTap: isEnabled
+                                        ? () => selectTime(context, ref)
+                                        : null, // 「はい」の場合のみタップ可能
+                                    child: Container(
+                                      width: 100,
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: isEnabled
+                                              ? Colors.grey.shade600
+                                              : AppColor.text.withAlpha(
+                                                  (AppColor.text.a * 0.3)
+                                                      .toInt(),
+                                                ),
                                         ),
-                                        child: Center(
-                                          child: Text(
-                                            isEnabled
-                                                ? '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}'
-                                                : 'ー:ー', // 「いいえ」を選択した場合の表示
-                                            style: TextStyle(
-                                              fontSize: 24,
-                                              color: isEnabled
-                                                  ? AppColor.text
-                                                  : AppColor.text
-                                                      .withOpacity(0.3),
-                                            ),
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(10),
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          isEnabled
+                                              // 長い行であるが、可読性を保つためにこの形式を使用
+                                              // ignore: lines_longer_than_80_chars
+                                              ? '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}'
+                                              : 'ー:ー', // 「いいえ」を選択した場合の表示
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                            color: isEnabled
+                                                ? AppColor.text
+                                                : AppColor.text.withAlpha(
+                                                    (AppColor.text.a * 0.3)
+                                                        .toInt(),
+                                                  ),
                                           ),
                                         ),
-                                      ));
+                                      ),
+                                    ),
+                                  );
                                 },
                               ),
                             ],
@@ -214,7 +225,7 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
                       final minute = ref.read(selectedMinute);
 
                       if (isEnabled && (hour == null || minute == null)) {
-                        showDialog(
+                        await showDialog<void>(
                           context: context,
                           builder: (context) => AlertDialog(
                             title: const Text('時間を設定してください'),
@@ -231,25 +242,29 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
 
                       try {
                         await ref.read(
-                            createHabitProvider(form: goalController.text)
-                                .future);
-                        ref
+                          createHabitProvider(form: goalController.text).future,
+                        );
+                        await ref
                             .read(notificationSettingNotifierProvider.notifier)
                             .scheduleDailyNotification(
-                                hour, minute, goalController.text);
+                              hour,
+                              minute,
+                              goalController.text,
+                            );
 
                         // 成功時の処理
-                        Navigator.pushAndRemoveUntil(
+                        await Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(
+                          MaterialPageRoute<MainScreen>(
                             builder: (BuildContext context) =>
-                                const MainScreen(index: 0),
+                                const MainScreen(),
                           ),
                           (_) => false,
                         );
-                      } catch (error) {
+                      } on Exception catch (error) {
+                        logger.e(error);
                         // エラー時の処理
-                        showDialog(
+                        await showDialog<void>(
                           context: context,
                           builder: (context) => AlertDialog(
                             title: const Text('目標の設定に失敗しました'),
