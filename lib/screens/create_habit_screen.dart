@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/main.dart';
 import 'package:habit_app/providers/habit_providers.dart';
 import 'package:habit_app/providers/notification_setting_providers.dart';
+import 'package:habit_app/screens/main_screen.dart';
 import 'package:habit_app/utils/rounded_button.dart';
 import 'package:logger/logger.dart';
 
