@@ -251,7 +251,7 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
                               minute,
                               goalController.text,
                             );
-
+                        if (!context.mounted) return;
                         // 成功時の処理
                         await Navigator.pushAndRemoveUntil(
                           context,
@@ -264,6 +264,7 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
                       } on Exception catch (error) {
                         logger.e(error);
                         // エラー時の処理
+                        if (!context.mounted) return;
                         await showDialog<void>(
                           context: context,
                           builder: (context) => AlertDialog(

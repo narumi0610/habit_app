@@ -96,8 +96,11 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                                 );
 
                             if (result != null) {
+                              if (!context.mounted) return;
                               showErrorDialog(context, result);
                             } else {
+                              if (!context.mounted) return;
+
                               await Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute<MainScreen>(

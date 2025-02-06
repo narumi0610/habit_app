@@ -81,8 +81,10 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                               );
 
                           if (result != null) {
+                            if (!context.mounted) return;
                             showErrorDialog(context, result);
                           } else {
+                            if (!context.mounted) return;
                             Navigator.pop(context);
                             await Navigator.pushReplacement(
                               context,
