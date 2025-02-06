@@ -50,10 +50,10 @@ class AppTheme {
   );
 
   static ThemeData light = ThemeData(
+    splashColor: AppColor.primary,
     brightness: Brightness.light,
     fontFamily: 'KosugiMaru',
     primaryColor: AppColor.primary,
-    // scaffoldBackgroundColor: AppColor.backgroundLight,
     cardTheme: const CardTheme(
       color: AppColor.white,
       elevation: 0,
@@ -63,8 +63,6 @@ class AppTheme {
       buttonColor: AppColor.primary,
       textTheme: ButtonTextTheme.primary,
     ),
-    splashColor: AppColor.primary,
-    // backgroundColor: AppColor.backgroundLight,
     inputDecorationTheme: const InputDecorationTheme(
       border: OutlineInputBorder(
         borderSide: BorderSide(color: Color(0xFFC1C1C1)),
@@ -90,10 +88,25 @@ class AppTheme {
       titleTextStyle: TextStyle(color: Colors.white, fontSize: 24),
       iconTheme: IconThemeData(color: Colors.white),
     ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    navigationBarTheme: NavigationBarThemeData(
       backgroundColor: AppColor.white,
-      selectedItemColor: AppColor.primary,
-      unselectedItemColor: AppColor.lightGray,
+      indicatorColor: AppColor.primary, // 選択時の背景色
+      iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((states) {
+        if (states.contains(WidgetState.selected)) {
+          return const IconThemeData(color: AppColor.white); // 選択時のアイコン色
+        }
+        return const IconThemeData(color: AppColor.lightGray); // 非選択時のアイコン色
+      }),
+      labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>((states) {
+        if (states.contains(WidgetState.selected)) {
+          return TextStyle(
+            color: Colors.grey[600],
+          ); // 選択時のテキスト色
+        }
+        return const TextStyle(color: AppColor.lightGray); // 非選択時のテキスト色
+      }),
+      overlayColor:
+          WidgetStateProperty.all(Colors.transparent), // タップ時のオレンジ色を無効化
     ),
   );
 }

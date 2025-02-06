@@ -98,23 +98,23 @@ class MainScreenState extends ConsumerState<MainScreen> {
             }
           },
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
+        bottomNavigationBar: NavigationBar(
+          destinations: const [
+            NavigationDestination(
               icon: Icon(Icons.home),
               label: 'ホーム',
             ),
-            BottomNavigationBarItem(
+            NavigationDestination(
               icon: Icon(Icons.history),
               label: '履歴',
             ),
-            BottomNavigationBarItem(
+            NavigationDestination(
               icon: Icon(Icons.settings),
               label: '設定',
             ),
           ],
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
+          selectedIndex: _selectedIndex,
+          onDestinationSelected: _onItemTapped,
         ),
       ),
     );
