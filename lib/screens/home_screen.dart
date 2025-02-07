@@ -40,7 +40,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     // 端末のサイズを取得
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final asyncGetCurrentHabit = ref.watch(getCurrentHabitProvider);
     final logger = Logger();
 
