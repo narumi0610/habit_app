@@ -136,10 +136,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           );
 
-          final updateButton = Visibility(
-            visible: habit != null,
-            child: UpdateButton(habit: habit!, ref: ref, width: width),
-          );
+          final updateButton = habit != null
+              ? UpdateButton(habit: habit, ref: ref, width: width)
+              : const SizedBox();
 
           final confetti = Align(
             alignment: Alignment.bottomCenter,
