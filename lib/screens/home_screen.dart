@@ -1,16 +1,13 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/providers/habit_providers.dart';
-import 'package:habit_app/providers/notification_setting_providers.dart';
 import 'package:habit_app/screens/create_habit_screen.dart';
-import 'package:habit_app/screens/parts/continuous_days_animation.dart';
 import 'package:habit_app/screens/parts/custom_button.dart';
+import 'package:habit_app/screens/parts/update_button.dart';
 import 'package:habit_app/utils/global_const.dart';
 import 'package:habit_app/utils/image_paths.dart';
 import 'package:habit_app/utils/rounded_button.dart';
-import 'package:home_widget/home_widget.dart';
 import 'package:logger/logger.dart';
 import 'package:vibration/vibration.dart';
 
@@ -139,86 +136,10 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           );
 
-          // 更新ボタン
-          Widget updateButton() {
-            if (habit != null) {
-              // 更新日が今日かどうか
-              final isUpdatedToday =
-                  DateTime.now().year == habit.updatedAt.year &&
-                      DateTime.now().month == habit.updatedAt.month &&
-                      DateTime.now().day == habit.updatedAt.day;
-              //　更新日が今日または更新回数が30回以上のときかつ0回目でないとき
-              final isUpdated = (isUpdatedToday ||
-                      habit.currentStreak >= GlobalConst.maxContinuousDays) &&
-                  habit.currentStreak != 0;
-              try {
-                //iOSでの継続日数を保存するための処理
-                Future.wait([
-                  // Widgetで扱うデータを保存
-                  HomeWidget.saveWidgetData<int>(
-                    'currentState',
-                    habit.currentStreak,
-                  ),
-                ]);
-              } on PlatformException catch (exception) {
-                logger.e(exception);
-              }
-
-              try {
-                HomeWidget.updateWidget(
-                  iOSName: 'habit_app',
-                  androidName: 'HomeWidgetGlanceReceiver',
-                );
-              } on PlatformException catch (exception) {
-                logger.e(exception);
-              }
-              return InkWell(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                // 当日更新済みかつ30回以上の場合押せない
-                onTap: isUpdated
-                    ? () {}
-                    : () async {
-                        // バイブレーション
-                        await HapticFeedback.heavyImpact();
-
-                        // 継続日数を更新
-                        await ref.read(
-                          updateHabitDaysProvider(
-                            habitId: habit.id,
-                            currentStreak: habit.currentStreak,
-                          ).future,
-                        );
-
-                        // 通知を再スケジュール
-                        await ref
-                            .read(notificationSettingNotifierProvider.notifier)
-                            .rescheduleNotification(habit);
-                      },
-                child: Container(
-                  padding: const EdgeInsets.all(64),
-                  width: width,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    boxShadow: isUpdated
-                        ? null
-                        : [
-                            const BoxShadow(
-                              color: Colors.grey,
-                              blurRadius: 16,
-                              offset: Offset(0, 8),
-                            ),
-                          ],
-                  ),
-                  child: ContinuousDaysAnimation(habit.currentStreak),
-                ),
-              );
-            } else {
-              return Container();
-            }
-          }
+          final updateButton = Visibility(
+            visible: habit != null,
+            child: UpdateButton(habit: habit!, ref: ref, width: width),
+          );
 
           final confetti = Align(
             alignment: Alignment.bottomCenter,
@@ -248,7 +169,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                           const SizedBox(height: 24),
                           title,
                           const SizedBox(height: 32),
-                          updateButton(),
+                          updateButton,
                           const SizedBox(height: 32),
                           setGoalButton,
                         ],
@@ -262,6 +183,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           );
         },
         error: (error, stackTrace) {
+          logger.e(error);
           return const Center(child: Text('習慣の取得に失敗しました'));
         },
         loading: () {
