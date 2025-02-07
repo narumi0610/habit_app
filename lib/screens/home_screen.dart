@@ -20,6 +20,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class HomeScreenState extends ConsumerState<HomeScreen> {
   bool isDialogShown = false;
   late ConfettiController confettiController;
+  final logger = Logger();
 
   @override
   void initState() {
@@ -39,7 +40,6 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
     // 端末のサイズを取得
     final width = MediaQuery.sizeOf(context).width;
     final asyncGetCurrentHabit = ref.watch(getCurrentHabitProvider);
-    final logger = Logger();
 
     return Scaffold(
       appBar: AppBar(
