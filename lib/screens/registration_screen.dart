@@ -15,15 +15,13 @@ class RegistrationScreen extends ConsumerStatefulWidget {
 }
 
 class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
-  late TextEditingController emailController;
-  late TextEditingController passwordController;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
   }
 
   @override
