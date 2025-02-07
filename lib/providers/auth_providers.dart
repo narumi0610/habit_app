@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:habit_app/repositories/auth_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -10,7 +9,7 @@ class AuthNotifier extends _$AuthNotifier {
 
   @override
   FutureOr<void> build() {
-    repository = ref.read(authRepositoryProvider);
+    repository = ref.watch(authRepositoryProvider);
   }
 
   Future<String?> login({
@@ -18,22 +17,20 @@ class AuthNotifier extends _$AuthNotifier {
     required String password,
   }) async {
     state = const AsyncValue.loading();
-    try {
+    final result = await AsyncValue.guard(() async {
       final errorMessage = await repository.login(email, password);
       if (errorMessage != null) {
-        state = AsyncValue.error(errorMessage, StackTrace.current);
-        return errorMessage;
-      } else {
-        state = const AsyncValue.data(null);
-        return null;
+        throw Exception(errorMessage);
       }
-    } on FirebaseAuthException catch (e, stack) {
-      state = AsyncValue.error(e, stack);
-      return e.message;
-    } on Exception catch (e, stack) {
-      state = AsyncValue.error(e, stack);
-      return e.toString();
-    }
+      return null;
+    });
+
+    state = result;
+    return result.when(
+      data: (_) => null,
+      error: (error, stack) => error.toString(),
+      loading: () => null,
+    );
   }
 
   Future<String?> signUp({
@@ -41,64 +38,74 @@ class AuthNotifier extends _$AuthNotifier {
     required String password,
   }) async {
     state = const AsyncValue.loading();
-    try {
+
+    final result = await AsyncValue.guard(() async {
       final errorMessage = await repository.signUp(email, password);
       if (errorMessage != null) {
-        state = AsyncValue.error(errorMessage, StackTrace.current);
-
-        return errorMessage;
-      } else {
-        state = const AsyncValue.data(null);
-        return null;
+        throw Exception(errorMessage);
       }
-    } on FirebaseAuthException catch (e, stack) {
-      state = AsyncValue.error(e, stack);
-      return e.message;
-    } on Exception catch (error, stack) {
-      state = AsyncValue.error(error, stack);
-      return error.toString();
-    }
+      return null;
+    });
+
+    state = result;
+    return result.when(
+      data: (_) => null,
+      error: (error, stack) => error.toString(),
+      loading: () => null,
+    );
   }
 
   Future<String?> logout() async {
     state = const AsyncValue.loading();
-    try {
+
+    final result = await AsyncValue.guard(() async {
       final errorMessage = await repository.logout();
-      state = const AsyncValue.data(null);
-      return errorMessage;
-    } on FirebaseAuthException catch (e, stack) {
-      state = AsyncValue.error(e, stack);
-      return e.message;
-    } on Exception catch (error, stack) {
-      state = AsyncValue.error(error, stack);
-      return error.toString();
-    }
+      if (errorMessage != null) {
+        throw Exception(errorMessage);
+      }
+      return null;
+    });
+
+    state = result;
+    return result.when(
+      data: (_) => null,
+      error: (error, stack) => error.toString(),
+      loading: () => null,
+    );
   }
 
   Future<void> passwordReset({required String email}) async {
     state = const AsyncValue.loading();
-    try {
+
+    final result = await AsyncValue.guard(() async {
       await repository.passwordReset(email: email);
-      state = const AsyncValue.data(null);
-    } on FirebaseAuthException catch (e, stack) {
-      state = AsyncValue.error(e, stack);
-    } on Exception catch (error, stack) {
-      state = AsyncValue.error(error, stack);
-    }
+      return null;
+    });
+
+    state = result;
+    return result.when(
+      data: (_) => null,
+      error: (error, stack) => null,
+      loading: () => null,
+    );
   }
 
   Future<String?> deletedUser() async {
     state = const AsyncValue.loading();
-    try {
+
+    final result = await AsyncValue.guard(() async {
       final errorMessage = await repository.deletedUser();
-      state = const AsyncValue.data(null);
-      return errorMessage;
-    } on FirebaseAuthException catch (e, stack) {
-      state = AsyncValue.error(e, stack);
-      return e.message;
-    } on Exception catch (error, stack) {
-      state = AsyncValue.error(error, stack);
-      return error.toString();
-    }
+      if (errorMessage != null) {
+        throw Exception(errorMessage);
+      }
+      return null;
+    });
+
+    state = result;
+    return result.when(
+      data: (_) => null,
+      error: (error, stack) => error.toString(),
+      loading: () => null,
+    );
   }
 }
