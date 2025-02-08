@@ -36,7 +36,6 @@ class HabitApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ハビスター',
@@ -44,7 +43,18 @@ class HabitApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
       },
       theme: AppTheme.light,
-      home: user == null ? const LoginScreen() : const MainScreen(),
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator(); // ローディング中
+          }
+          if (snapshot.hasData) {
+            return const MainScreen(); // ログイン済み
+          }
+          return const LoginScreen(); // 未ログイン
+        },
+      ),
     );
   }
 }
