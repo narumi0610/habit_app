@@ -16,38 +16,33 @@ Future<HabitModel?> getCurrentHabit(Ref ref) async {
 }
 
 @riverpod
-Future<void> updateHabitDays(
+Future<AsyncValue<void>> updateHabitDays(
   Ref ref, {
   required String habitId,
   required int currentStreak,
 }) async {
-  try {
+  return AsyncValue.guard(() async {
     await ref
         .read(habitRepositoryProvider)
         .updateHabitDays(habitId, currentStreak);
     ref
-      // 更新するだけなので結果は使用しない
+      // 更新したあと結果は使用しない
       // ignore: unused_result
       ..refresh(getCurrentHabitProvider)
-      // 更新するだけなので結果は使用しない
+      // 更新したあと結果は使用しない
       // ignore: unused_result
       ..refresh(getHabitHistoryProvider);
-  } catch (e) {
-    throw Exception('ViewModelでの習慣の継続更新に失敗しました $e');
-  }
+  });
 }
 
 @riverpod
-Future<void> createHabit(Ref ref, {required String form}) async {
-  final repository = ref.read(habitRepositoryProvider);
-  try {
-    await repository.createHabit(title: form);
-    // 更新するだけなので結果は使用しない
+Future<AsyncValue<void>> createHabit(Ref ref, {required String form}) async {
+  return AsyncValue.guard(() async {
+    await ref.read(habitRepositoryProvider).createHabit(title: form);
+    // 更新したあと結果は使用しない
     // ignore: unused_result
     ref.refresh(getCurrentHabitProvider);
-  } catch (e) {
-    throw Exception('ViewModelでの目標設定に失敗しました: $e');
-  }
+  });
 }
 
 @riverpod

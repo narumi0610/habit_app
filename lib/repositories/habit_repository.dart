@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/models/habit/habit_model.dart';
 import 'package:habit_app/providers/firebase_provider.dart';
@@ -25,6 +27,19 @@ class HabitRepositoryImpl implements HabitRepository {
   HabitRepositoryImpl(this.ref);
   final Ref ref;
   final logger = Logger();
+
+  Future<void> _handleError(Object? e, StackTrace stackTrace) async {
+    if (e is FirebaseException) {
+      logger.e('Firebaseエラー: ${e.message}', error: e, stackTrace: stackTrace);
+      Error.throwWithStackTrace(e, stackTrace);
+    } else if (e is PlatformException) {
+      logger.e('プラットフォームエラー: ${e.message}', error: e, stackTrace: stackTrace);
+      Error.throwWithStackTrace(e, stackTrace);
+    } else {
+      logger.e('予期しないエラー: $e', error: e, stackTrace: stackTrace);
+      throw Exception('予期しないエラーが発生しました。');
+    }
+  }
 
   @override
   Future<void> createHabit({
@@ -54,80 +69,94 @@ class HabitRepositoryImpl implements HabitRepository {
               deleted: 0,
             ).toJson(),
           );
-    } catch (e) {
-      logger.e(e);
-      throw Exception('目標の作成に失敗しました: $e');
+    } catch (e, stackTrace) {
+      await _handleError(e, stackTrace);
+      throw Exception('目標の作成に失敗しました。もう一度お試しください。');
     }
   }
 
   @override
   Future<List<HabitModel?>> getHabitHistory() async {
     final user = ref.read(firebaseAuthProvider).currentUser;
+    try {
+      if (user == null) {
+        return [null];
+      }
+      final habitSnap = await ref
+          .read(firebaseFirestoreProvider)
+          .collection('habits')
+          .where('user_id', isEqualTo: user.uid)
+          .orderBy('created_at', descending: true)
+          .withConverter<HabitModel>(
+            fromFirestore: (snapshots, _) =>
+                HabitModel.fromJson(snapshots.data()!),
+            toFirestore: (task, _) => task.toJson(),
+          )
+          .get();
 
-    if (user == null) {
-      return [null];
+      final finishTaskList = habitSnap.docs.map((e) => e.data()).toList();
+
+      return finishTaskList;
+    } catch (e, stackTrace) {
+      await _handleError(e, stackTrace);
+      throw Exception('履歴の取得に失敗しました。もう一度お試しください。');
     }
-    final habitSnap = await ref
-        .read(firebaseFirestoreProvider)
-        .collection('habits')
-        .where('user_id', isEqualTo: user.uid)
-        .orderBy('created_at', descending: true)
-        .withConverter<HabitModel>(
-          fromFirestore: (snapshots, _) =>
-              HabitModel.fromJson(snapshots.data()!),
-          toFirestore: (task, _) => task.toJson(),
-        )
-        .get();
-
-    final finishTaskList = habitSnap.docs.map((e) => e.data()).toList();
-
-    return finishTaskList;
   }
 
   @override
   Future<void> updateHabitDays(String habitId, int currentStreak) async {
-    await ref
-        .read(firebaseFirestoreProvider)
-        .collection('habits')
-        .doc(habitId)
-        .update({
-      'current_streak': currentStreak + 1,
-      'updated_at': DateTime.now(),
-    });
-
-    if (currentStreak == 29) {
+    try {
       await ref
           .read(firebaseFirestoreProvider)
           .collection('habits')
           .doc(habitId)
           .update({
-        'completed_flg': 1,
+        'current_streak': currentStreak + 1,
         'updated_at': DateTime.now(),
       });
+
+      if (currentStreak == 29) {
+        await ref
+            .read(firebaseFirestoreProvider)
+            .collection('habits')
+            .doc(habitId)
+            .update({
+          'completed_flg': 1,
+          'updated_at': DateTime.now(),
+        });
+      }
+    } catch (e, stackTrace) {
+      await _handleError(e, stackTrace);
+      throw Exception('習慣の更新に失敗しました。もう一度お試しください。');
     }
   }
 
   @override
   Future<HabitModel?> getCurrentHabit() async {
-    final user = ref.read(firebaseAuthProvider).currentUser;
+    try {
+      final user = ref.read(firebaseAuthProvider).currentUser;
 
-    if (user == null) {
-      return null;
+      if (user == null) {
+        return null;
+      }
+      final uid = user.uid;
+      final habitSnap = await ref
+          .read(firebaseFirestoreProvider)
+          .collection('habits')
+          .where('user_id', isEqualTo: uid)
+          .orderBy('created_at', descending: true)
+          .withConverter<HabitModel>(
+            fromFirestore: (snapshots, _) =>
+                HabitModel.fromJson(snapshots.data()!),
+            toFirestore: (task, _) => task.toJson(),
+          )
+          .get();
+
+      final currentHabit = habitSnap.docs.map((e) => e.data()).toList();
+      return currentHabit.isNotEmpty ? currentHabit[0] : null;
+    } catch (e, stackTrace) {
+      await _handleError(e, stackTrace);
+      throw Exception('習慣の取得に失敗しました。もう一度お試しください。');
     }
-    final uid = user.uid;
-    final habitSnap = await ref
-        .read(firebaseFirestoreProvider)
-        .collection('habits')
-        .where('user_id', isEqualTo: uid)
-        .orderBy('created_at', descending: true)
-        .withConverter<HabitModel>(
-          fromFirestore: (snapshots, _) =>
-              HabitModel.fromJson(snapshots.data()!),
-          toFirestore: (task, _) => task.toJson(),
-        )
-        .get();
-
-    final currentHabit = habitSnap.docs.map((e) => e.data()).toList();
-    return currentHabit.isNotEmpty ? currentHabit[0] : null;
   }
 }

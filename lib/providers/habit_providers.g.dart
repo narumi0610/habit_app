@@ -23,7 +23,7 @@ final getCurrentHabitProvider = AutoDisposeFutureProvider<HabitModel?>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GetCurrentHabitRef = AutoDisposeFutureProviderRef<HabitModel?>;
-String _$updateHabitDaysHash() => r'126337d20e825ba888f7f6ab69a760e691a60054';
+String _$updateHabitDaysHash() => r'dbdefa9ed78e2d93f5ec0a6c953c86eb2dcea90d';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -51,7 +51,7 @@ class _SystemHash {
 const updateHabitDaysProvider = UpdateHabitDaysFamily();
 
 /// See also [updateHabitDays].
-class UpdateHabitDaysFamily extends Family<AsyncValue<void>> {
+class UpdateHabitDaysFamily extends Family<AsyncValue<AsyncValue<void>>> {
   /// See also [updateHabitDays].
   const UpdateHabitDaysFamily();
 
@@ -92,7 +92,8 @@ class UpdateHabitDaysFamily extends Family<AsyncValue<void>> {
 }
 
 /// See also [updateHabitDays].
-class UpdateHabitDaysProvider extends AutoDisposeFutureProvider<void> {
+class UpdateHabitDaysProvider
+    extends AutoDisposeFutureProvider<AsyncValue<void>> {
   /// See also [updateHabitDays].
   UpdateHabitDaysProvider({
     required String habitId,
@@ -132,7 +133,7 @@ class UpdateHabitDaysProvider extends AutoDisposeFutureProvider<void> {
 
   @override
   Override overrideWith(
-    FutureOr<void> Function(UpdateHabitDaysRef provider) create,
+    FutureOr<AsyncValue<void>> Function(UpdateHabitDaysRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -150,7 +151,7 @@ class UpdateHabitDaysProvider extends AutoDisposeFutureProvider<void> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<void> createElement() {
+  AutoDisposeFutureProviderElement<AsyncValue<void>> createElement() {
     return _UpdateHabitDaysProviderElement(this);
   }
 
@@ -173,7 +174,7 @@ class UpdateHabitDaysProvider extends AutoDisposeFutureProvider<void> {
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin UpdateHabitDaysRef on AutoDisposeFutureProviderRef<void> {
+mixin UpdateHabitDaysRef on AutoDisposeFutureProviderRef<AsyncValue<void>> {
   /// The parameter `habitId` of this provider.
   String get habitId;
 
@@ -182,7 +183,8 @@ mixin UpdateHabitDaysRef on AutoDisposeFutureProviderRef<void> {
 }
 
 class _UpdateHabitDaysProviderElement
-    extends AutoDisposeFutureProviderElement<void> with UpdateHabitDaysRef {
+    extends AutoDisposeFutureProviderElement<AsyncValue<void>>
+    with UpdateHabitDaysRef {
   _UpdateHabitDaysProviderElement(super.provider);
 
   @override
@@ -191,14 +193,14 @@ class _UpdateHabitDaysProviderElement
   int get currentStreak => (origin as UpdateHabitDaysProvider).currentStreak;
 }
 
-String _$createHabitHash() => r'05cb2141c22c95c22e92e3105ac44dcd2e94420e';
+String _$createHabitHash() => r'baa32c41f8dfe2575fb296d50030432429ba42c7';
 
 /// See also [createHabit].
 @ProviderFor(createHabit)
 const createHabitProvider = CreateHabitFamily();
 
 /// See also [createHabit].
-class CreateHabitFamily extends Family<AsyncValue<void>> {
+class CreateHabitFamily extends Family<AsyncValue<AsyncValue<void>>> {
   /// See also [createHabit].
   const CreateHabitFamily();
 
@@ -236,7 +238,7 @@ class CreateHabitFamily extends Family<AsyncValue<void>> {
 }
 
 /// See also [createHabit].
-class CreateHabitProvider extends AutoDisposeFutureProvider<void> {
+class CreateHabitProvider extends AutoDisposeFutureProvider<AsyncValue<void>> {
   /// See also [createHabit].
   CreateHabitProvider({
     required String form,
@@ -271,7 +273,7 @@ class CreateHabitProvider extends AutoDisposeFutureProvider<void> {
 
   @override
   Override overrideWith(
-    FutureOr<void> Function(CreateHabitRef provider) create,
+    FutureOr<AsyncValue<void>> Function(CreateHabitRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -288,7 +290,7 @@ class CreateHabitProvider extends AutoDisposeFutureProvider<void> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<void> createElement() {
+  AutoDisposeFutureProviderElement<AsyncValue<void>> createElement() {
     return _CreateHabitProviderElement(this);
   }
 
@@ -308,12 +310,13 @@ class CreateHabitProvider extends AutoDisposeFutureProvider<void> {
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin CreateHabitRef on AutoDisposeFutureProviderRef<void> {
+mixin CreateHabitRef on AutoDisposeFutureProviderRef<AsyncValue<void>> {
   /// The parameter `form` of this provider.
   String get form;
 }
 
-class _CreateHabitProviderElement extends AutoDisposeFutureProviderElement<void>
+class _CreateHabitProviderElement
+    extends AutoDisposeFutureProviderElement<AsyncValue<void>>
     with CreateHabitRef {
   _CreateHabitProviderElement(super.provider);
 

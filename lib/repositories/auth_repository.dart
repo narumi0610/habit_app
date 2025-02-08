@@ -57,7 +57,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return null;
     } on FirebaseAuthException catch (e) {
       final message = FirebaseAuthErrorExt.fromCode(e.code).message;
-      logger.e(message);
+      logger.e('新規登録に失敗しました$e');
       return message;
     }
   }
@@ -69,7 +69,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return null;
     } on FirebaseAuthException catch (e) {
       final message = FirebaseAuthErrorExt.fromCode(e.code).message;
-      logger.e(message);
+      logger.e('ログインに失敗しました$e');
       return message;
     }
   }
@@ -83,9 +83,9 @@ class AuthRepositoryImpl implements AuthRepository {
       // ローカルデータを削除
       await prefs.clear();
       return null;
-    } on Exception catch (e) {
-      logger.e(e);
-      return 'ログアウトに失敗しました';
+    } catch (e) {
+      logger.e('ログアウトに失敗しました$e');
+      return 'ログアウトに失敗しました。再度お試しください。';
     }
   }
 
@@ -94,8 +94,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       await auth.sendPasswordResetEmail(email: email);
     } catch (e) {
-      logger.e(e);
-      throw Exception('パスワードリセットリンクの送信に失敗しました $e');
+      logger.e('パスワードリセットに失敗しました$e');
     }
   }
 
@@ -121,9 +120,9 @@ class AuthRepositoryImpl implements AuthRepository {
       // ローカルデータを削除
       await prefs.clear();
       return null;
-    } on Exception catch (e) {
-      logger.e(e);
-      return '退会処理に失敗しました';
+    } catch (e) {
+      logger.e('退会に失敗しました$e');
+      return '退会処理に失敗しました。再度お試しください。';
     }
   }
 }
