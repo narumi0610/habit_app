@@ -5,7 +5,6 @@ linter:
     public_member_api_docs: false
     always_use_package_imports: false
     avoid_catches_without_on_clauses: false
-    unnecessary_catch_clause: false
 
 analyzer:
   exclude:
