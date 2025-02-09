@@ -21,9 +21,9 @@
 <img src="https://github.com/narumi0610/habit_app/blob/main/images/ios_widget.png?raw=true" width="300">
 
 ## 技術スタック
-- **Flutter**: クロスプラットフォームアプリ開発に使用
-- **Firebase**: Firestoreをデータベースに、Firebase Authenticationでユーザー管理
-- **Swift**: iOSウィジェットのカスタムデザインに使用
+- **Flutter v3.27.3**: クロスプラットフォームアプリ開発に使用
+- **Firebase**: Firestore(v5.6.3)をデータベースに、Firebase Authentication(^5.4.2)でユーザー管理
+- **Swift v6.0.3**: iOSホームウィジェットのカスタムデザインに使用
 
 ## アーキテクチャ
 
