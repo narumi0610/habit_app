@@ -22,8 +22,12 @@
 
 ## 技術スタック
 - **Flutter v3.27.3**: クロスプラットフォームアプリ開発に使用
-- **Firebase**: Firestore(v5.6.3)をデータベースに、Firebase Authentication(^5.4.2)でユーザー管理
+- **Firebase**:
+  - Cloud Firestore(v5.6.3): 習慣データの管理
+  - Firebase Authentication(v5.4.2): ユーザーの認証管理
+  - Cloud Functions: サーバーレス環境で退会処理を自動化
 - **Swift v6.0.3**: iOSホームウィジェットのカスタムデザインに使用
+- **JavaScript**: Firebase Functionsの実装に使用
 
 ## アーキテクチャ
 
