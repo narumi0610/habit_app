@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/utils/app_color.dart';
 
-class CustomTextField extends StatefulWidget {
+final obscureTextProvider = StateProvider<bool>((ref) => true);
+
+class CustomTextField extends ConsumerStatefulWidget {
   const CustomTextField({
     required this.controller,
     required this.text,
@@ -15,14 +18,13 @@ class CustomTextField extends StatefulWidget {
   final bool isPassword;
 
   @override
-  State<CustomTextField> createState() => _CustomTextFieldState();
+  ConsumerState<CustomTextField> createState() => CustomTextFieldState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> {
-  bool obscureText = true;
-
+class CustomTextFieldState extends ConsumerState<CustomTextField> {
   @override
   Widget build(BuildContext context) {
+    final obscureText = ref.watch(obscureTextProvider);
     return TextFormField(
       controller: widget.controller,
       obscureText: widget.isPassword && obscureText,
@@ -48,9 +50,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   color: AppColor.primary,
                 ),
                 onPressed: () {
-                  setState(() {
-                    obscureText = !obscureText;
-                  });
+                  ref.read(obscureTextProvider.notifier).state = !obscureText;
                 },
               )
             : null,
