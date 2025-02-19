@@ -95,3 +95,7 @@ ios/Runner/GoogleService-Info.plist
 
 *.p12
 *.mobileprovision
+
+# Android/Gradle
+/build/
+/android/build/
