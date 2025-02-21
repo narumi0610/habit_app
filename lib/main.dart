@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/screens/login_screen.dart';
 import 'package:habit_app/screens/main_screen.dart';
@@ -17,6 +18,9 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
+  // `.env` ファイルの読み込み
+  await dotenv.load();
+
   // Firebase を初期化
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -25,7 +29,7 @@ void main() async {
   //アプリとウィジェット間でデータを共有するためのグループIDを設定
   await HomeWidget.setAppGroupId(GlobalConst.appGroupID);
   runApp(
-    const ProviderScope(
+    ProviderScope(
       child: HabitApp(),
     ),
   );

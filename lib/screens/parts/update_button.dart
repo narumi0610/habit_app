@@ -3,25 +3,25 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/models/habit/habit_model.dart';
 import 'package:habit_app/providers/habit_providers.dart';
+import 'package:habit_app/providers/motivation_message_provider.dart';
 import 'package:habit_app/providers/notification_setting_providers.dart';
 import 'package:habit_app/screens/parts/continuous_days_animation.dart';
 import 'package:habit_app/utils/global_const.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:logger/logger.dart';
 
-class UpdateButton extends StatelessWidget {
+class UpdateButton extends ConsumerWidget {
   const UpdateButton({
     required this.habit,
-    required this.ref,
     required this.width,
     super.key,
   });
+
   final HabitModel habit;
-  final WidgetRef ref;
   final double width;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final logger = Logger();
 
     final isUpdatedToday = DateTime.now().year == habit.updatedAt.year &&
@@ -58,6 +58,7 @@ class UpdateButton extends StatelessWidget {
           : () async {
               await HapticFeedback.heavyImpact();
 
+              // 習慣データの更新
               await ref.read(
                 updateHabitDaysProvider(
                   habitId: habit.id,
@@ -65,9 +66,27 @@ class UpdateButton extends StatelessWidget {
                 ).future,
               );
 
+              // 通知の再スケジュール
               await ref
                   .read(notificationSettingNotifierProvider.notifier)
                   .rescheduleNotification(habit);
+
+              // AIコメントの更新
+              try {
+                final message = await ref.refresh(
+                  motivationMessageProvider(
+                    (
+                      habitTitle: habit.title,
+                      currentStreak: habit.currentStreak,
+                      lastCompletion: DateTime.now().toString(),
+                    ),
+                  ).future,
+                );
+                ref.read(motivationMessageStateProvider.notifier).state =
+                    message;
+              } catch (e) {
+                logger.e('Error getting motivation message: $e');
+              }
             },
       child: Container(
         padding: const EdgeInsets.all(64),

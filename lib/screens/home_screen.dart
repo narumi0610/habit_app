@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/providers/habit_providers.dart';
 import 'package:habit_app/screens/create_habit_screen.dart';
 import 'package:habit_app/screens/parts/custom_button.dart';
+import 'package:habit_app/screens/parts/motivation_message.dart';
 import 'package:habit_app/screens/parts/update_button.dart';
 import 'package:habit_app/utils/global_const.dart';
 import 'package:habit_app/utils/image_paths.dart';
@@ -137,7 +138,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           );
 
           final updateButton = habit != null
-              ? UpdateButton(habit: habit, ref: ref, width: width)
+              ? UpdateButton(habit: habit, width: width)
               : const SizedBox();
 
           final confetti = Align(
@@ -152,6 +153,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
               gravity: 0,
             ),
           );
+
+          final motivationMessage =
+              habit != null ? const MotivationMessage() : const SizedBox();
 
           return Stack(
             children: [
@@ -170,6 +174,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                           const SizedBox(height: 32),
                           updateButton,
                           const SizedBox(height: 32),
+                          motivationMessage,
                           setGoalButton,
                         ],
                       ),
