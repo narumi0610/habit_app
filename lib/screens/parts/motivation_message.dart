@@ -16,7 +16,7 @@ class MotivationMessage extends ConsumerWidget {
       elevation: 0,
       radius: const Radius.circular(15),
       padding: const BubbleEdges.all(16),
-      alignment: Alignment.topRight,
+      alignment: Alignment.center,
       nip: BubbleNip.rightTop,
       color: AppColor.primary.withValues(alpha: 0.2), // 0.2 * 255 ≈ 51
       child: Text(
