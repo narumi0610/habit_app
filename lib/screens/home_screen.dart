@@ -175,6 +175,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                           updateButton,
                           const SizedBox(height: 32),
                           motivationMessage,
+                          const SizedBox(height: 32),
                           setGoalButton,
                         ],
                       ),

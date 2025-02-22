@@ -1,10 +1,3 @@
-//
-//  habit_app.swift
-//  habit_app
-//
-//  Created by mac on 2023/04/27.
-//
-
 import WidgetKit
 import SwiftUI
 import Intents
@@ -14,7 +7,7 @@ private let appGroupID = "group.habitFlutter";
 struct Provider: IntentTimelineProvider {
     // ウィジェットがデータを読み込む前に表示するプレースホルダーエントリを提供するためのメソッド
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationIntent(), currentState: 0)
+        SimpleEntry(date: Date(), configuration: ConfigurationIntent(), currentState: 0, habitTitle: "")
     }
 
     // ウィジェットが表示するスナップショットエントリを提供するためのメソッド
@@ -22,7 +15,8 @@ struct Provider: IntentTimelineProvider {
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
         let data = UserDefaults.init(suiteName:appGroupID)
         let currentState = data?.integer(forKey:  "currentState") ?? 0
-        let entry = SimpleEntry(date: Date(), configuration: configuration, currentState: currentState)
+        let habitTitle = data?.string(forKey: "habitTitle") ?? ""
+        let entry = SimpleEntry(date: Date(), configuration: configuration, currentState: currentState, habitTitle: habitTitle)
         completion(entry)
     }
     
@@ -31,10 +25,15 @@ struct Provider: IntentTimelineProvider {
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         let data: UserDefaults? = UserDefaults.init(suiteName: appGroupID)
         let currentState = data?.integer(forKey: "currentState") ?? 0
-        // 現在の日時とUserDefaultsから取得した現在の状態を使用してエントリを作成
-        let entry = SimpleEntry(date: Date(), configuration: configuration, currentState: currentState)
+        let habitTitle = data?.string(forKey: "habitTitle") ?? ""
 
-        // アプリのデータに従って更新されるタイムラインを作成
+        let entry = SimpleEntry(
+            date: Date(),
+            configuration: configuration,
+            currentState: currentState,
+            habitTitle: habitTitle
+        )
+
         let timeline = Timeline(entries: [entry], policy: .never)
         completion(timeline)
     }
@@ -44,6 +43,7 @@ struct SimpleEntry: TimelineEntry {
     let date: Date
     let configuration: ConfigurationIntent
     let currentState: Int
+    let habitTitle: String
 }
 
 // 見た目を定義するためのビュー
@@ -51,16 +51,17 @@ struct habit_appEntryView : View {
     var entry: Provider.Entry
     @Environment(\.colorScheme) var colorScheme
 
-
     var body: some View {
-        // 背景を白に設定
-        ZStack {
-            VStack {
-                Text("継続").font(.system(size: 14)).foregroundColor(Color.green)
-                Text("\(entry.currentState)").font(.system(size: 50)).foregroundColor(colorScheme == .dark ? Color.white : Color.black)
-                Text("日").font(.system(size: 14)).foregroundColor(Color.green)
-            }
-            
+        VStack {
+            Text("\(entry.habitTitle)")
+                .font(.system(size: 12))
+                .foregroundColor(Color.green)
+            Text("\(entry.currentState)")
+                .font(.system(size: 50))
+                .foregroundColor(colorScheme == .dark ? Color.white : Color(white: 0.3))
+            Text("日")
+                .font(.system(size: 14))
+                .foregroundColor(Color.green)
         }
     }
 }
@@ -81,7 +82,7 @@ struct habit_app: Widget {
 
 struct habit_app_Previews: PreviewProvider {
     static var previews: some View {
-        habit_appEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent(),currentState: 0))
+        habit_appEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent(),currentState: 0, habitTitle: ""))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   animated_flip_counter: ^0.2.5
+  bubble: ^1.2.1
   cloud_firestore: ^5.6.3
   confetti: ^0.8.0
   cupertino_icons: ^1.0.2
@@ -73,7 +74,7 @@ flutter:
     - .env
 
   fonts:
-    - family: KosugiMaru
+    - family: NotoSansJP
       fonts:
-        - asset: fonts/KosugiMaru-Regular.ttf
+        - asset: fonts/NotoSansJP-Regular.ttf
   

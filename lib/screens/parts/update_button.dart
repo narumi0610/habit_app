@@ -36,12 +36,10 @@ class UpdateButton extends ConsumerWidget {
       // iOSのWidgetデータ保存処理
       Future.wait([
         HomeWidget.saveWidgetData<int>('currentState', habit.currentStreak),
+        HomeWidget.saveWidgetData<String>('habitTitle', habit.title),
       ]);
-    } on PlatformException catch (exception) {
-      logger.e(exception);
-    }
 
-    try {
+      // ウィジェットの更新をトリガー
       HomeWidget.updateWidget(
         iOSName: 'habit_app',
         androidName: 'HomeWidgetGlanceReceiver',
@@ -73,7 +71,8 @@ class UpdateButton extends ConsumerWidget {
 
               // AIコメントの更新
               try {
-                final message = await ref.refresh(
+                ref.invalidate(motivationMessageProvider);
+                final message = await ref.read(
                   motivationMessageProvider(
                     (
                       habitTitle: habit.title,

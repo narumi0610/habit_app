@@ -52,7 +52,7 @@ class AppTheme {
   static ThemeData light = ThemeData(
     splashColor: AppColor.primary,
     brightness: Brightness.light,
-    fontFamily: 'KosugiMaru',
+    fontFamily: 'NotoSansJP',
     primaryColor: AppColor.primary,
     cardTheme: const CardTheme(
       color: AppColor.white,
@@ -83,9 +83,9 @@ class AppTheme {
     progressIndicatorTheme:
         const ProgressIndicatorThemeData(color: AppColor.yellow),
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColor.primary,
+      backgroundColor: Colors.transparent,
       elevation: 0,
-      titleTextStyle: TextStyle(color: Colors.white, fontSize: 24),
+      titleTextStyle: TextStyle(color: AppColor.primary, fontSize: 20),
       iconTheme: IconThemeData(color: Colors.white),
     ),
     navigationBarTheme: NavigationBarThemeData(

@@ -8,13 +8,13 @@ final motivationMessageStateProvider =
 
 final motivationMessageProvider = FutureProvider.autoDispose.family<String,
     ({String habitTitle, int currentStreak, String lastCompletion})>(
-  (ref, params) async {
+  (ref, habitModel) async {
     final geminiService = ref.watch(geminiServiceProvider);
     try {
-      final message = geminiService.generateHabitMotivation(
-        habitName: params.habitTitle,
-        currentStreak: params.currentStreak,
-        lastCompletion: params.lastCompletion,
+      final message = await geminiService.generateHabitMotivation(
+        habitName: habitModel.habitTitle,
+        currentStreak: habitModel.currentStreak,
+        lastCompletion: habitModel.lastCompletion,
       );
       return message;
     } catch (e) {
