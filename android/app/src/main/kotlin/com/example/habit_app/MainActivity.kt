@@ -40,6 +40,7 @@ class HomeWidgetGlanceAppWidget : GlanceAppWidget(){
 @Composable
 private fun GlanceContent(context: Context, currentState: HomeWidgetGlanceState) {
     val streak = currentState.preferences.getInt("currentState", 0) // デフォルト値は 0
+    val habitTitle = currentState.preferences.getString("habitTitle", "継続") ?: "継続"
 
     Column(
         modifier = GlanceModifier.run {
@@ -52,7 +53,7 @@ private fun GlanceContent(context: Context, currentState: HomeWidgetGlanceState)
     ) {
         // "継続"のテキスト
         Text(
-            text = "継続",
+            text = habitTitle,
             style = TextStyle(
                 color = ColorProvider(Color.Green),  // テキストカラーを緑に設定
                 fontSize = 14.sp                   // フォントサイズ14sp

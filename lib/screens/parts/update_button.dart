@@ -33,7 +33,7 @@ class UpdateButton extends ConsumerWidget {
         habit.currentStreak != 0;
 
     try {
-      // iOSのWidgetデータ保存処理
+      // Widgetデータ保存処理
       Future.wait([
         HomeWidget.saveWidgetData<int>('currentState', habit.currentStreak),
         HomeWidget.saveWidgetData<String>('habitTitle', habit.title),
