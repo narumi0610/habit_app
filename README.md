@@ -29,6 +29,7 @@
   - Firebase Authentication(v5.4.2): ユーザーの認証管理
   - Cloud Functions: サーバーレス環境で退会処理を自動化
 - **Swift v6.0.3**: iOSホームウィジェットのカスタムデザインに使用
+- **Kotlin v2.1.10**: Androidホームウィジェットのカスタムデザインに使用
 - **JavaScript**: Firebase Functionsの実装に使用
 - **Gemini**: gemini-1.5-flash-latestモデル。応援メッセージの生成に使用
 
