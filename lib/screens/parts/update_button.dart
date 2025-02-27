@@ -201,7 +201,7 @@ class RoundedProgressPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    final radius = (size.width - strokeWidth) / 2;
+    final radius = (size.width - strokeWidth * 1.5) / 2;
 
     // 背景の円を描画
     final backgroundPaint = Paint()
