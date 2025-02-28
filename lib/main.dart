@@ -19,7 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // `.env` ファイルの読み込み
-  await dotenv.load();
+  await dotenv.load(fileName: 'assets/.env');
 
   // Firebase を初期化
   await Firebase.initializeApp(
@@ -29,7 +29,7 @@ void main() async {
   //アプリとウィジェット間でデータを共有するためのグループIDを設定
   await HomeWidget.setAppGroupId(GlobalConst.appGroupID);
   runApp(
-    ProviderScope(
+    const ProviderScope(
       child: HabitApp(),
     ),
   );
