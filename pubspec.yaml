@@ -71,7 +71,7 @@ flutter:
 
   assets:
     - images/
-    - assets/.env
+    - .env
 
   fonts:
     - family: NotoSansJP
