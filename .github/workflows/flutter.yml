@@ -1,0 +1,47 @@
+name: Flutter CI
+
+# ワークフローをトリガーするイベントを定義
+on:
+  push:
+    branches:
+      - main  # mainブランチへのpush時に実行
+  pull_request:
+    branches:
+      - main  # mainブランチへのPR作成時に実行
+
+# ワークフロー内のジョブを定義
+jobs:
+  build:
+    # ジョブが実行される仮想環境を指定
+    runs-on: ubuntu-latest
+
+    steps:
+    # リポジトリのコードをチェックアウト
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Flutterのセットアップ
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.27.3'  # 使用するFlutterのバージョン
+
+    # Flutterの依存関係をインストール
+    - name: Install dependencies
+      run: flutter pub get
+
+    # リントチェックを実行
+    - name: Run linter
+      run: flutter analyze
+
+    # テストを実行
+    - name: Run tests
+      run: flutter test
+
+    # Androidのビルド
+    - name: Build APK (Android)
+      run: flutter build apk --release
+
+    # iOSのビルド
+    - name: Build iOS
+      run: flutter build ios --release
