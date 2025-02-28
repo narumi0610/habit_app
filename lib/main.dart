@@ -19,7 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // `.env` ファイルの読み込み
-  await dotenv.load(fileName: 'assets/.env');
+  await dotenv.load();
 
   // Firebase を初期化
   await Firebase.initializeApp(
