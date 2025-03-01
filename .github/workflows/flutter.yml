@@ -36,7 +36,7 @@ jobs:
 
     # リントチェックを実行
     - name: Run linter
-      run: flutter analyze --exclude=.env
+      run: flutter analyze
 
     # テストを実行
     - name: Run tests
