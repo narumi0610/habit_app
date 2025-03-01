@@ -137,6 +137,7 @@ class UpdateButtonState extends ConsumerState<UpdateButton>
     );
 
     return InkWell(
+      key: const Key('update_button'), // テスト用のキーを追加
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       onTap: isUpdatedToday ? null : _onTap,
