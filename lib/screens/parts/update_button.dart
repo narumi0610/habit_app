@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,6 +35,7 @@ class UpdateButtonState extends ConsumerState<UpdateButton>
 
   @override
   void initState() {
+    print('testきたよ');
     super.initState();
 
     //現在の進捗率
@@ -67,7 +71,9 @@ class UpdateButtonState extends ConsumerState<UpdateButton>
   }
 
   Future<void> _onTap() async {
-    await HapticFeedback.heavyImpact();
+    if (!kIsWeb && !Platform.environment.containsKey('FLUTTER_TEST')) {
+      await HapticFeedback.heavyImpact();
+    }
 
     // 習慣データの更新
     await ref.read(

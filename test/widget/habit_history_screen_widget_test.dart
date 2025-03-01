@@ -7,6 +7,8 @@ import 'package:habit_app/models/habit/habit_model.dart';
 import 'package:habit_app/providers/firebase_provider.dart';
 import 'package:habit_app/screens/create_habit_screen.dart';
 import 'package:habit_app/screens/home_screen.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() {
   late MockFirebaseAuth mockFirebaseAuth;
@@ -20,14 +22,23 @@ void main() {
       uid: uid,
     );
 
+    tz.initializeTimeZones(); // タイムゾーンの初期化
+    tz.setLocalLocation(tz.getLocation('Asia/Tokyo'));
+
     // モックのFirebaseAuthとFirestoreのセットアップ
     mockFirebaseAuth = MockFirebaseAuth(mockUser: mockUser, signedIn: true);
     fakeFirestore = FakeFirebaseFirestore();
   });
   testWidgets('habit setting button', (WidgetTester tester) async {
     await tester.pumpWidget(
-      const MaterialApp(
-        home: CreateHabitScreen(),
+      ProviderScope(
+        overrides: [
+          firebaseFirestoreProvider.overrideWithValue(fakeFirestore),
+          firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
+        ],
+        child: const MaterialApp(
+          home: CreateHabitScreen(),
+        ),
       ),
     );
 
@@ -49,7 +60,7 @@ void main() {
       currentStreak: 5,
       completedFlg: 0, // 未完了の習慣
       createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
+      updatedAt: DateTime.now().subtract(const Duration(days: 1)),
       deletedAt: null,
       deleted: 0,
     );
@@ -73,11 +84,15 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    final finder = find.byType(InkWell);
+    final finder = find.byKey(const Key('update_button'));
+
     await tester.tap(finder);
     await tester.pumpAndSettle();
 
     expect(find.byType(HomeScreen), findsOneWidget);
+    await tester.pumpAndSettle();
     expect(find.text('6'), findsOneWidget);
   });
+
+  // テスト用のNavigation Observerを作成
 }
