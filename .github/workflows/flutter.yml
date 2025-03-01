@@ -30,6 +30,10 @@ jobs:
     - name: Install dependencies
       run: flutter pub get
 
+    # リモートリポジトリでGitHub Secretsから.envファイルを動的に作成
+    - name: Create .env
+      run: echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> .env
+
     # リントチェックを実行
     - name: Run linter
       run: flutter analyze --exclude=.env
