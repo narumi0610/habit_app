@@ -35,7 +35,6 @@ class UpdateButtonState extends ConsumerState<UpdateButton>
 
   @override
   void initState() {
-    print('testきたよ');
     super.initState();
 
     //現在の進捗率
