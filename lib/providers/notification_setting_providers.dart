@@ -54,7 +54,6 @@ class NotificationSettingNotifier extends _$NotificationSettingNotifier {
   Future<void> zonedSchedule(TZDateTime time, String habitText) async {
     try {
       await flutterLocalNotificationsPlugin.zonedSchedule(
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         0,
         '今日の目標を達成しよう！',
         habitText,
