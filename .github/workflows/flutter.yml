@@ -57,10 +57,10 @@ jobs:
 
     # ビルドしたapkをgithub Actionsアップロード
     - name: "Deploy apk 🚀"
-    uses: actions/upload-artifact@v1
-    with:
-      name: release-apk  # アーティファクトの名前
-      path: build/app/outputs/flutter-apk/app-release.apk
+      uses: actions/upload-artifact@v1
+      with:
+        name: release-apk  # アーティファクトの名前
+        path: build/app/outputs/flutter-apk/app-release.apk
 
     # iOSのビルド
     - name: Build iOS
