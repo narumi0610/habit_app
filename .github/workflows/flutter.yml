@@ -57,7 +57,7 @@ jobs:
 
     # ビルドしたapkをgithub Actionsアップロード
     - name: "Deploy apk 🚀"
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v3
       with:
         name: release-apk  # アーティファクトの名前
         path: build/app/outputs/flutter-apk/app-release.apk
