@@ -53,7 +53,7 @@ jobs:
         KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         ALIAS: ${{ secrets.ALIAS }}
-        KEY_PATH: android/app/key.jks
+        KEY_PATH: key.jks
 
     # ビルドしたapkをgithub Actionsアップロード
     - name: "Deploy apk 🚀"
