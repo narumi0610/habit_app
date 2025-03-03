@@ -1,9 +1,9 @@
 plugins {
     id 'com.android.application'
-    id "kotlin-android"
-    id "org.jetbrains.kotlin.plugin.compose"
-    id "dev.flutter.flutter-gradle-plugin"
     id "com.google.gms.google-services"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "org.jetbrains.kotlin.plugin.compose"
 }
 
 def localProperties = new Properties()
@@ -33,7 +33,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace 'com.flutter.habit_app'
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34
     ndkVersion "26.1.10909125"
 
     buildFeatures {
@@ -52,7 +52,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = "17"
     }
 
     sourceSets {
@@ -96,6 +96,7 @@ flutter {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation "androidx.glance:glance-appwidget:1.1.0"
