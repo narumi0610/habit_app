@@ -1,6 +1,6 @@
 name: Flutter CI
 
-# ワークフローをトリガーするイベントを定義
+  # ワークフローをトリガーするイベントを定義
 on:
   push:
     branches:
@@ -24,7 +24,7 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.27.3'  # 使用するFlutterのバージョン
+        flutter-version: '3.24.0'  # 使用するFlutterのバージョン
 
     # Flutterの依存関係をインストール
     - name: Install dependencies
@@ -61,7 +61,4 @@ jobs:
       with:
         name: release-apk  # アーティファクトの名前
         path: build/app/outputs/flutter-apk/app-release.apk
-
-    # iOSのビルド
-    - name: Build iOS
-      run: flutter build ios --release
+        retention-days: 7 # 7日間保存
