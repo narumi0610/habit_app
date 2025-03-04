@@ -26,6 +26,10 @@ jobs:
       with:
         flutter-version: '3.24.0'  # 使用するFlutterのバージョン
 
+    # flutter cleanを実行してキャッシュを削除
+    - name: Clean Flutter build
+      run: flutter clean
+
     # Flutterの依存関係をインストール
     - name: Install dependencies
       run: flutter pub get
