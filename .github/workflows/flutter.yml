@@ -1,6 +1,6 @@
 name: Flutter CI
 
-# ワークフローをトリガーするイベントを定義
+  # ワークフローをトリガーするイベントを定義
 on:
   push:
     branches:
@@ -24,11 +24,15 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.27.3'  # 使用するFlutterのバージョン
+        flutter-version: '3.24.0'  # 使用するFlutterのバージョン
 
     # Flutterの依存関係をインストール
     - name: Install dependencies
       run: flutter pub get
+
+    # リモートリポジトリでGitHub Secretsから.envファイルを動的に作成
+    - name: Create .env
+      run: echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> .env
 
     # リントチェックを実行
     - name: Run linter
@@ -38,10 +42,23 @@ jobs:
     - name: Run tests
       run: flutter test
 
-    # Androidのビルド
+    # Androidのkeystoreファイル（key.jks）をSecretsからデコードして配置
+    - name: Decode keystore
+      run: echo "${{ secrets.SIGNING_KEY }}" | base64 -d > android/app/key.jks
+
+    # Androidのビルド（Secretsから署名情報を取得）
     - name: Build APK (Android)
       run: flutter build apk --release
+      env:
+        KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        ALIAS: ${{ secrets.ALIAS }}
+        KEY_PATH: key.jks
 
-    # iOSのビルド
-    - name: Build iOS
-      run: flutter build ios --release
+    # ビルドしたapkをgithub Actionsアップロード
+    - name: "Deploy apk 🚀"
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-apk  # アーティファクトの名前
+        path: build/app/outputs/flutter-apk/app-release.apk
+        retention-days: 7 # 7日間保存
