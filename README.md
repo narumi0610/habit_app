@@ -21,13 +21,28 @@
 <img src="https://github.com/narumi0610/habit_app/blob/main/images/ios_widget.png?raw=true" width="300">
 
 ## 技術スタック
-- **Flutter v3.27.3**: クロスプラットフォームアプリ開発に使用
-- **Firebase**:
-  - Cloud Firestore(v5.6.3): 習慣データの管理
+- プログラミング言語 / 主なライブラリなど
+  - Flutter v3.27.3: クロスプラットフォームアプリ開発に使用
+    - flutter_riverpod: ^2.1.3
+    - freezed: ^2.4.2
+    - home_widget: ^0.7.0
+  - Swift v6.0.3: iOSホームウィジェットのカスタムデザインに使用
+  - Kotlin v2.1.10: Androidホームウィジェットのカスタムデザインに使用
+  - JavaScript: Firebase Functionsの実装に使用
+- 認証管理
   - Firebase Authentication(v5.4.2): ユーザーの認証管理
+- サーバーレス
   - Cloud Functions: サーバーレス環境で退会処理を自動化
-- **Swift v6.0.3**: iOSホームウィジェットのカスタムデザインに使用
-- **JavaScript**: Firebase Functionsの実装に使用
+- DB
+  - Cloud Firestore(v5.6.3): 習慣データの管理
+- API
+  - Gemini API: gemini-1.5-flash-latestモデル。応援メッセージの生成に使用
+- CI/CD
+  - GitHub Actions: テスト、リントチェック、APKアーティファクトのアップロード
+- エディタなど
+  - Notion: 習慣データの管理
+  - ChatGPT: サポート
+  - Cursor,VSCode: エディタ
 
 ## アーキテクチャ
 
@@ -54,4 +69,4 @@ ViewModel層は、ViewとModelの間を仲介し、UIに表示するためのデ
   - `providers/habit_providers.dart`: 習慣に関する状態管理
 
 ## 状態管理
-このアプリではRiverpodv2を使用して状態管理を行っています。
+このアプリではRiverpod v2を使用して状態管理を行っています。
