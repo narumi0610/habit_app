@@ -22,6 +22,10 @@
 <img src="https://github.com/narumi0610/habit_app/blob/main/images/ios_home_screen.png?raw=true" width="300">
 <img src="https://github.com/narumi0610/habit_app/blob/main/images/ios_widget.png?raw=true" width="300">
 
+
+https://github.com/user-attachments/assets/caf8c161-0eb9-46ae-989b-2ad7db23b792
+
+
 ## 技術スタック
 - プログラミング言語 / 主なライブラリなど
   - Flutter v3.27.3: クロスプラットフォームアプリ開発に使用
