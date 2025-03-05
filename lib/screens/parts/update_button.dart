@@ -135,8 +135,6 @@ class UpdateButtonState extends ConsumerState<UpdateButton>
         iOSName: 'habit_app',
         androidName: 'HomeWidgetGlanceReceiver',
       );
-
-      print('ウィジェット更新完了: $updatedStreak');
     } catch (e) {
       Logger().e('HomeWidget更新エラー: $e');
     }
@@ -160,8 +158,6 @@ class UpdateButtonState extends ConsumerState<UpdateButton>
 
     // isUpdatedToday を更新
     ref.invalidate(isUpdatedTodayProvider);
-
-    print('更新完了');
   }
 
   @override
