@@ -44,7 +44,7 @@ dependencies:
   workmanager: ^0.5.2
   
 flutter_native_splash:
-  image: images/habister_icon.png
+  image: images/habister_splash_icon.png
   color: "FFFFFF"
 
 dependency_overrides:
