@@ -11,6 +11,7 @@ import 'package:habit_app/providers/notification_setting_providers.dart';
 import 'package:habit_app/providers/update_status_provider.dart';
 import 'package:habit_app/utils/app_color.dart';
 import 'package:habit_app/utils/global_const.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:logger/logger.dart';
 
 class UpdateButton extends ConsumerStatefulWidget {
@@ -36,6 +37,24 @@ class UpdateButtonState extends ConsumerState<UpdateButton>
   @override
   void initState() {
     super.initState();
+
+    try {
+      // Widgetデータ保存処理
+      Future.wait([
+        HomeWidget.saveWidgetData<int>(
+          'currentState',
+          widget.habit.currentStreak,
+        ),
+        HomeWidget.saveWidgetData<String>('habitTitle', widget.habit.title),
+      ]);
+
+      HomeWidget.updateWidget(
+        iOSName: 'habit_app',
+        androidName: 'HomeWidgetGlanceReceiver',
+      );
+    } on PlatformException catch (exception) {
+      Logger().e(exception);
+    }
 
     //現在の進捗率
     final progressPercentage =
@@ -102,6 +121,22 @@ class UpdateButtonState extends ConsumerState<UpdateButton>
       ref.read(motivationMessageStateProvider.notifier).state = message;
     } catch (e) {
       Logger().e('Error getting motivation message: $e');
+    }
+    try {
+      // 更新後の値を取得
+      final updatedStreak = widget.habit.currentStreak;
+
+      // データ保存
+      await HomeWidget.saveWidgetData<int>('currentState', updatedStreak);
+      await HomeWidget.saveWidgetData<String>('habitTitle', widget.habit.title);
+
+      // ウィジェットの更新
+      await HomeWidget.updateWidget(
+        iOSName: 'habit_app',
+        androidName: 'HomeWidgetGlanceReceiver',
+      );
+    } catch (e) {
+      Logger().e('HomeWidget更新エラー: $e');
     }
 
     // 進捗アニメーション開始
