@@ -8,10 +8,11 @@
 ## 主な機能
 - 毎日1回のタップで目標を達成（1日1回のみ）
 - AIが応援:その日の目標が達成されたらAIから応援メッセージが送られる
+- 指定した時間で通知がくる
 - iPhoneやAndroidのウィジェットから継続日数を確認
 - 30回のタップで目標を達成、進捗が視覚化される
 - 達成した目標の履歴を確認
-- 指定した時間で通知がくるから忘れない
+
 
 ## スクリーンショット
 ### Android
@@ -21,6 +22,7 @@
 ### iOS
 <img src="https://github.com/narumi0610/habit_app/blob/main/images/ios_home_screen.png?raw=true" width="300">
 <img src="https://github.com/narumi0610/habit_app/blob/main/images/ios_widget.png?raw=true" width="300">
+<img width="314" alt="スクリーンショット 2025-03-05 15 31 39" src="https://github.com/user-attachments/assets/da67a7d0-993d-4d29-bd8b-197a06f7cc01" />
 
 
 https://github.com/user-attachments/assets/caf8c161-0eb9-46ae-989b-2ad7db23b792
