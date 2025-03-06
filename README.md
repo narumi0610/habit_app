@@ -32,6 +32,8 @@ https://github.com/user-attachments/assets/caf8c161-0eb9-46ae-989b-2ad7db23b792
 - プログラミング言語 / 主なライブラリなど
   - Flutter v3.27.3: クロスプラットフォームアプリ開発に使用
     - flutter_riverpod: ^2.1.3
+    - riverpod_annotation: ^2.5.3
+    - riverpod_generator: ^2.4.0
     - freezed: ^2.4.2
     - home_widget: ^0.7.0
     - flutter_local_notifications: ^17.2.4

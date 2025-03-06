@@ -1,24 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/services/gemini_service.dart';
-import 'package:habit_app/utils/global_const.dart';
+import '../services/gemini_service.dart';
+import '../utils/global_const.dart';
 
-// AIコメントの状態を管理
+/// AIコメントの状態を管理するプロバイダー
+/// デフォルトメッセージから開始し、新しいメッセージが生成されると更新される
 final motivationMessageStateProvider =
     StateProvider<String>((ref) => GlobalConst.defaultMotivationMessage);
 
-final motivationMessageProvider = FutureProvider.autoDispose.family<String,
+/// AIコメントを取得するプロバイダー
+/// GeminiServiceを使用して新しいメッセージを生成する
+final motivationMessageProvider = FutureProvider.family<String,
     ({String habitTitle, int currentStreak, String lastCompletion})>(
-  (ref, habitModel) async {
-    final geminiService = ref.watch(geminiServiceProvider);
-    try {
-      final message = await geminiService.generateHabitMotivation(
-        habitName: habitModel.habitTitle,
-        currentStreak: habitModel.currentStreak,
-        lastCompletion: habitModel.lastCompletion,
-      );
-      return message;
-    } catch (e) {
-      return GlobalConst.defaultMotivationMessage;
-    }
+  (ref, params) async {
+    return ref.watch(
+      geminiServiceProvider(
+        habitName: params.habitTitle,
+        currentStreak: params.currentStreak,
+        lastCompletion: params.lastCompletion,
+      ).future,
+    );
   },
 );
