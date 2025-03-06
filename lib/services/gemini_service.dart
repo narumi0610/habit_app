@@ -1,39 +1,28 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:habit_app/utils/global_const.dart';
-import '../providers/gemini_provider.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../repositories/gemini_repository.dart';
 import '../utils/prompts/habit_support_prompts.dart';
 
-class GeminiService {
-  GeminiService(this._gemini);
-  final GenerativeModel _gemini;
+part 'gemini_service.g.dart';
 
-  // 習慣の応援コメントを生成
-  Future<String> generateHabitMotivation({
+/// Gemini APIを使用して習慣に関する応援メッセージを生成する
+/// ビジネスロジックを実装し、リポジトリを使用してデータを取得する
+@riverpod
+class GeminiService extends _$GeminiService {
+  @override
+  Future<String> build({
     required String habitName,
     required int currentStreak,
     String? lastCompletion,
   }) async {
+    // プロンプトの生成
     final prompt = HabitSupportPrompts.generateDailyMotivation(
       habitName: habitName,
-      currentStreak: currentStreak + 1,
+      currentStreak: currentStreak,
       lastCompletion: lastCompletion,
     );
 
-    try {
-      final content = [Content.text(prompt)];
-      final response = await _gemini.generateContent(content);
-
-      return response.text ?? GlobalConst.defaultMotivationMessage;
-    } catch (e) {
-      return GlobalConst.defaultMotivationMessage;
-    }
+    // リポジトリを通じてAPIと通信
+    final repository = ref.watch(geminiRepositoryProvider.notifier);
+    return repository.generateMotivationMessage(prompt);
   }
 }
-
-// Providerの定義
-final geminiServiceProvider = Provider<GeminiService>((ref) {
-  final gemini = ref.watch(geminiProvider);
-
-  return GeminiService(gemini);
-});
