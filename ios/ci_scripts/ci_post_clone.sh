@@ -30,7 +30,7 @@ brew install cocoapods
 cd ios && pod install
 
 # dart-defineを使用してAPIキーを渡す
-flutter build ios --release --dart-define=GEMINI_API_KEY=${GEMINI_API_KEY}
+flutter build ios --config-only --dart-define=GEMINI_API_KEY=${GEMINI_API_KEY}
 
 
 exit 0
