@@ -29,6 +29,9 @@ brew install cocoapods
 # CocoaPodsの依存関係をインストール
 cd ios && pod install
 
+# 環境変数 GEMINI_API_KEY を .env ファイルに書き出す
+echo "GEMINI_API_KEY=${GEMINI_API_KEY}" > .env
+
 # dart-defineを使用してAPIキーを渡す
 flutter build ios --config-only --dart-define=GEMINI_API_KEY=${GEMINI_API_KEY}
 
