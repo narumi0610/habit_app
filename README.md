@@ -51,7 +51,7 @@ https://github.com/user-attachments/assets/caf8c161-0eb9-46ae-989b-2ad7db23b792
 - CI/CD
   - GitHub Actions: テスト、リントチェック、APKアーティファクトのアップロード
 - エディタなど
-  - Notion: 習慣データの管理
+  - Notion: タスクの管理
   - ChatGPT: サポート
   - Cursor,VSCode: エディタ
 
