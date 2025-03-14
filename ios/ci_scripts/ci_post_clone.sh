@@ -20,12 +20,8 @@ flutter --version
 flutter precache --ios
 
 # .env ファイルを作成
-if [ ! -f .env ]; then
-  echo "GEMINI_API_KEY=${GEMINI_API_KEY}" > .env
-  echo ".env ファイルを作成しました。"
-else
-  echo ".env ファイルは既に存在します。"
-fi
+echo "GEMINI_API_KEY=${GEMINI_API_KEY}" > .env
+echo ".env ファイルを作成しました。"
 
 # Flutterの依存関係をインストール
 flutter pub get
@@ -37,19 +33,7 @@ brew install cocoapods
 # CocoaPodsの依存関係をインストール
 cd ios && pod install
 
-# リポジトリのルートに戻る
-cd $CI_PRIMARY_REPOSITORY_PATH
-
-# ディレクトリの内容を表示
-echo "ディレクトリの内容を表示"
-ls -la
-
-# pubspec.yamlの内容を表示
-echo "pubspec.yamlの内容を表示"
-cat pubspec.yaml
-
-echo "ビルド開始"
-# dart-defineを使用してAPIキーを渡す
+# ビルド実行
 flutter build ios --release --no-codesign
 
 exit 0
