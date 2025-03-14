@@ -37,6 +37,9 @@ brew install cocoapods
 # CocoaPodsの依存関係をインストール
 cd ios && pod install
 
+# リポジトリのルートに戻る
+cd $CI_PRIMARY_REPOSITORY_PATH
+
 # ディレクトリの内容を表示
 echo "ディレクトリの内容を表示"
 ls -la
@@ -45,8 +48,8 @@ ls -la
 echo "pubspec.yamlの内容を表示"
 cat pubspec.yaml
 
+echo "ビルド開始"
 # dart-defineを使用してAPIキーを渡す
-flutter build ios --release --dart-define=GEMINI_API_KEY=${GEMINI_API_KEY} --no-codesign
-
+flutter build ios --release --no-codesign
 
 exit 0
