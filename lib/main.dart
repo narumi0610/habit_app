@@ -10,7 +10,8 @@ import 'package:habit_app/utils/theme.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'firebase_options.dart';
+import 'firebase_options_production.dart' as prod;
+import 'firebase_options_staging.dart' as staging;
 
 void main() async {
   tz.initializeTimeZones(); // タイムゾーンの初期化
@@ -18,16 +19,24 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  // `.env` ファイルの読み込み
-  await dotenv.load();
+  // 環境（開発・本番）を判定
+  const isProduction = bool.fromEnvironment('PRODUCTION');
 
-  // Firebase を初期化
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Future.wait([
+    // `.env` ファイルの読み込み
+    dotenv.load(),
 
-  //アプリとウィジェット間でデータを共有するためのグループIDを設定
-  await HomeWidget.setAppGroupId(GlobalConst.appGroupID);
+    // Firebase を初期化（開発用 / 本番用の設定を適用）
+    Firebase.initializeApp(
+      options: isProduction
+          ? prod.DefaultFirebaseOptions.currentPlatform // 本番用
+          : staging.DefaultFirebaseOptions.currentPlatform, // 開発用
+    ),
+
+    //アプリとウィジェット間でデータを共有するためのグループIDを設定
+    HomeWidget.setAppGroupId(GlobalConst.appGroupID),
+  ]);
+
   runApp(
     const ProviderScope(
       child: HabitApp(),

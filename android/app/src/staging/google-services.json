@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1096135969859",
+    "project_id": "habister-dev",
+    "storage_bucket": "habister-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1096135969859:android:c6f88b4b8590ecde2ed8f6",
+        "android_client_info": {
+          "package_name": "com.flutter.habit_app.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGwdtv_YjmeYtIgpkFJA14uSNGMOu3dXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

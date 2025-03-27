@@ -61,7 +61,7 @@ jobs:
 
     # Androidのビルド（Secretsから署名情報を取得）
     - name: Build APK (Android)
-      run: flutter build apk --release
+      run: flutter build apk --flavor production --dart-define=PRODUCTION=true --release
       env:
         KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}

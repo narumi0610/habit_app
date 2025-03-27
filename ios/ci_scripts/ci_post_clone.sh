@@ -34,6 +34,6 @@ brew install cocoapods
 cd ios && pod install
 
 # ビルド実行
-flutter build ios --release --no-codesign
+flutter build ios --dart-define=PRODUCTION=true --release --no-codesign
 
 exit 0
