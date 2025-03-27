@@ -60,5 +60,8 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>GoogleService-Info</key>
+	<string>GoogleService-Info-$(CONFIGURATION).plist</string>
+
 </dict>
 </plist>

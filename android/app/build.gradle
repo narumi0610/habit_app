@@ -94,6 +94,17 @@ android {
         baseline file("lint-baseline.xml")
         abortOnError false
     }
+
+        flavorDimensions "default"
+
+    productFlavors {
+        staging {
+            applicationId "com.flutter.habit_app.dev"
+        }
+        production {
+            applicationId "com.flutter.habit_app"
+        }
+    }
 }
 
 flutter {

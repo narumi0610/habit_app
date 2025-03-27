@@ -1,14 +1,1 @@
-{
-  "functions": [
-    {
-      "source": "functions",
-      "codebase": "default",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log"
-      ]
-    }
-  ]
-}
+{"functions":[{"source":"functions","codebase":"default","ignore":["node_modules",".git","firebase-debug.log","firebase-debug.*.log"]}],"flutter":{"platforms":{"android":{"default":{"projectId":"habister-dev","appId":"1:1096135969859:android:3fb6e65b6baeb20e2ed8f6","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"habister-dev","appId":"1:1096135969859:ios:30575b22fb67ff3b2ed8f6","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"habister-dev","configurations":{"android":"1:1096135969859:android:3fb6e65b6baeb20e2ed8f6","ios":"1:1096135969859:ios:30575b22fb67ff3b2ed8f6","web":"1:1096135969859:web:fcb550c220af01dc2ed8f6"}}}}}}
