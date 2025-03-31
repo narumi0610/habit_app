@@ -91,8 +91,10 @@ bin/export_options
 .fvm/flutter_sdk
 
 # Firebase related
-android/app/google-services.json
-ios/Runner/GoogleService-Info.plist
+android/app/production/google-services.json
+android/app/staging/google-services.json
+ios/Runner/GoogleService-Info-production.plist
+ios/Runner/GoogleService-Info-staging.plist
 
 *.p12
 *.mobileprovision
