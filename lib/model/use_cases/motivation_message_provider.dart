@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../services/gemini_service.dart';
-import '../utils/global_const.dart';
+import '../../utils/global_const.dart';
 
 /// AIコメントの状態を管理するプロバイダー
 /// デフォルトメッセージから開始し、新しいメッセージが生成されると更新される

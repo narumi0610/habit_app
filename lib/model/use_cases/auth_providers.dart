@@ -1,4 +1,4 @@
-import 'package:habit_app/repositories/auth_repository.dart';
+import 'package:habit_app/model/repositories/auth_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_providers.g.dart';

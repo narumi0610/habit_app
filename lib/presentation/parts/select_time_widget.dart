@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/screens/create_habit_screen.dart';
+import 'package:habit_app/presentation/screens/create_habit_screen.dart';
 
 class SelectTimeWidget extends ConsumerWidget {
   const SelectTimeWidget({super.key});

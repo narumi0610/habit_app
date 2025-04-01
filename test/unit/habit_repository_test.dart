@@ -2,9 +2,9 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:habit_app/models/habit/habit_model.dart';
-import 'package:habit_app/providers/firebase_provider.dart';
-import 'package:habit_app/repositories/habit_repository.dart';
+import 'package:habit_app/model/entities/habit/habit_model.dart';
+import 'package:habit_app/model/use_cases/firebase_provider.dart';
+import 'package:habit_app/model/repositories/habit_repository.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 

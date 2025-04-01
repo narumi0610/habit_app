@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habit_app/models/habit/habit_model.dart';
+import 'package:habit_app/model/entities/habit/habit_model.dart';
 import 'package:habit_app/utils/format.dart';
 
 class GoalItem extends StatelessWidget {

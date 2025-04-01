@@ -1,11 +1,11 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/providers/habit_providers.dart';
-import 'package:habit_app/screens/parts/custom_button.dart';
-import 'package:habit_app/screens/parts/motivation_message.dart';
-import 'package:habit_app/screens/parts/set_goal_button.dart';
-import 'package:habit_app/screens/parts/update_button.dart';
+import 'package:habit_app/model/use_cases/habit_providers.dart';
+import 'package:habit_app/presentation/parts/custom_button.dart';
+import 'package:habit_app/presentation/parts/motivation_message.dart';
+import 'package:habit_app/presentation/parts/set_goal_button.dart';
+import 'package:habit_app/presentation/parts/update_button.dart';
 import 'package:habit_app/utils/global_const.dart';
 import 'package:habit_app/utils/image_paths.dart';
 

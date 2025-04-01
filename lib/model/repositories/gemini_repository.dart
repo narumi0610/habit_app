@@ -1,7 +1,7 @@
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../providers/gemini_provider.dart';
-import '../utils/global_const.dart';
+import '../use_cases/gemini_provider.dart';
+import '../../utils/global_const.dart';
 
 part 'gemini_repository.g.dart';
 
