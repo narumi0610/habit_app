@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../utils/prompts/habit_support_prompts.dart';
 import '../repositories/gemini_repository.dart';
-import '../utils/prompts/habit_support_prompts.dart';
 
 part 'gemini_service.g.dart';
 

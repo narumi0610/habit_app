@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/models/habit/habit_model.dart';
-import 'package:habit_app/providers/firebase_provider.dart';
+import 'package:habit_app/model/entities/habit/habit_model.dart';
+import 'package:habit_app/model/use_cases/firebase_provider.dart';
 import 'package:logger/logger.dart';
 
 final habitRepositoryProvider = Provider<HabitRepository>(

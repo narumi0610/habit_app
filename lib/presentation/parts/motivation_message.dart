@@ -1,8 +1,8 @@
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/providers/motivation_message_provider.dart';
-import 'package:habit_app/providers/update_status_provider.dart';
+import 'package:habit_app/model/use_cases/motivation_message_provider.dart';
+import 'package:habit_app/model/use_cases/update_status_provider.dart';
 import 'package:habit_app/utils/app_color.dart';
 
 class MotivationMessage extends ConsumerWidget {
