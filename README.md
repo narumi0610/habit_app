@@ -55,15 +55,35 @@ https://github.com/user-attachments/assets/caf8c161-0eb9-46ae-989b-2ad7db23b792
   - ChatGPT: サポート
   - Cursor,VSCode: エディタ
 
-## 環境変数の設定について
+## 開発環境のセットアップ
 
+### Flutterバージョン管理（FVM）
+
+このプロジェクトでは、Flutter SDKのバージョンを統一するために [FVM (Flutter Version Management)](https://fvm.app/) を使用しています。
+使用バージョンは `.fvmrc` に定義されています
+
+### セットアップ手順
+```
+# FVM未導入の場合（Homebrewでインストール）
+brew install fvm
+
+# 指定されたFlutterバージョンをインストール
+fvm install --setup
+```
+
+#### 環境変数の設定
 本プロジェクトでは、APIキーなどの機密情報を `.env` ファイルで管理しています。  
 セキュリティ上の理由から `.env` はGitリポジトリには含めておらず、代わりに `.env.sample` を同梱しています。
-
-### 手順：
+そのため以下の手順で `.env` ファイルを作成してからビルドを行ってください。
 
 1. リポジトリ内の `.env.sample` をコピーして `.env` ファイルを作成します。
 2. GEMINI_API_KEY を [Gemini API](https://aistudio.google.com/app/apikey) から取得し、.env に記述してください。
+
+```
+# FVM経由でFlutterコマンドを実行
+fvm flutter pub get
+fvm flutter run
+```
 
 ## CI/CD
 

@@ -87,9 +87,6 @@ bin/profiles
 bin/certificates
 bin/export_options
 
-# fvm related
-.fvm/flutter_sdk
-
 # Firebase related
 android/app/production/google-services.json
 android/app/staging/google-services.json
@@ -102,3 +99,10 @@ ios/Runner/GoogleService-Info-staging.plist
 # Android/Gradle
 /build/
 /android/build/
+
+# FVM Version Cache
+.fvm/
+!.fvm/fvm_config.json
+
+# VSCode
+.vscode/settings.json   # 個人設定なので除外
