@@ -8,7 +8,10 @@ part of 'gemini_provider.dart';
 
 String _$geminiHash() => r'c22423655d0d01bdb6e48cc8c2c846a04716e69b';
 
-/// See also [gemini].
+/// Gemini APIのクライアントを提供するプロバイダー
+/// 環境変数からAPIキーを取得し、GenerativeModelを返す
+///
+/// Copied from [gemini].
 @ProviderFor(gemini)
 final geminiProvider = AutoDisposeProvider<GenerativeModel>.internal(
   gemini,

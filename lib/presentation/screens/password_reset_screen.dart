@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/providers/auth_providers.dart';
-import 'package:habit_app/screens/parts/custom_button.dart';
-import 'package:habit_app/screens/parts/custom_text_field.dart';
-import 'package:habit_app/screens/parts/error_dialog.dart';
+import 'package:habit_app/model/use_cases/auth_providers.dart';
+import 'package:habit_app/presentation/widgets/custom_button.dart';
+import 'package:habit_app/presentation/widgets/custom_text_field.dart';
+import 'package:habit_app/presentation/widgets/error_dialog.dart';
 import 'package:habit_app/utils/validator.dart';
 
 class PasswordResetScreen extends ConsumerStatefulWidget {

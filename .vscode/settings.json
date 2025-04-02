@@ -1,6 +1,7 @@
 {
-    "files.watcherExclude": {
-        "**/target": true
-    },
-    "java.configuration.updateBuildConfiguration": "automatic"
+  "files.watcherExclude": {
+    "**/target": true
+  },
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "dart.flutterSdkPath": ".fvm/versions/3.27.0"
 }

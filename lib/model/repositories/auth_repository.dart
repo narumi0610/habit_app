@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/providers/firebase_provider.dart';
+import 'package:habit_app/model/use_cases/firebase_provider.dart';
 import 'package:habit_app/utils/firebase_auth_error.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';

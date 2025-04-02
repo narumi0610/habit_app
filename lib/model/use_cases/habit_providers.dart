@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/models/habit/habit_model.dart';
-import 'package:habit_app/repositories/habit_repository.dart';
+import 'package:habit_app/model/entities/habit/habit_model.dart';
+import 'package:habit_app/model/repositories/habit_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'habit_providers.g.dart';

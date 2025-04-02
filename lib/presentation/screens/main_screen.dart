@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/providers/notification_setting_providers.dart';
-import 'package:habit_app/screens/habit_history_screen.dart';
-import 'package:habit_app/screens/home_screen.dart';
-import 'package:habit_app/screens/setting_screen.dart';
+import 'package:habit_app/model/use_cases/notification_setting_providers.dart';
+import 'package:habit_app/presentation/screens/habit_history_screen.dart';
+import 'package:habit_app/presentation/screens/home_screen.dart';
+import 'package:habit_app/presentation/screens/setting_screen.dart';
 
 // selectedIndexの状態を管理するProvider
 final selectedIndexProvider = StateProvider<int>((ref) => 0);
