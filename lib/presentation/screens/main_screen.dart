@@ -50,25 +50,35 @@ class MainScreenState extends ConsumerState<MainScreen> {
             }
           },
         ),
-        bottomNavigationBar: NavigationBar(
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.home),
-              label: 'ホーム',
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: Colors.grey.shade200,
+                width: 0.6,
+              ),
             ),
-            NavigationDestination(
-              icon: Icon(Icons.history),
-              label: '履歴',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.settings),
-              label: '設定',
-            ),
-          ],
-          selectedIndex: selectedIndex,
-          onDestinationSelected: (index) {
-            ref.read(selectedIndexProvider.notifier).state = index;
-          },
+          ),
+          child: NavigationBar(
+            destinations: const [
+              NavigationDestination(
+                icon: Icon(Icons.home),
+                label: 'ホーム',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.history),
+                label: '履歴',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.settings),
+                label: '設定',
+              ),
+            ],
+            selectedIndex: selectedIndex,
+            onDestinationSelected: (index) {
+              ref.read(selectedIndexProvider.notifier).state = index;
+            },
+          ),
         ),
       ),
     );
