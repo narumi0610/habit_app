@@ -60,7 +60,6 @@ https://github.com/user-attachments/assets/caf8c161-0eb9-46ae-989b-2ad7db23b792
 ### Flutterバージョン管理（FVM）
 
 このプロジェクトでは、Flutter SDKのバージョンを統一するために [FVM (Flutter Version Management)](https://fvm.app/) を使用しています。
-使用バージョンは `.fvmrc` に定義されています
 
 ### セットアップ手順
 ```
