@@ -93,12 +93,11 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                                   password: passwordController.text,
                                 );
 
+                            if (!context.mounted) return;
+
                             if (result != null) {
-                              if (!context.mounted) return;
                               showErrorDialog(context, result);
                             } else {
-                              if (!context.mounted) return;
-
                               await Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute<MainScreen>(
