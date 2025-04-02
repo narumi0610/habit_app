@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/model/use_cases/habit_providers.dart';
 import 'package:habit_app/model/use_cases/notification_setting_providers.dart';
-import 'package:habit_app/presentation/parts/select_time_widget.dart';
 import 'package:habit_app/presentation/screens/main_screen.dart';
+import 'package:habit_app/presentation/widgets/select_time_widget.dart';
 import 'package:habit_app/utils/rounded_button.dart';
 import 'package:logger/logger.dart';
 

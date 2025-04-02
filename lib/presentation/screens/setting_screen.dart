@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/model/use_cases/auth_providers.dart';
 import 'package:habit_app/model/use_cases/notification_setting_providers.dart';
-import 'package:habit_app/presentation/parts/custom_button.dart';
-import 'package:habit_app/presentation/parts/error_dialog.dart';
 import 'package:habit_app/presentation/screens/login_screen.dart';
 import 'package:habit_app/presentation/screens/webview_screen.dart';
+import 'package:habit_app/presentation/widgets/custom_button.dart';
+import 'package:habit_app/presentation/widgets/error_dialog.dart';
 import 'package:habit_app/utils/global_const.dart';
 
 class SettingScreen extends ConsumerStatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:habit_app/presentation/parts/custom_button.dart';
 import 'package:habit_app/presentation/screens/login_screen.dart';
+import 'package:habit_app/presentation/widgets/custom_button.dart';
 
 class PasswordResetCompleteScreen extends StatelessWidget {
   const PasswordResetCompleteScreen({super.key});
