@@ -21,15 +21,16 @@ class GoalHistoryScreen extends ConsumerWidget {
           return ListView.builder(
             itemCount: habitHistory.length,
             itemBuilder: (context, index) {
-              if (habitHistory.isEmpty || habitHistory[0] == null) {
-                return const Column(
-                  children: [
-                    Text('履歴がありません'),
-                  ],
+              if (habitHistory.isEmpty) {
+                return const Center(
+                  child: Text('履歴がありません'),
                 );
-              } else {
-                return GoalItem(habit: habitHistory[index]!);
               }
+              final habit = habitHistory[index];
+              if (habit == null) {
+                return const SizedBox.shrink();
+              }
+              return GoalItem(habit: habit);
             },
           );
         },
