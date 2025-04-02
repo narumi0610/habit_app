@@ -29,7 +29,7 @@ https://github.com/user-attachments/assets/caf8c161-0eb9-46ae-989b-2ad7db23b792
 
 
 ## 技術スタック
-- プログラミング言語 / 主なライブラリなど
+- **プログラミング言語 / 主なライブラリなど**
   - Flutter v3.27.3: クロスプラットフォームアプリ開発に使用
     - flutter_riverpod: ^2.1.3
     - riverpod_annotation: ^2.5.3
@@ -40,44 +40,91 @@ https://github.com/user-attachments/assets/caf8c161-0eb9-46ae-989b-2ad7db23b792
   - Swift v6.0.3: iOSホームウィジェットのカスタムデザインに使用
   - Kotlin v2.1.10: Androidホームウィジェットのカスタムデザインに使用
   - JavaScript: Firebase Functionsの実装に使用
-- 認証管理
+- **静的解析（Linter）**
+  - very_good_analysis: ^7.0.0 を導入し、コーディングルールを統一
+- **認証管理**
   - Firebase Authentication(v5.4.2): ユーザーの認証管理
-- サーバーレス
+- **サーバーレス**
   - Cloud Functions: サーバーレス環境で退会処理を自動化
-- DB
+- **DB**
   - Cloud Firestore(v5.6.3): 習慣データの管理
-- API
+- **API**
   - Gemini API: gemini-1.5-flash-latestモデル。応援メッセージの生成に使用
-- CI/CD
-  - GitHub Actions: テスト、リントチェック、APKアーティファクトのアップロード
-- エディタなど
+- **エディタなど**
   - Notion: タスクの管理
   - ChatGPT: サポート
   - Cursor,VSCode: エディタ
 
-## アーキテクチャ
+## 環境変数の設定について
 
-このアプリはMVVMアーキテクチャに基づいて構築されています。
+本プロジェクトでは、APIキーなどの機密情報を `.env` ファイルで管理しています。  
+セキュリティ上の理由から `.env` はGitリポジトリには含めておらず、代わりに `.env.sample` を同梱しています。
 
-### Model
-Model層は、データやビジネスロジックを管理します。データベースやAPIからデータを取得し、必要な処理を行います。
+### 手順：
 
-- ディレクトリ: `models`, `repositories`
-  - `models/habit/habit_model.dart`: 習慣データを表すモデル
-  - `repositories/habit_repository.dart`: 習慣データの操作を行うリポジトリ
+1. リポジトリ内の `.env.sample` をコピーして `.env` ファイルを作成します。
+2. GEMINI_API_KEY を [Gemini API](https://aistudio.google.com/app/apikey) から取得し、.env に記述してください。
 
-### View
-View層は、UIを担当します。画面レイアウトやUIのイベントを処理し、ViewModel層からのデータを表示します。
+## CI/CD
 
-- ディレクトリ: `screens`
-  - `screens/home_screen.dart`: ホーム画面のUI
+ハビスターでは、以下のCI/CDパイプラインを導入しており、リリース作業を自動化・効率化しています。
 
-### ViewModel
-ViewModel層は、ViewとModelの間を仲介し、UIに表示するためのデータを処理します。状態管理やビジネスロジックを担当し、UIを更新する際に使用されます。
+### GitHub Actions（Android向け CI）
+テスト・ビルド・APK配布を自動化しています。
 
-- ディレクトリ: `providers`
-  - `providers/auth_providers.dart`: 認証に関する状態管理
-  - `providers/habit_providers.dart`: 習慣に関する状態管理
+- `main` ブランチへの push / PR 時に以下を自動実行：
+  - Flutterのセットアップ（FVM対応）
+  - `.env` ファイルの生成（APIキーを注入）
+  - コードのリントチェックとテスト実行
+  - Androidアプリ（APK）のビルド
+  - ビルド成果物（APK）をアーティファクトとして保存（7日間）
+
+### Xcode Cloud（iOS向け CD）
+iOSビルドからTestFlight配信までを自動化しています。
+
+- `main` ブランチへの push をトリガーに以下を自動実行：
+  - Flutter環境のセットアップ（FVMでバージョン指定）
+  - `.env` 生成と依存関係のインストール（Flutter / CocoaPods）
+  - iOSアプリのリリースビルド
+  - TestFlightへの自動アップロード
+
+## アーキテクチャ：軽量DDD
+
+このアプリは、**Presentation → Domain → Infrastructure** の3層構成による**軽量DDDアーキテクチャ**を採用しています。
+
+### Presentation層（lib/presentation）
+
+UIの実装をしています
+
+- `screens/`: 画面の実装
+- `widgets/`: 共通で使用するウィジェット
+
+### Domain層（lib/model）
+
+アプリが扱うビジネスロジックとデータ構造を定義
+
+- `entities/`: 不変データ構造
+- `use_cases/`: ビジネスロジック、状態管理
+
+### Infrastructure層（lib/model）
+
+外部サービスとのやりとり（DB/APIなど）
+
+- `repositories/`: 外部サービス（Firestore、Gemini APIなど）とのやりとりを担当
+
+## テスト
+
+本アプリでは、以下の方針で自動テストを実施しています。
+
+### テストの種類
+- ユニットテスト（`test/unit/`）
+  - リポジトリの振る舞いを確認するテスト
+- ウィジェットテスト（`test/widget/`）
+  - 画面表示やユーザー操作に対する挙動を検証
 
 ## 状態管理
 このアプリではRiverpod v2を使用して状態管理を行っています。
+
+## 参考文献
+### 設計
+- https://peppermint-sunset-fc2.notion.site/Never-0ee09657e5744cc8bb3c99cf9cdb2cff
