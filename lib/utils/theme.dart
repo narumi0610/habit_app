@@ -87,7 +87,7 @@ class AppTheme {
       elevation: 0,
       centerTitle: true,
       titleTextStyle: TextStyle(color: AppColor.primary, fontSize: 20),
-      iconTheme: IconThemeData(color: Colors.white),
+      iconTheme: IconThemeData(color: AppColor.primary),
     ),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: AppColor.white,
