@@ -109,7 +109,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
 
             final title = Text(
               habit.title,
-              style: const TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 22),
             );
 
             final updateButton = UpdateButton(habit: habit, width: width);
