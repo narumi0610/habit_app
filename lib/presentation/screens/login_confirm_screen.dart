@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/model/use_cases/auth_providers.dart';
+import 'package:habit_app/model/use_cases/form_validator.dart';
 import 'package:habit_app/presentation/screens/main_screen.dart';
 import 'package:habit_app/presentation/widgets/custom_button.dart';
 import 'package:habit_app/presentation/widgets/custom_text_field.dart';
@@ -77,26 +78,29 @@ class LoginConfirmScreenState extends ConsumerState<LoginConfirmScreen> {
                       isDisabled: asyncAuth is AsyncLoading,
                       loading: asyncAuth is AsyncLoading,
                       onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          final result = await ref
-                              .read(authNotifierProvider.notifier)
-                              .signInWithEmailLink(
-                                email: widget.email,
-                                emailLink: emailLinkController.text,
-                              );
+                        // フォームのバリデーション
+                        if (!FormValidator.validateForm(context, formKey)) {
+                          return;
+                        }
 
-                          if (!context.mounted) return;
-
-                          if (result != null) {
-                            showErrorDialog(context, result);
-                          } else {
-                            await Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute<MainScreen>(
-                                builder: (context) => const MainScreen(),
-                              ),
+                        final result = await ref
+                            .read(authNotifierProvider.notifier)
+                            .signInWithEmailLink(
+                              email: widget.email,
+                              emailLink: emailLinkController.text,
                             );
-                          }
+
+                        if (!context.mounted) return;
+
+                        if (result != null) {
+                          showErrorDialog(context, result);
+                        } else {
+                          await Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute<MainScreen>(
+                              builder: (context) => const MainScreen(),
+                            ),
+                          );
                         }
                       },
                       child: const Text(

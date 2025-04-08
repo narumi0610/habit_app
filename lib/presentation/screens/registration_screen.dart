@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/model/use_cases/auth_providers.dart';
+import 'package:habit_app/model/use_cases/form_validator.dart';
 import 'package:habit_app/presentation/screens/registration_confirm_screen.dart';
 import 'package:habit_app/presentation/widgets/custom_button.dart';
 import 'package:habit_app/presentation/widgets/custom_text_field.dart';
@@ -56,27 +57,30 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                       loading: asyncAuth is AsyncLoading, // ローディング状態の表示
                       isDisabled: asyncAuth is AsyncLoading, // ローディング中は無効化
                       onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          final result = await ref
-                              .read(authNotifierProvider.notifier)
-                              .sendSignInLinkToEmail(
-                                email: emailController.text,
-                              );
+                        // フォームのバリデーション
+                        if (!FormValidator.validateForm(context, formKey)) {
+                          return;
+                        }
 
-                          if (!context.mounted) return;
-
-                          if (result != null) {
-                            showErrorDialog(context, result);
-                          } else {
-                            await Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute<RegistrationConfirmScreen>(
-                                builder: (context) => RegistrationConfirmScreen(
-                                  email: emailController.text,
-                                ),
-                              ),
+                        final result = await ref
+                            .read(authNotifierProvider.notifier)
+                            .sendSignInLinkToEmail(
+                              email: emailController.text,
                             );
-                          }
+
+                        if (!context.mounted) return;
+
+                        if (result != null) {
+                          showErrorDialog(context, result);
+                        } else {
+                          await Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute<RegistrationConfirmScreen>(
+                              builder: (context) => RegistrationConfirmScreen(
+                                email: emailController.text,
+                              ),
+                            ),
+                          );
                         }
                       },
                       child: const Text(

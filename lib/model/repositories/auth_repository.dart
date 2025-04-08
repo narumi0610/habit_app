@@ -78,7 +78,12 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       // ユーザー情報を保存
-      final user = userCredential.user!;
+      final user = userCredential.user;
+      if (user == null) {
+        logger.e('ユーザー情報が取得できませんでした');
+        return 'ユーザー情報が取得できませんでした';
+      }
+
       await ref
           .read(firebaseFirestoreProvider)
           .collection('users')

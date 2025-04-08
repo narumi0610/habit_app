@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:habit_app/model/use_cases/form_validator.dart';
 import 'package:habit_app/model/use_cases/habit_providers.dart';
 import 'package:habit_app/model/use_cases/notification_setting_providers.dart';
 import 'package:habit_app/presentation/screens/main_screen.dart';
@@ -157,39 +158,42 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
       margin: const EdgeInsets.only(top: 32, bottom: 16),
       child: RoundedButton(
         onPressed: () async {
-          if (formKey.currentState!.validate()) {
-            try {
-              // 習慣目標作成
-              await ref.read(
-                createHabitProvider(form: goalController.text).future,
-              );
+          // フォームのバリデーション
+          if (!FormValidator.validateForm(context, formKey)) {
+            return;
+          }
 
-              // 通知設定
-              await ref
-                  .read(notificationSettingNotifierProvider.notifier)
-                  .scheduleDailyNotification(
-                    hour,
-                    minute,
-                    goalController.text,
-                  );
+          try {
+            // 習慣目標作成
+            await ref.read(
+              createHabitProvider(form: goalController.text).future,
+            );
 
-              if (!context.mounted) return;
+            // 通知設定
+            await ref
+                .read(notificationSettingNotifierProvider.notifier)
+                .scheduleDailyNotification(
+                  hour,
+                  minute,
+                  goalController.text,
+                );
 
-              await Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute<MainScreen>(
-                  builder: (BuildContext context) => const MainScreen(),
-                ),
-                (_) => false,
-              );
-            } on Exception catch (error) {
-              logger.e('目標の作成に失敗しました: $error');
+            if (!context.mounted) return;
 
-              if (!context.mounted) return;
+            await Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute<MainScreen>(
+                builder: (BuildContext context) => const MainScreen(),
+              ),
+              (_) => false,
+            );
+          } on Exception catch (error) {
+            logger.e('目標の作成に失敗しました: $error');
 
-              showErrorDialog(context, '目標の作成に失敗しました');
-              return;
-            }
+            if (!context.mounted) return;
+
+            showErrorDialog(context, '目標の作成に失敗しました');
+            return;
           }
         },
         title: '決定する',

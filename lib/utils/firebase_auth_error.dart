@@ -11,7 +11,12 @@ enum FirebaseAuthError {
 
 extension FirebaseAuthErrorExt on FirebaseAuthError {
   /// 表示用メッセージ取得
-  String get message => _messages[this]!;
+  String get message => _getMessage();
+
+  String _getMessage() {
+    const defaultMessage = '予期しないエラーが発生しました。';
+    return _messages[this] ?? defaultMessage;
+  }
 
   /// 表示用メッセージ一覧
   static final _messages = {
