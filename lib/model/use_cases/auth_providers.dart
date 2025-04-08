@@ -12,27 +12,6 @@ class AuthNotifier extends _$AuthNotifier {
     repository = ref.watch(authRepositoryProvider);
   }
 
-  Future<String?> login({
-    required String email,
-    required String password,
-  }) async {
-    state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      final errorMessage = await repository.login(email, password);
-      if (errorMessage != null) {
-        throw Exception(errorMessage);
-      }
-      return null;
-    });
-
-    state = result;
-    return result.when(
-      data: (_) => null,
-      error: (error, stack) => error.toString(),
-      loading: () => null,
-    );
-  }
-
   Future<String?> sendSignInLinkToEmail({
     required String email,
   }) async {
@@ -91,22 +70,6 @@ class AuthNotifier extends _$AuthNotifier {
     return result.when(
       data: (_) => null,
       error: (error, stack) => error.toString(),
-      loading: () => null,
-    );
-  }
-
-  Future<void> passwordReset({required String email}) async {
-    state = const AsyncValue.loading();
-
-    final result = await AsyncValue.guard(() async {
-      await repository.passwordReset(email: email);
-      return null;
-    });
-
-    state = result;
-    return result.when(
-      data: (_) => null,
-      error: (error, stack) => null,
       loading: () => null,
     );
   }

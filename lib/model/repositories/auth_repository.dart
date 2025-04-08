@@ -17,14 +17,8 @@ abstract class AuthRepository {
   // メールリンクでサインインする
   Future<String?> signInWithEmailLink(String email, String emailLink);
 
-  // ログインをする
-  Future<String?> login(String email, String password);
-
   // ログアウトをする
   Future<String?> logout();
-
-  // パスワードを変更する
-  Future<void> passwordReset({required String email});
 
   // 退会する
   Future<String?> deletedUser();
@@ -113,18 +107,6 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<String?> login(String email, String password) async {
-    try {
-      await auth.signInWithEmailAndPassword(email: email, password: password);
-      return null;
-    } on FirebaseAuthException catch (e) {
-      final message = FirebaseAuthErrorExt.fromCode(e.code).message;
-      logger.e('ログインに失敗しました$e');
-      return message;
-    }
-  }
-
-  @override
   Future<String?> logout() async {
     try {
       await auth.signOut();
@@ -136,15 +118,6 @@ class AuthRepositoryImpl implements AuthRepository {
     } catch (e) {
       logger.e('ログアウトに失敗しました$e');
       return 'ログアウトに失敗しました。再度お試しください。';
-    }
-  }
-
-  @override
-  Future<void> passwordReset({required String email}) async {
-    try {
-      await auth.sendPasswordResetEmail(email: email);
-    } catch (e) {
-      logger.e('パスワードリセットに失敗しました$e');
     }
   }
 

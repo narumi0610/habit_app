@@ -9,14 +9,4 @@ class Validator {
     }
     return null;
   }
-
-  String? passwordValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'パスワードを入力してください';
-    }
-    if (value.length < 8) {
-      return 'パスワードは8文字以上である必要があります';
-    }
-    return null;
-  }
 }

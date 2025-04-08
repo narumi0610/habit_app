@@ -45,15 +45,6 @@ void main() {
       expect(mockFirebaseAuth.currentUser!.email, 'test@example.com');
     });
 
-    test('login success', () async {
-      // モックユーザーのログイン動作のテスト
-      await authRepository.login('test@example.com', 'password');
-
-      // ログイン成功の確認
-      expect(mockFirebaseAuth.currentUser, isNotNull);
-      expect(mockFirebaseAuth.currentUser!.email, 'test@example.com');
-    });
-
     test('logout success', () async {
       // ログアウト動作のテスト
       await authRepository.logout();

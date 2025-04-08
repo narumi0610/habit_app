@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/model/use_cases/auth_providers.dart';
-import 'package:habit_app/presentation/screens/main_screen.dart';
-import 'package:habit_app/presentation/screens/password_reset_screen.dart';
+import 'package:habit_app/presentation/screens/login_confirm_screen.dart';
 import 'package:habit_app/presentation/screens/registration_screen.dart';
 import 'package:habit_app/presentation/widgets/custom_button.dart';
 import 'package:habit_app/presentation/widgets/custom_text_field.dart';
@@ -18,18 +17,11 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class LoginScreenState extends ConsumerState<LoginScreen> {
   final emailController = TextEditingController();
-  final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
     emailController.dispose();
-    passwordController.dispose();
     super.dispose();
   }
 
@@ -56,28 +48,6 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                       validator: Validator().emailValidator,
                     ),
                     const SizedBox(height: 24),
-                    CustomTextField(
-                      isPassword: true,
-                      controller: passwordController,
-                      text: 'パスワード',
-                      validator: Validator().passwordValidator,
-                    ),
-                    const SizedBox(height: 8),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<PasswordResetScreen>(
-                              builder: (context) => const PasswordResetScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text('パスワードをお忘れですか？'),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
                     SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -88,9 +58,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           if (formKey.currentState!.validate()) {
                             final result = await ref
                                 .read(authNotifierProvider.notifier)
-                                .login(
+                                .sendSignInLinkToEmail(
                                   email: emailController.text,
-                                  password: passwordController.text,
                                 );
 
                             if (!context.mounted) return;
@@ -100,15 +69,17 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                             } else {
                               await Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute<MainScreen>(
-                                  builder: (context) => const MainScreen(),
+                                MaterialPageRoute<LoginConfirmScreen>(
+                                  builder: (context) => LoginConfirmScreen(
+                                    email: emailController.text,
+                                  ),
                                 ),
                               );
                             }
                           }
                         },
                         child: const Text(
-                          'ログインする',
+                          'ログインリンクを送信',
                           style: TextStyle(fontSize: 16),
                         ),
                       ),

@@ -16,18 +16,11 @@ class RegistrationScreen extends ConsumerStatefulWidget {
 
 class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   final emailController = TextEditingController();
-
   final formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
     emailController.dispose();
-
     super.dispose();
   }
 
@@ -70,11 +63,11 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                                 email: emailController.text,
                               );
 
+                          if (!context.mounted) return;
+
                           if (result != null) {
-                            if (!context.mounted) return;
                             showErrorDialog(context, result);
                           } else {
-                            if (!context.mounted) return;
                             await Navigator.pushReplacement(
                               context,
                               MaterialPageRoute<RegistrationConfirmScreen>(
@@ -86,8 +79,10 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                           }
                         }
                       },
-                      child:
-                          const Text('新規登録をする', style: TextStyle(fontSize: 16)),
+                      child: const Text(
+                        '新規登録用リンクを送信',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
                   ),
                 ],
