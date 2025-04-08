@@ -4,10 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/model/use_cases/habit_providers.dart';
 import 'package:habit_app/model/use_cases/notification_setting_providers.dart';
 import 'package:habit_app/presentation/screens/main_screen.dart';
+import 'package:habit_app/presentation/widgets/error_dialog.dart';
 import 'package:habit_app/presentation/widgets/select_time_widget.dart';
 import 'package:habit_app/utils/rounded_button.dart';
 import 'package:logger/logger.dart';
-
 import '../../utils/app_color.dart';
 
 final selectedHour =
@@ -159,30 +159,12 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
         onPressed: () async {
           if (formKey.currentState!.validate()) {
             try {
-              // Habit作成
+              // 習慣目標作成
               await ref.read(
                 createHabitProvider(form: goalController.text).future,
               );
-            } on Exception catch (error) {
-              // Habit作成失敗時のエラーハンドリング
-              logger.e('Habit作成に失敗しました: $error');
-              if (!context.mounted) return;
-              await showDialog<void>(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('目標の設定に失敗しました'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('はい'),
-                    ),
-                  ],
-                ),
-              );
-              return; // エラー時にここで処理を終了
-            }
 
-            try {
+              // 通知設定
               await ref
                   .read(notificationSettingNotifierProvider.notifier)
                   .scheduleDailyNotification(
@@ -190,32 +172,24 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
                     minute,
                     goalController.text,
                   );
-            } on Exception catch (error) {
-              logger.e('通知設定に失敗しました: $error');
-              if (!context.mounted) return;
-              await showDialog<void>(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('通知の設定に失敗しました'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('はい'),
-                    ),
-                  ],
-                ),
-              );
-            }
 
-            if (!context.mounted) return;
-            // 成功時の処理
-            await Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute<MainScreen>(
-                builder: (BuildContext context) => const MainScreen(),
-              ),
-              (_) => false,
-            );
+              if (!context.mounted) return;
+
+              await Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute<MainScreen>(
+                  builder: (BuildContext context) => const MainScreen(),
+                ),
+                (_) => false,
+              );
+            } on Exception catch (error) {
+              logger.e('目標の作成に失敗しました: $error');
+
+              if (!context.mounted) return;
+
+              showErrorDialog(context, '目標の作成に失敗しました');
+              return;
+            }
           }
         },
         title: '決定する',

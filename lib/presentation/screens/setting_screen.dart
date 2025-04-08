@@ -40,8 +40,10 @@ class SettingScreenState extends ConsumerState<SettingScreen> {
       child: CustomButton.grey(
         onPressed: () async {
           final result = await ref.read(authNotifierProvider.notifier).logout();
+
+          if (!context.mounted) return;
+
           if (result == null) {
-            if (!context.mounted) return;
             await Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute<LoginScreen>(
@@ -50,8 +52,6 @@ class SettingScreenState extends ConsumerState<SettingScreen> {
               (route) => false,
             );
           } else {
-            if (!context.mounted) return;
-            // エラーメッセージを表示するなどの処理
             showErrorDialog(context, result);
           }
         },
@@ -81,8 +81,10 @@ class SettingScreenState extends ConsumerState<SettingScreen> {
                           final result = await ref
                               .read(authNotifierProvider.notifier)
                               .deletedUser();
+
+                          if (!context.mounted) return;
+
                           if (result == null) {
-                            if (!context.mounted) return;
                             await Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute<LoginScreen>(
@@ -91,8 +93,6 @@ class SettingScreenState extends ConsumerState<SettingScreen> {
                               (route) => false,
                             );
                           } else {
-                            if (!context.mounted) return;
-                            // エラーメッセージを表示するなどの処理
                             showErrorDialog(context, result);
                           }
                         },
