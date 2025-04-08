@@ -92,7 +92,6 @@ class AuthRepositoryImpl implements AuthRepository {
         {
           'id': user.uid,
           'email': user.email,
-          'email_verified': true,
           'updated_at': DateTime.now(),
           'created_at': DateTime.now(),
         },
