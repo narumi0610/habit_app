@@ -37,7 +37,9 @@ void main() {
   group('AuthRepository Tests', () {
     test('signUp success', () async {
       // モックユーザーのサインアップ動作のテスト
-      await authRepository.signUp('test@example.com', 'password');
+      await authRepository.sendSignInLinkToEmail(
+        'test@example.com',
+      );
       // サインアップ成功の確認
       expect(mockFirebaseAuth.currentUser, isNotNull);
       expect(mockFirebaseAuth.currentUser!.email, 'test@example.com');

@@ -27,8 +27,13 @@ class MainScreenState extends ConsumerState<MainScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(selectedIndexProvider.notifier).state = widget.index;
-    ref.read(notificationSettingNotifierProvider.notifier).requestPermissions();
+    // プロバイダーの状態変更はツリー構築後に行う
+    Future.microtask(() {
+      ref.read(selectedIndexProvider.notifier).state = widget.index;
+      ref
+          .read(notificationSettingNotifierProvider.notifier)
+          .requestPermissions();
+    });
   }
 
   @override

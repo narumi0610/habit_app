@@ -33,14 +33,35 @@ class AuthNotifier extends _$AuthNotifier {
     );
   }
 
-  Future<String?> signUp({
+  Future<String?> sendSignInLinkToEmail({
     required String email,
-    required String password,
   }) async {
     state = const AsyncValue.loading();
 
     final result = await AsyncValue.guard(() async {
-      final errorMessage = await repository.signUp(email, password);
+      final errorMessage = await repository.sendSignInLinkToEmail(email);
+      if (errorMessage != null) {
+        throw Exception(errorMessage);
+      }
+      return null;
+    });
+
+    state = result;
+    return result.when(
+      data: (_) => null,
+      error: (error, stack) => error.toString(),
+      loading: () => null,
+    );
+  }
+
+  Future<String?> signInWithEmailLink({
+    required String email,
+    required String emailLink,
+  }) async {
+    state = const AsyncValue.loading();
+    final result = await AsyncValue.guard(() async {
+      final errorMessage =
+          await repository.signInWithEmailLink(email, emailLink);
       if (errorMessage != null) {
         throw Exception(errorMessage);
       }

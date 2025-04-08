@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/model/use_cases/auth_providers.dart';
-import 'package:habit_app/presentation/screens/main_screen.dart';
+import 'package:habit_app/presentation/screens/registration_confirm_screen.dart';
 import 'package:habit_app/presentation/widgets/custom_button.dart';
 import 'package:habit_app/presentation/widgets/custom_text_field.dart';
 import 'package:habit_app/presentation/widgets/error_dialog.dart';
@@ -16,7 +16,7 @@ class RegistrationScreen extends ConsumerStatefulWidget {
 
 class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -27,7 +27,7 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   @override
   void dispose() {
     emailController.dispose();
-    passwordController.dispose();
+
     super.dispose();
   }
 
@@ -56,13 +56,6 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                     validator: Validator().emailValidator,
                   ),
                   const SizedBox(height: 24),
-                  CustomTextField(
-                    isPassword: true,
-                    controller: passwordController,
-                    text: 'パスワード',
-                    validator: Validator().passwordValidator,
-                  ),
-                  const SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
                     height: 50,
@@ -73,9 +66,8 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                         if (formKey.currentState!.validate()) {
                           final result = await ref
                               .read(authNotifierProvider.notifier)
-                              .signUp(
+                              .sendSignInLinkToEmail(
                                 email: emailController.text,
-                                password: passwordController.text,
                               );
 
                           if (result != null) {
@@ -83,11 +75,12 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                             showErrorDialog(context, result);
                           } else {
                             if (!context.mounted) return;
-                            Navigator.pop(context);
                             await Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute<MainScreen>(
-                                builder: (context) => const MainScreen(),
+                              MaterialPageRoute<RegistrationConfirmScreen>(
+                                builder: (context) => RegistrationConfirmScreen(
+                                  email: emailController.text,
+                                ),
                               ),
                             );
                           }
