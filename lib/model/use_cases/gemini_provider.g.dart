@@ -6,7 +6,7 @@ part of 'gemini_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$geminiHash() => r'c22423655d0d01bdb6e48cc8c2c846a04716e69b';
+String _$geminiHash() => r'251b3ed71b3d0049cd1d2349c861d7a68161f364';
 
 /// Gemini APIのクライアントを提供するプロバイダー
 /// 環境変数からAPIキーを取得し、GenerativeModelを返す

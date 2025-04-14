@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/model/use_cases/auth_providers.dart';
 import 'package:habit_app/model/use_cases/form_validator.dart';
-import 'package:habit_app/presentation/screens/login_confirm_screen.dart';
+import 'package:habit_app/presentation/screens/email_confirm_screen.dart';
 import 'package:habit_app/presentation/screens/registration_screen.dart';
 import 'package:habit_app/presentation/widgets/custom_button.dart';
 import 'package:habit_app/presentation/widgets/custom_text_field.dart';
@@ -72,12 +72,11 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           if (result != null) {
                             showErrorDialog(context, result);
                           } else {
-                            await Navigator.pushReplacement(
+                            await Navigator.push(
                               context,
-                              MaterialPageRoute<LoginConfirmScreen>(
-                                builder: (context) => LoginConfirmScreen(
-                                  email: emailController.text,
-                                ),
+                              MaterialPageRoute<EmailConfirmScreen>(
+                                builder: (context) =>
+                                    const EmailConfirmScreen(),
                               ),
                             );
                           }

@@ -41,17 +41,11 @@ class MockAuthRepository extends _i1.Mock implements _i2.AuthRepository {
       ) as _i3.Future<String?>);
 
   @override
-  _i3.Future<String?> signInWithEmailLink(
-    String? email,
-    String? emailLink,
-  ) =>
+  _i3.Future<String?> signInWithEmailLink(String? emailLink) =>
       (super.noSuchMethod(
         Invocation.method(
           #signInWithEmailLink,
-          [
-            email,
-            emailLink,
-          ],
+          [emailLink],
         ),
         returnValue: _i3.Future<String?>.value(),
       ) as _i3.Future<String?>);

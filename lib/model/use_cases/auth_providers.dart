@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:habit_app/model/repositories/auth_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -24,8 +25,8 @@ class AuthNotifier extends _$AuthNotifier {
       }
       return null;
     });
+    state = const AsyncValue.data(null);
 
-    state = result;
     return result.when(
       data: (_) => null,
       error: (error, stack) => error.toString(),
@@ -34,20 +35,20 @@ class AuthNotifier extends _$AuthNotifier {
   }
 
   Future<String?> signInWithEmailLink({
-    required String email,
     required String emailLink,
   }) async {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
-      final errorMessage =
-          await repository.signInWithEmailLink(email, emailLink);
+      final errorMessage = await repository.signInWithEmailLink(
+        emailLink,
+      );
       if (errorMessage != null) {
         throw Exception(errorMessage);
       }
+
       return null;
     });
 
-    state = result;
     return result.when(
       data: (_) => null,
       error: (error, stack) => error.toString(),
@@ -66,7 +67,7 @@ class AuthNotifier extends _$AuthNotifier {
       return null;
     });
 
-    state = result;
+    state = const AsyncValue.data(null);
     return result.when(
       data: (_) => null,
       error: (error, stack) => error.toString(),
@@ -85,7 +86,8 @@ class AuthNotifier extends _$AuthNotifier {
       return null;
     });
 
-    state = result;
+    state = const AsyncValue.data(null);
+
     return result.when(
       data: (_) => null,
       error: (error, stack) => error.toString(),
@@ -93,3 +95,10 @@ class AuthNotifier extends _$AuthNotifier {
     );
   }
 }
+
+// ユーザーの認証状態を監視する
+final userStateProvider = StreamProvider<(User?, bool)>((ref) {
+  return FirebaseAuth.instance.userChanges().map((user) {
+    return (user, user?.emailVerified ?? false);
+  });
+});

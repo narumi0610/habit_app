@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/model/repositories/shared_preferences_repository.dart';
 import 'package:habit_app/model/use_cases/firebase_provider.dart';
 import 'package:habit_app/utils/firebase_auth_error.dart';
+import 'package:habit_app/utils/global_const.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +16,7 @@ abstract class AuthRepository {
   Future<String?> sendSignInLinkToEmail(String email);
 
   // メールリンクでサインインする
-  Future<String?> signInWithEmailLink(String email, String emailLink);
+  Future<String?> signInWithEmailLink(String emailLink);
 
   // ログアウトをする
   Future<String?> logout();
@@ -33,17 +34,13 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<String?> sendSignInLinkToEmail(String email) async {
     try {
-      const isProduction = bool.fromEnvironment('PRODUCTION');
-      const androidPackageName =
-          isProduction ? 'com.flutter.habit_app' : 'com.flutter.habit_app.dev';
-
       // メールリンクの設定
       final actionCodeSettings = ActionCodeSettings(
         // リンクをクリックした時の遷移先URL
-        url: 'https://habister-dev.web.app/verify-email',
+        url: GlobalConst.actionCodeUrl,
         handleCodeInApp: true,
-        iOSBundleId: 'com.example.habitFlutterApp',
-        androidPackageName: androidPackageName,
+        iOSBundleId: GlobalConst.iOSBundleId,
+        androidPackageName: GlobalConst.androidPackageName,
         androidInstallApp: true,
         androidMinimumVersion: '12',
       );
@@ -69,15 +66,24 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<String?> signInWithEmailLink(String email, String emailLink) async {
+  Future<String?> signInWithEmailLink(String emailLink) async {
     try {
+      final sharedPreferences =
+          ref.read(sharedPreferencesRepositoryProvider.notifier);
+
+      final email = await sharedPreferences.getEmailForSignIn();
+      if (email == null) {
+        logger.e('メールアドレスが取得できませんでした');
+        return 'メールアドレスが取得できませんでした';
+      }
+
       // メールリンクでサインイン
       final userCredential = await auth.signInWithEmailLink(
         email: email,
         emailLink: emailLink,
       );
 
-      // ユーザー情報を保存
+      // ユーザー情報を取得
       final user = userCredential.user;
       if (user == null) {
         logger.e('ユーザー情報が取得できませんでした');
@@ -98,10 +104,7 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       // メールアドレスを削除
-      final sharedPreferences =
-          ref.read(sharedPreferencesRepositoryProvider.notifier);
       await sharedPreferences.removeEmailForSignIn();
-
       return null;
     } on FirebaseAuthException catch (e) {
       final message = FirebaseAuthErrorExt.fromCode(e.code).message;
