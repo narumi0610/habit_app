@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/model/use_cases/auth_providers.dart';
 import 'package:habit_app/model/use_cases/notification_setting_providers.dart';
-import 'package:habit_app/presentation/screens/login_screen.dart';
+import 'package:habit_app/model/use_cases/router_provider.dart';
 import 'package:habit_app/presentation/screens/webview_screen.dart';
 import 'package:habit_app/presentation/widgets/custom_button.dart';
 import 'package:habit_app/presentation/widgets/error_dialog.dart';
@@ -17,6 +17,7 @@ class SettingScreen extends ConsumerStatefulWidget {
 class SettingScreenState extends ConsumerState<SettingScreen> {
   @override
   Widget build(BuildContext context) {
+    final router = ref.watch(routerProvider);
     final asyncAuth = ref.watch(authNotifierProvider);
     final notificationSetting = ref.watch(notificationSettingNotifierProvider);
     const privacyPolicyText = 'プライバシーポリシー';
@@ -26,7 +27,7 @@ class SettingScreenState extends ConsumerState<SettingScreen> {
       next.maybeWhen(
         data: (_) {
           //成功時（data状態）になったら画面遷移を行う
-          Navigator.pushReplacementNamed(context, '/login');
+          router.go('/login');
         },
         error: (error, stack) {
           showErrorDialog(context, error.toString());
@@ -39,21 +40,7 @@ class SettingScreenState extends ConsumerState<SettingScreen> {
       margin: const EdgeInsets.all(8),
       child: CustomButton.grey(
         onPressed: () async {
-          final result = await ref.read(authNotifierProvider.notifier).logout();
-
-          if (!context.mounted) return;
-
-          if (result == null) {
-            await Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute<LoginScreen>(
-                builder: (context) => const LoginScreen(),
-              ),
-              (route) => false,
-            );
-          } else {
-            showErrorDialog(context, result);
-          }
+          await ref.read(authNotifierProvider.notifier).logout();
         },
         loading: asyncAuth is AsyncLoading, // ローディング状態の表示
         isDisabled: asyncAuth is AsyncLoading, // ローディング中は無効化
@@ -78,23 +65,9 @@ class SettingScreenState extends ConsumerState<SettingScreen> {
                       SimpleDialogOption(
                         child: const Text('はい'),
                         onPressed: () async {
-                          final result = await ref
+                          await ref
                               .read(authNotifierProvider.notifier)
                               .deletedUser();
-
-                          if (!context.mounted) return;
-
-                          if (result == null) {
-                            await Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute<LoginScreen>(
-                                builder: (context) => const LoginScreen(),
-                              ),
-                              (route) => false,
-                            );
-                          } else {
-                            showErrorDialog(context, result);
-                          }
                         },
                       ),
                       SimpleDialogOption(
