@@ -1,0 +1,41 @@
+name: Deploy to Firebase Hosting on merge
+
+on:
+  push:
+    branches:
+      - main # mainブランチへのpush時に実行
+      - develop # developブランチへのpush時に実行
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+
+    # Node.jsのセットアップ
+    - name: Install Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'
+
+    # Firebase CLIのインストール
+    - name: Install Firebase CLI
+      run: npm install -g firebase-tools
+
+    # Firebase Hostingにデプロイ(ブランチごとにFirebase Hostingの環境を切り替える)
+    - name: Deploy to Firebase Hosting (main or develop)
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          if [[ "${GITHUB_REF##*/}" == "main" ]]; then
+            echo "Deploying to PRODUCTION"
+            firebase deploy --only hosting --project habister-5885a
+          elif [[ "${GITHUB_REF##*/}" == "develop" ]]; then
+            echo "Deploying to STAGING"
+            firebase deploy --only hosting --project habister-dev
+          else
+            echo "No matching branch for deployment"
+            exit 1
+          fi
