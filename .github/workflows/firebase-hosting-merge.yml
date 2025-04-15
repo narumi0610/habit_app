@@ -26,16 +26,16 @@ jobs:
 
     # Firebase Hostingにデプロイ(ブランチごとにFirebase Hostingの環境を切り替える)
     - name: Deploy to Firebase Hosting (main or develop)
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: |
-          if [[ "${GITHUB_REF##*/}" == "main" ]]; then
-            echo "Deploying to PRODUCTION"
-            firebase deploy --only hosting --project habister-5885a
-          elif [[ "${GITHUB_REF##*/}" == "develop" ]]; then
-            echo "Deploying to STAGING"
-            firebase deploy --only hosting --project habister-dev
-          else
-            echo "No matching branch for deployment"
-            exit 1
-          fi
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      run: |
+        if [[ "${GITHUB_REF##*/}" == "main" ]]; then
+          echo "Deploying to PRODUCTION"
+          firebase deploy --only hosting --project habister-5885a
+        elif [[ "${GITHUB_REF##*/}" == "develop" ]]; then
+          echo "Deploying to STAGING"
+          firebase deploy --only hosting --project habister-dev
+        else
+          echo "No matching branch for deployment"
+          exit 1
+        fi
