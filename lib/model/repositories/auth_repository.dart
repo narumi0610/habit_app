@@ -77,34 +77,41 @@ class AuthRepositoryImpl implements AuthRepository {
         return 'メールアドレスが取得できませんでした';
       }
 
-      // メールリンクでサインイン
-      final userCredential = await auth.signInWithEmailLink(
-        email: email,
-        emailLink: emailLink,
-      );
+      // リンクがEメールリンクによるサインインであることを確認する
+      if (auth.isSignInWithEmailLink(emailLink)) {
+        // メールリンクでサインイン
+        final userCredential = await auth.signInWithEmailLink(
+          email: email,
+          emailLink: emailLink,
+        );
 
-      // ユーザー情報を取得
-      final user = userCredential.user;
-      if (user == null) {
-        logger.e('ユーザー情報が取得できませんでした');
-        return 'ユーザー情報が取得できませんでした';
+        // ユーザー情報を取得
+        final user = userCredential.user;
+        if (user == null) {
+          logger.e('ユーザー情報が取得できませんでした');
+          return 'ユーザー情報が取得できませんでした';
+        }
+
+        await ref
+            .read(firebaseFirestoreProvider)
+            .collection('users')
+            .doc(user.uid)
+            .set(
+          {
+            'id': user.uid,
+            'email': user.email,
+            'updated_at': DateTime.now(),
+            'created_at': DateTime.now(),
+          },
+        );
+
+        // メールアドレスを削除
+        await sharedPreferences.removeEmailForSignIn();
+      } else {
+        logger.e('メールリンクがEメールリンクによるサインインではありません');
+        return 'メールリンクがEメールリンクによるサインインではありません';
       }
 
-      await ref
-          .read(firebaseFirestoreProvider)
-          .collection('users')
-          .doc(user.uid)
-          .set(
-        {
-          'id': user.uid,
-          'email': user.email,
-          'updated_at': DateTime.now(),
-          'created_at': DateTime.now(),
-        },
-      );
-
-      // メールアドレスを削除
-      await sharedPreferences.removeEmailForSignIn();
       return null;
     } on FirebaseAuthException catch (e) {
       final message = FirebaseAuthErrorExt.fromCode(e.code).message;
