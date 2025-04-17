@@ -38,7 +38,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace 'com.flutter.habit_app'
-    compileSdkVersion 34
+    compileSdkVersion 35
     ndkVersion "26.1.10909125"
 
     buildFeatures {
@@ -112,7 +112,6 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation "androidx.glance:glance-appwidget:1.1.0"
