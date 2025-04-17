@@ -35,8 +35,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data 
                 android:scheme="https" 
-                android:host="habister-dev.firebaseapp.com"
-                android:pathPrefix="/" />
+                android:host="@string/app_host"
+                android:pathPrefix="/__/auth/links" />
             </intent-filter>
             <!-- App Linkの設定 ここまで-->
             <intent-filter>

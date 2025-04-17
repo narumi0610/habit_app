@@ -100,9 +100,11 @@ android {
     productFlavors {
         staging {
             applicationId "com.flutter.habit_app.dev"
+            resValue "string", "app_host", "habister-dev.firebaseapp.com"
         }
         production {
             applicationId "com.flutter.habit_app"
+            resValue "string", "app_host", "habister-5885a.firebaseapp.com"
         }
     }
 }
