@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({
@@ -15,16 +15,7 @@ class WebViewScreen extends StatefulWidget {
 }
 
 class _WebViewScreenState extends State<WebViewScreen> {
-  late final WebViewController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    // WebViewControllerの初期化
-    _controller = WebViewController()
-      ..loadRequest(Uri.parse(widget.url))
-      ..setJavaScriptMode(JavaScriptMode.unrestricted);
-  }
+  late InAppWebViewController webViewController;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +23,15 @@ class _WebViewScreenState extends State<WebViewScreen> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: WebViewWidget(controller: _controller),
+      body: InAppWebView(
+        initialUrlRequest: URLRequest(url: WebUri(widget.url)),
+        onWebViewCreated: (controller) {
+          webViewController = controller;
+        },
+        initialSettings: InAppWebViewSettings(
+          useShouldOverrideUrlLoading: true,
+        ),
+      ),
     );
   }
 }
