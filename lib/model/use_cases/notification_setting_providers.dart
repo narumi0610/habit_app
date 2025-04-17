@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:flutter_app_badge_control/flutter_app_badge_control.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:habit_app/model/entities/habit/habit_model.dart';
 import 'package:habit_app/model/entities/notification/notification_setting.dart';
@@ -101,7 +101,7 @@ class NotificationSettingNotifier extends _$NotificationSettingNotifier {
         tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
 
     await cancelNotification();
-    await FlutterAppBadger.removeBadge();
+    await FlutterAppBadgeControl.removeBadge();
 
     if (habit?.currentStreak != GlobalConst.maxContinuousDays) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
