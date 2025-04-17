@@ -1,27 +1,7 @@
 {
   "projects": {
-    "default": "habister-dev"
-  },
-  "targets": {
-    "habister-dev": {
-      "hosting": {
-        "dev": [
-          "habister-dev"
-        ],
-        "prod": [
-          "habister-5885a"
-        ]
-      }
-    },
-    "habister-5885a": {
-      "hosting": {
-        "dev": [
-          "habister-dev"
-        ],
-        "prod": [
-          "habister-5885a"
-        ]
-      }
-    }
+    "default": "habister-dev",
+    "develop": "habister-dev",
+    "production": "habister-5885a"
   }
 }
