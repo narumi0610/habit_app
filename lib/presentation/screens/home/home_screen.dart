@@ -2,13 +2,13 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/model/use_cases/habit_providers.dart';
+import 'package:habit_app/presentation/screens/home/habit_start_container.dart';
+import 'package:habit_app/presentation/screens/home/set_goal_button.dart';
 import 'package:habit_app/presentation/widgets/custom_button.dart';
 import 'package:habit_app/presentation/widgets/motivation_message.dart';
-import 'package:habit_app/presentation/widgets/set_goal_button.dart';
 import 'package:habit_app/presentation/widgets/update_button.dart';
 import 'package:habit_app/utils/global_const.dart';
 import 'package:habit_app/utils/image_paths.dart';
-
 import 'package:logger/logger.dart';
 import 'package:vibration/vibration.dart';
 
@@ -161,30 +161,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
               ],
             );
           } else {
-            return Center(
-              child: SingleChildScrollView(
-                child: Container(
-                  margin: const EdgeInsets.all(16),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 16),
-                          child: const FittedBox(
-                            child: Text(
-                              '目標を設定しよう！',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        const SetGoalButton(),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            );
+            return const HabitStartContainer();
           }
         },
         error: (error, stackTrace) {
