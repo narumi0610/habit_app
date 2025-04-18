@@ -32,8 +32,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   void dispose() {
-    confettiController.dispose();
     super.dispose();
+    confettiController.dispose();
   }
 
   @override

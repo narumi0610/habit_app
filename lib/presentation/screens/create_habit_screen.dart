@@ -29,8 +29,8 @@ class CreateHabitScreenState extends ConsumerState<CreateHabitScreen> {
 
   @override
   void dispose() {
-    goalController.dispose();
     super.dispose();
+    goalController.dispose();
   }
 
   @override

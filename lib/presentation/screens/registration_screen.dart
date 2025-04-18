@@ -20,15 +20,10 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   final formKey = GlobalKey<FormState>();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void dispose() {
+    super.dispose();
     emailController.dispose();
     passwordController.dispose();
-    super.dispose();
   }
 
   @override
