@@ -20,7 +20,7 @@ class MainScreen extends ConsumerStatefulWidget {
 class MainScreenState extends ConsumerState<MainScreen> {
   final List<Widget> _widgetOptions = <Widget>[
     const HomeScreen(),
-    const GoalHistoryScreen(),
+    const HabitHistoryScreen(),
     const SettingScreen(),
   ];
 
