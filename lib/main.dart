@@ -58,13 +58,11 @@ class _HabitAppState extends ConsumerState<HabitApp> {
     // AppLinksのストリームを監視
     ref
       ..listen(appLinksStateProvider, (previous, next) async {
-        if (next.hasValue && next.value != null) {
-          final uri = next.value;
-          if (uri != null) {
-            await ref
-                .read(authNotifierProvider.notifier)
-                .signInWithEmailLink(emailLink: uri.toString());
-          }
+        final uri = next.value;
+        if (next.hasValue && uri != null) {
+          await ref
+              .read(authNotifierProvider.notifier)
+              .signInWithEmailLink(emailLink: uri.toString());
         }
       }) // ユーザー状態の変更を監視
       ..listen(userStateProvider, (previous, next) {
