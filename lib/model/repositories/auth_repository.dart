@@ -13,10 +13,10 @@ final authRepositoryProvider = Provider<AuthRepository>(
 
 abstract class AuthRepository {
   // 新規登録をする
-  Future<String?> sendSignInLinkToEmail(String email);
+  Future<void> sendSignInLinkToEmail(String email);
 
   // メールリンクでサインインする
-  Future<String?> signInWithEmailLink(String emailLink);
+  Future<void> signInWithEmailLink(String emailLink);
 
   // ログアウトをする
   Future<String?> logout();
@@ -32,7 +32,7 @@ class AuthRepositoryImpl implements AuthRepository {
   final logger = Logger();
 
   @override
-  Future<String?> sendSignInLinkToEmail(String email) async {
+  Future<void> sendSignInLinkToEmail(String email) async {
     try {
       // メールリンクの設定
       final actionCodeSettings = ActionCodeSettings(
@@ -55,68 +55,61 @@ class AuthRepositoryImpl implements AuthRepository {
       final sharedPreferences =
           ref.read(sharedPreferencesRepositoryProvider.notifier);
       await sharedPreferences.setEmailForSignIn(email);
-
-      return null;
     } on FirebaseAuthException catch (e) {
       final message = FirebaseAuthErrorExt.fromCode(e.code).message;
       logger.e('新規登録に失敗しました$e');
-
-      return message;
+      throw Exception(message);
     }
   }
 
   @override
-  Future<String?> signInWithEmailLink(String emailLink) async {
+  Future<void> signInWithEmailLink(String emailLink) async {
     try {
-      final sharedPreferences =
-          ref.read(sharedPreferencesRepositoryProvider.notifier);
-
-      final email = await sharedPreferences.getEmailForSignIn();
-      if (email == null) {
-        logger.e('メールアドレスが取得できませんでした');
-        return 'メールアドレスが取得できませんでした';
-      }
-
       // リンクがEメールリンクによるサインインであることを確認する
       if (auth.isSignInWithEmailLink(emailLink)) {
-        // メールリンクでサインイン
-        final userCredential = await auth.signInWithEmailLink(
-          email: email,
-          emailLink: emailLink,
-        );
+        final sharedPreferences =
+            ref.read(sharedPreferencesRepositoryProvider.notifier);
+        final email = await sharedPreferences.getEmailForSignIn();
 
-        // ユーザー情報を取得
-        final user = userCredential.user;
-        if (user == null) {
-          logger.e('ユーザー情報が取得できませんでした');
-          return 'ユーザー情報が取得できませんでした';
+        if (email == null) {
+          throw Exception('メールアドレスが取得できませんでした');
+        } else {
+          // メールリンクでサインイン
+          final userCredential = await auth.signInWithEmailLink(
+            email: email,
+            emailLink: emailLink,
+          );
+
+          // ユーザー情報を取得
+          final user = userCredential.user;
+          if (user == null) {
+            throw Exception('ユーザー情報が取得できませんでした');
+          } else {
+            await ref
+                .read(firebaseFirestoreProvider)
+                .collection('users')
+                .doc(user.uid)
+                .set(
+              {
+                'id': user.uid,
+                'email': user.email,
+                'updated_at': DateTime.now(),
+                'created_at': DateTime.now(),
+              },
+            );
+
+            // メールアドレスを削除
+            await sharedPreferences.removeEmailForSignIn();
+          }
         }
-
-        await ref
-            .read(firebaseFirestoreProvider)
-            .collection('users')
-            .doc(user.uid)
-            .set(
-          {
-            'id': user.uid,
-            'email': user.email,
-            'updated_at': DateTime.now(),
-            'created_at': DateTime.now(),
-          },
-        );
-
-        // メールアドレスを削除
-        await sharedPreferences.removeEmailForSignIn();
       } else {
-        logger.e('メールリンクがEメールリンクによるサインインではありません');
-        return 'メールリンクがEメールリンクによるサインインではありません';
+        throw Exception('メールリンクがEメールリンクによるサインインではありません');
       }
-
-      return null;
     } on FirebaseAuthException catch (e) {
       final message = FirebaseAuthErrorExt.fromCode(e.code).message;
       logger.e('メールリンク認証に失敗しました$e');
-      return message;
+
+      throw Exception(message);
     }
   }
 

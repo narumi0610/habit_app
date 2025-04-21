@@ -13,21 +13,18 @@ class AuthNotifier extends _$AuthNotifier {
     repository = ref.watch(authRepositoryProvider);
   }
 
-  Future<String?> sendSignInLinkToEmail({
+  Future<void> sendSignInLinkToEmail({
     required String email,
   }) async {
     state = const AsyncValue.loading();
 
-    final result = await AsyncValue.guard(() async {
-      final errorMessage = await repository.sendSignInLinkToEmail(email);
-      if (errorMessage != null) {
-        throw Exception(errorMessage);
-      }
-      return null;
-    });
+    final result = await AsyncValue.guard(
+      () => repository.sendSignInLinkToEmail(email),
+    );
+
     state = const AsyncValue.data(null);
 
-    return result.when(
+    result.when(
       data: (_) => null,
       error: (error, stack) => error.toString(),
       loading: () => null,
@@ -38,16 +35,12 @@ class AuthNotifier extends _$AuthNotifier {
     required String emailLink,
   }) async {
     state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      final errorMessage = await repository.signInWithEmailLink(
-        emailLink,
-      );
-      if (errorMessage != null) {
-        throw Exception(errorMessage);
-      }
 
-      return null;
-    });
+    final result = await AsyncValue.guard(
+      () => repository.signInWithEmailLink(emailLink),
+    );
+
+    state = result;
 
     return result.when(
       data: (_) => null,

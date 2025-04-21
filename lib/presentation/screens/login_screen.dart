@@ -30,6 +30,14 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final asyncAuth = ref.watch(authNotifierProvider);
 
+    // authNotifierProviderの状態を監視
+    ref.listen(authNotifierProvider, (previous, next) {
+      // エラー状態の場合、エラーダイアログを表示
+      if (next is AsyncError && context.mounted) {
+        showErrorDialog(context, next.error.toString());
+      }
+    });
+
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -61,7 +69,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                             return;
                           }
 
-                          final result = await ref
+                          await ref
                               .read(authNotifierProvider.notifier)
                               .sendSignInLinkToEmail(
                                 email: emailController.text,
@@ -69,9 +77,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
 
                           if (!context.mounted) return;
 
-                          if (result != null) {
-                            showErrorDialog(context, result);
-                          } else {
+                          // エラーがない場合（AsyncErrorでない場合）は確認画面に遷移
+                          if (ref.read(authNotifierProvider) case AsyncData()) {
                             await Navigator.push(
                               context,
                               MaterialPageRoute<EmailConfirmScreen>(

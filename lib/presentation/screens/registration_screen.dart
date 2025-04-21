@@ -5,7 +5,6 @@ import 'package:habit_app/model/use_cases/form_validator.dart';
 import 'package:habit_app/presentation/screens/email_confirm_screen.dart';
 import 'package:habit_app/presentation/widgets/custom_button.dart';
 import 'package:habit_app/presentation/widgets/custom_text_field.dart';
-import 'package:habit_app/presentation/widgets/error_dialog.dart';
 import 'package:habit_app/utils/validator.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
@@ -23,7 +22,6 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   void dispose() {
     super.dispose();
     emailController.dispose();
-    super.dispose();
   }
 
   @override
@@ -63,7 +61,7 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                           return;
                         }
 
-                        final result = await ref
+                        await ref
                             .read(authNotifierProvider.notifier)
                             .sendSignInLinkToEmail(
                               email: emailController.text,
@@ -71,9 +69,8 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
                         if (!context.mounted) return;
 
-                        if (result != null) {
-                          showErrorDialog(context, result);
-                        } else {
+                        // エラーがない場合（AsyncErrorでない場合）は確認画面に遷移
+                        if (ref.read(authNotifierProvider) case AsyncData()) {
                           await Navigator.push(
                             context,
                             MaterialPageRoute<EmailConfirmScreen>(

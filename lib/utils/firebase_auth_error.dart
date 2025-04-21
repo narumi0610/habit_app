@@ -6,6 +6,7 @@ enum FirebaseAuthError {
   invalidEmail,
   tooManyRequests,
   expiredActionCode,
+  invalidActionCode,
   unknown,
 }
 
@@ -30,6 +31,8 @@ extension FirebaseAuthErrorExt on FirebaseAuthError {
     FirebaseAuthError.tooManyRequests: 'アクセスが集中しています。少し時間を置いてから再度お試しください。',
     FirebaseAuthError.expiredActionCode:
         'メールアドレスリンクの期限が切れています。再度認証メールを送信してください。',
+    FirebaseAuthError.invalidActionCode:
+        'メールリンクが無効です。リンクが壊れているか、既に使用されている可能性があります。',
     FirebaseAuthError.unknown: '予期しないエラーが発生しました。',
   };
 
@@ -49,6 +52,8 @@ extension FirebaseAuthErrorExt on FirebaseAuthError {
         return FirebaseAuthError.tooManyRequests;
       case 'expired-action-code':
         return FirebaseAuthError.expiredActionCode;
+      case 'invalid-action-code':
+        return FirebaseAuthError.invalidActionCode;
       default:
         return FirebaseAuthError.unknown;
     }
