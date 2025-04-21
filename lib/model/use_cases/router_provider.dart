@@ -14,7 +14,7 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
       final (user, verified) = userStateValue;
 
       // ログインしていない場合はログイン画面へ遷移
-      if (user == null) {
+      if (user == null || !verified) {
         return '/login';
       }
 
