@@ -22,6 +22,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   void dispose() {
+    super.dispose();
     emailController.dispose();
     super.dispose();
   }

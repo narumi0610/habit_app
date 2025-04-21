@@ -21,6 +21,7 @@ class RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
   @override
   void dispose() {
+    super.dispose();
     emailController.dispose();
     super.dispose();
   }

@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_app/model/entities/habit/habit_model.dart';
 import 'package:habit_app/model/use_cases/firebase_provider.dart';
 import 'package:habit_app/presentation/screens/create_habit_screen.dart';
-import 'package:habit_app/presentation/screens/home_screen.dart';
+import 'package:habit_app/presentation/screens/home/home_screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 

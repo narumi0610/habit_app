@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/model/use_cases/notification_setting_providers.dart';
 import 'package:habit_app/presentation/screens/habit_history_screen.dart';
-import 'package:habit_app/presentation/screens/home_screen.dart';
+import 'package:habit_app/presentation/screens/home/home_screen.dart';
 import 'package:habit_app/presentation/screens/setting_screen.dart';
 
 // selectedIndexの状態を管理するProvider
@@ -19,7 +19,7 @@ class MainScreen extends ConsumerStatefulWidget {
 class MainScreenState extends ConsumerState<MainScreen> {
   final List<Widget> _widgetOptions = <Widget>[
     const HomeScreen(),
-    const GoalHistoryScreen(),
+    const HabitHistoryScreen(),
     const SettingScreen(),
   ];
 

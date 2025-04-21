@@ -81,16 +81,17 @@ class HabitRepositoryImpl implements HabitRepository {
   }
 
   @override
-  Future<List<HabitModel?>> getHabitHistory() async {
-    final user = ref.read(firebaseAuthProvider).currentUser;
+  Future<List<HabitModel?>> getHabitHistory({int? limit}) async {
+    final uid = ref.read(firebaseAuthProvider).currentUser?.uid;
     try {
-      if (user == null) {
+      if (uid == null) {
         return [null];
       }
-      final habitSnap = await ref
+
+      var query = ref
           .read(firebaseFirestoreProvider)
           .collection('habits')
-          .where('user_id', isEqualTo: user.uid)
+          .where('user_id', isEqualTo: uid)
           .orderBy('created_at', descending: true)
           .withConverter<HabitModel>(
             fromFirestore: (snapshots, _) {
@@ -103,12 +104,15 @@ class HabitRepositoryImpl implements HabitRepository {
               return HabitModel.fromJson(data);
             },
             toFirestore: (task, _) => task.toJson(),
-          )
-          .get();
+          );
 
-      final finishTaskList = habitSnap.docs.map((e) => e.data()).toList();
+      // limitが指定されている場合は制限を追加
+      if (limit != null) {
+        query = query.limit(limit);
+      }
 
-      return finishTaskList;
+      final habitSnap = await query.get();
+      return habitSnap.docs.map((doc) => doc.data()).toList();
     } catch (e, stackTrace) {
       await _handleError(e, stackTrace);
       throw Exception('履歴の取得に失敗しました。もう一度お試しください。');
@@ -145,36 +149,7 @@ class HabitRepositoryImpl implements HabitRepository {
 
   @override
   Future<HabitModel?> getCurrentHabit() async {
-    try {
-      final user = ref.read(firebaseAuthProvider).currentUser;
-
-      if (user == null) {
-        return null;
-      }
-      final uid = user.uid;
-      final habitSnap = await ref
-          .read(firebaseFirestoreProvider)
-          .collection('habits')
-          .where('user_id', isEqualTo: uid)
-          .orderBy('created_at', descending: true)
-          .withConverter<HabitModel>(
-            fromFirestore: (snapshots, _) {
-              final data = snapshots.data();
-              if (data == null) {
-                logger.e('データが取得できませんでした');
-                throw Exception('データが取得できませんでした');
-              }
-              return HabitModel.fromJson(data);
-            },
-            toFirestore: (task, _) => task.toJson(),
-          )
-          .get();
-
-      final currentHabit = habitSnap.docs.map((e) => e.data()).toList();
-      return currentHabit.isNotEmpty ? currentHabit[0] : null;
-    } catch (e, stackTrace) {
-      await _handleError(e, stackTrace);
-      throw Exception('習慣の取得に失敗しました。もう一度お試しください。');
-    }
+    final habits = await getHabitHistory(limit: 1);
+    return habits.isEmpty ? null : habits.first;
   }
 }

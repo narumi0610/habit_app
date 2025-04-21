@@ -6,7 +6,7 @@ part of 'habit_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getCurrentHabitHash() => r'6a6b70db728c0ef497d11aa0a710e7f871c4b077';
+String _$getCurrentHabitHash() => r'c4bbd1d6cd2753d9065638f7197bf0fb2eb7cd64';
 
 /// See also [getCurrentHabit].
 @ProviderFor(getCurrentHabit)
