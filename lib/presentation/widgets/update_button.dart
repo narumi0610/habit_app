@@ -84,8 +84,8 @@ class UpdateButtonState extends ConsumerState<UpdateButton>
 
   @override
   void dispose() {
-    _animationController.dispose();
     super.dispose();
+    _animationController.dispose();
   }
 
   Future<void> _onTap() async {

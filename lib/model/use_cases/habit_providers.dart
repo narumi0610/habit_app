@@ -11,7 +11,7 @@ Future<HabitModel?> getCurrentHabit(Ref ref) async {
     final habit = await ref.read(habitRepositoryProvider).getCurrentHabit();
     return habit;
   } catch (e) {
-    throw Exception('ViewModelでの現在の習慣の取得に失敗しました $e');
+    throw Exception('現在の習慣の取得に失敗しました $e');
   }
 }
 

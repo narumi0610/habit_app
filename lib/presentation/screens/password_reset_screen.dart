@@ -24,8 +24,8 @@ class PasswordResetScreenState extends ConsumerState<PasswordResetScreen> {
 
   @override
   void dispose() {
-    emailController.dispose();
     super.dispose();
+    emailController.dispose();
   }
 
   @override
