@@ -5,9 +5,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:habit_app/model/repositories/auth_repository.dart';
 import 'package:habit_app/model/use_cases/firebase_provider.dart';
 import 'package:mockito/annotations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @GenerateMocks([AuthRepository])
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late MockFirebaseAuth mockFirebaseAuth;
   late MockUser mockUser;
   late ProviderContainer container;
@@ -15,6 +18,8 @@ void main() {
   late FakeFirebaseFirestore fakeFirestore;
 
   setUp(() {
+    SharedPreferences.setMockInitialValues({});
+
     mockUser = MockUser(
       email: 'test@example.com',
       uid: '123',
