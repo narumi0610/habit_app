@@ -77,8 +77,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
 
                           if (!context.mounted) return;
 
-                          // エラーがない場合（AsyncErrorでない場合）は確認画面に遷移
-                          if (ref.read(authNotifierProvider) case AsyncData()) {
+                          final currentState = ref.read(authNotifierProvider);
+                          if (currentState is AsyncData) {
                             await Navigator.push(
                               context,
                               MaterialPageRoute<EmailConfirmScreen>(

@@ -60,6 +60,7 @@ class _HabitAppState extends ConsumerState<HabitApp> {
       ..listen(appLinksStateProvider, (previous, next) async {
         final uri = next.value;
         if (next.hasValue && uri != null) {
+          // メールリンクでサインイン
           await ref
               .read(authNotifierProvider.notifier)
               .signInWithEmailLink(emailLink: uri.toString());
@@ -67,8 +68,11 @@ class _HabitAppState extends ConsumerState<HabitApp> {
       }) // ユーザー状態の変更を監視
       ..listen(userStateProvider, (previous, next) {
         final (user, verified) = next.value ?? (null, false);
-        // ユーザーが存在し、かつ認証済みの場合、ホーム画面に遷移
-        if (user != null && verified) {
+        final currentState = ref.read(authNotifierProvider);
+        // authの状態変化が完了したかどうか
+        final isAuthStateChanged = currentState is AsyncData;
+        // ユーザーが存在し、かつ認証済み、かつauthの状態変化が完了した場合、ホーム画面に遷移
+        if (user != null && verified && isAuthStateChanged) {
           router.go('/');
         }
       });

@@ -18,35 +18,29 @@ class AuthNotifier extends _$AuthNotifier {
   }) async {
     state = const AsyncValue.loading();
 
-    final result = await AsyncValue.guard(
-      () => repository.sendSignInLinkToEmail(email),
-    );
-
-    state = const AsyncValue.data(null);
-
-    result.when(
-      data: (_) => null,
-      error: (error, stack) => error.toString(),
-      loading: () => null,
-    );
+    try {
+      await repository.sendSignInLinkToEmail(email);
+      state = const AsyncValue.data(null);
+    } catch (e) {
+      final error = e.toString();
+      state = AsyncValue.error(error, StackTrace.current);
+    }
   }
 
-  Future<String?> signInWithEmailLink({
+  Future<void> signInWithEmailLink({
     required String emailLink,
   }) async {
     state = const AsyncValue.loading();
 
-    final result = await AsyncValue.guard(
-      () => repository.signInWithEmailLink(emailLink),
-    );
-
-    state = result;
-
-    return result.when(
-      data: (_) => null,
-      error: (error, stack) => error.toString(),
-      loading: () => null,
-    );
+    try {
+      await repository.signInWithEmailLink(emailLink);
+      state = const AsyncValue.data(null);
+    } on FirebaseAuthException catch (e) {
+      state = AsyncValue.error(
+          'メールリンクによるログインに失敗しました: ${e.message}', StackTrace.current);
+    } catch (e) {
+      state = AsyncValue.error('予期せぬエラーが発生しました', StackTrace.current);
+    }
   }
 
   Future<String?> logout() async {
