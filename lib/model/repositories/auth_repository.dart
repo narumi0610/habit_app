@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:habit_app/model/repositories/shared_preferences_repository.dart';
 import 'package:habit_app/model/use_cases/firebase_provider.dart';
 import 'package:habit_app/utils/firebase_auth_error.dart';
+import 'package:habit_app/utils/global_const.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,16 +13,13 @@ final authRepositoryProvider = Provider<AuthRepository>(
 
 abstract class AuthRepository {
   // 新規登録をする
-  Future<String?> signUp(String email, String password);
+  Future<void> sendSignInLinkToEmail(String email);
 
-  // ログインをする
-  Future<String?> login(String email, String password);
+  // メールリンクでサインインする
+  Future<void> signInWithEmailLink(String emailLink);
 
   // ログアウトをする
   Future<String?> logout();
-
-  // パスワードを変更する
-  Future<void> passwordReset({required String email});
 
   // 退会する
   Future<String?> deletedUser();
@@ -33,44 +32,84 @@ class AuthRepositoryImpl implements AuthRepository {
   final logger = Logger();
 
   @override
-  Future<String?> signUp(String email, String password) async {
+  Future<void> sendSignInLinkToEmail(String email) async {
     try {
-      final userCredential = await auth.createUserWithEmailAndPassword(
+      // メールリンクの設定
+      final actionCodeSettings = ActionCodeSettings(
+        // リンクをクリックした時の遷移先URL
+        url: GlobalConst.actionCodeUrl,
+        handleCodeInApp: true,
+        iOSBundleId: GlobalConst.iOSBundleId,
+        androidPackageName: GlobalConst.androidPackageName,
+        androidInstallApp: true,
+        androidMinimumVersion: '12',
+      );
+
+      // メールリンクを送信
+      await auth.sendSignInLinkToEmail(
         email: email,
-        password: password,
+        actionCodeSettings: actionCodeSettings,
       );
 
-      final uid = userCredential.user!.uid;
-
-      await ref
-          .read(firebaseFirestoreProvider)
-          .collection('users')
-          .doc(uid)
-          .set(
-        {
-          'id': userCredential.user!.uid,
-          'email': userCredential.user!.email,
-          'updated_at': DateTime.now(),
-          'created_at': DateTime.now(),
-        },
-      );
-      return null;
+      // メールアドレスを保存
+      final sharedPreferences =
+          ref.read(sharedPreferencesRepositoryProvider.notifier);
+      await sharedPreferences.setEmailForSignIn(email);
     } on FirebaseAuthException catch (e) {
       final message = FirebaseAuthErrorExt.fromCode(e.code).message;
       logger.e('新規登録に失敗しました$e');
-      return message;
+      throw Exception(message);
     }
   }
 
   @override
-  Future<String?> login(String email, String password) async {
+  Future<void> signInWithEmailLink(String emailLink) async {
     try {
-      await auth.signInWithEmailAndPassword(email: email, password: password);
-      return null;
+      // リンクがEメールリンクによるサインインであることを確認する
+      if (auth.isSignInWithEmailLink(emailLink)) {
+        final sharedPreferences =
+            ref.read(sharedPreferencesRepositoryProvider.notifier);
+        final email = await sharedPreferences.getEmailForSignIn();
+
+        if (email == null) {
+          throw Exception('メールアドレスが取得できませんでした');
+        } else {
+          // メールリンクでサインイン
+          final userCredential = await auth.signInWithEmailLink(
+            email: email,
+            emailLink: emailLink,
+          );
+
+          // ユーザー情報を取得
+          final user = userCredential.user;
+          if (user == null) {
+            throw Exception('ユーザー情報が取得できませんでした');
+          } else {
+            await ref
+                .read(firebaseFirestoreProvider)
+                .collection('users')
+                .doc(user.uid)
+                .set(
+              {
+                'id': user.uid,
+                'email': user.email,
+                'updated_at': DateTime.now(),
+                'created_at': DateTime.now(),
+              },
+            );
+
+            // メールアドレスを削除
+            await sharedPreferences.removeEmailForSignIn();
+          }
+        }
+      } else {
+        throw Exception('メールリンクがEメールリンクによるサインインではありません');
+      }
     } on FirebaseAuthException catch (e) {
       final message = FirebaseAuthErrorExt.fromCode(e.code).message;
-      logger.e('ログインに失敗しました$e');
-      return message;
+      logger.e('メールリンク認証に失敗しました$e');
+
+      throw Exception(message);
     }
   }
 
@@ -86,15 +125,6 @@ class AuthRepositoryImpl implements AuthRepository {
     } catch (e) {
       logger.e('ログアウトに失敗しました$e');
       return 'ログアウトに失敗しました。再度お試しください。';
-    }
-  }
-
-  @override
-  Future<void> passwordReset({required String email}) async {
-    try {
-      await auth.sendPasswordResetEmail(email: email);
-    } catch (e) {
-      logger.e('パスワードリセットに失敗しました$e');
     }
   }
 

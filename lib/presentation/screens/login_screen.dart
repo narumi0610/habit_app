@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/model/use_cases/auth_providers.dart';
-import 'package:habit_app/presentation/screens/main_screen.dart';
-import 'package:habit_app/presentation/screens/password_reset_screen.dart';
+import 'package:habit_app/model/use_cases/form_validator.dart';
+import 'package:habit_app/presentation/screens/email_confirm_screen.dart';
 import 'package:habit_app/presentation/screens/registration_screen.dart';
 import 'package:habit_app/presentation/widgets/custom_button.dart';
 import 'package:habit_app/presentation/widgets/custom_text_field.dart';
@@ -18,19 +18,25 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class LoginScreenState extends ConsumerState<LoginScreen> {
   final emailController = TextEditingController();
-  final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
     super.dispose();
     emailController.dispose();
-    passwordController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final asyncAuth = ref.watch(authNotifierProvider);
+
+    // authNotifierProviderの状態を監視
+    ref.listen(authNotifierProvider, (previous, next) {
+      // エラー状態の場合、エラーダイアログを表示
+      if (next is AsyncError && context.mounted) {
+        showErrorDialog(context, next.error.toString());
+      }
+    });
 
     return PopScope(
       canPop: false,
@@ -51,28 +57,6 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                       validator: Validator().emailValidator,
                     ),
                     const SizedBox(height: 24),
-                    CustomTextField(
-                      isPassword: true,
-                      controller: passwordController,
-                      text: 'パスワード',
-                      validator: Validator().passwordValidator,
-                    ),
-                    const SizedBox(height: 8),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<PasswordResetScreen>(
-                              builder: (context) => const PasswordResetScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text('パスワードをお忘れですか？'),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
                     SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -80,30 +64,32 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                         isDisabled: asyncAuth is AsyncLoading, // ローディング状態の表示
                         loading: asyncAuth is AsyncLoading, // ローディング中は無効化
                         onPressed: () async {
-                          if (formKey.currentState!.validate()) {
-                            final result = await ref
-                                .read(authNotifierProvider.notifier)
-                                .login(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                );
+                          // フォームのバリデーション
+                          if (!FormValidator.validateForm(context, formKey)) {
+                            return;
+                          }
 
-                            if (!context.mounted) return;
-
-                            if (result != null) {
-                              showErrorDialog(context, result);
-                            } else {
-                              await Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute<MainScreen>(
-                                  builder: (context) => const MainScreen(),
-                                ),
+                          await ref
+                              .read(authNotifierProvider.notifier)
+                              .sendSignInLinkToEmail(
+                                email: emailController.text,
                               );
-                            }
+
+                          if (!context.mounted) return;
+
+                          final currentState = ref.read(authNotifierProvider);
+                          if (currentState is AsyncData) {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute<EmailConfirmScreen>(
+                                builder: (context) =>
+                                    const EmailConfirmScreen(),
+                              ),
+                            );
                           }
                         },
                         child: const Text(
-                          'ログインする',
+                          'ログインリンクを送信',
                           style: TextStyle(fontSize: 16),
                         ),
                       ),

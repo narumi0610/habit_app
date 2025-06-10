@@ -1,0 +1,18 @@
+{
+  "applinks": {
+      "details": [
+           {
+             "appIDs": [ "KXXDJNZ9GK.com.example.habitFlutterApp" ],
+             "components": [
+               {
+                  "/": "**",
+                  "comment": "このルールはすべてのパスにマッチし、Universal Linksを許可します。"
+               }
+             ]
+           }
+       ]
+   },
+   "webcredentials": {
+      "apps": [ "KXXDJNZ9GK.com.example.habitFlutterApp" ]
+   },
+}

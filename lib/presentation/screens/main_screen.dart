@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:habit_app/model/use_cases/notification_setting_providers.dart';
@@ -27,28 +26,24 @@ class MainScreenState extends ConsumerState<MainScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(selectedIndexProvider.notifier).state = widget.index;
-    ref.read(notificationSettingNotifierProvider.notifier).requestPermissions();
+    // プロバイダーの状態変更はツリー構築後に行う
+    Future.microtask(() {
+      ref.read(selectedIndexProvider.notifier).state = widget.index;
+      ref
+          .read(notificationSettingNotifierProvider.notifier)
+          .requestPermissions();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
     final selectedIndex = ref.watch(selectedIndexProvider);
 
     return PopScope(
       canPop: false,
       child: Scaffold(
-        body: Builder(
-          builder: (context) {
-            if (user != null) {
-              return Center(
-                child: _widgetOptions.elementAt(selectedIndex),
-              );
-            } else {
-              return const Center(child: Text('ログインしていません。'));
-            }
-          },
+        body: Center(
+          child: _widgetOptions.elementAt(selectedIndex),
         ),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(

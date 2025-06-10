@@ -9,7 +9,10 @@ part 'gemini_provider.g.dart';
 /// 環境変数からAPIキーを取得し、GenerativeModelを返す
 @riverpod
 GenerativeModel gemini(Ref ref) {
-  final apiKey = dotenv.env['GEMINI_API_KEY']!;
+  final apiKey = dotenv.env['GEMINI_API_KEY'];
+  if (apiKey == null) {
+    throw Exception('GEMINI_API_KEYが設定されていません');
+  }
   return GenerativeModel(
     model: 'gemini-1.5-flash-latest',
     apiKey: apiKey,

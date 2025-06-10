@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:habit_app/model/repositories/auth_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -12,47 +13,34 @@ class AuthNotifier extends _$AuthNotifier {
     repository = ref.watch(authRepositoryProvider);
   }
 
-  Future<String?> login({
+  Future<void> sendSignInLinkToEmail({
     required String email,
-    required String password,
   }) async {
     state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
-      final errorMessage = await repository.login(email, password);
-      if (errorMessage != null) {
-        throw Exception(errorMessage);
-      }
-      return null;
-    });
 
-    state = result;
-    return result.when(
-      data: (_) => null,
-      error: (error, stack) => error.toString(),
-      loading: () => null,
-    );
+    try {
+      await repository.sendSignInLinkToEmail(email);
+      state = const AsyncValue.data(null);
+    } catch (e) {
+      final error = e.toString();
+      state = AsyncValue.error(error, StackTrace.current);
+    }
   }
 
-  Future<String?> signUp({
-    required String email,
-    required String password,
+  Future<void> signInWithEmailLink({
+    required String emailLink,
   }) async {
     state = const AsyncValue.loading();
 
-    final result = await AsyncValue.guard(() async {
-      final errorMessage = await repository.signUp(email, password);
-      if (errorMessage != null) {
-        throw Exception(errorMessage);
-      }
-      return null;
-    });
-
-    state = result;
-    return result.when(
-      data: (_) => null,
-      error: (error, stack) => error.toString(),
-      loading: () => null,
-    );
+    try {
+      await repository.signInWithEmailLink(emailLink);
+      state = const AsyncValue.data(null);
+    } on FirebaseAuthException catch (e) {
+      state = AsyncValue.error(
+          'メールリンクによるログインに失敗しました: ${e.message}', StackTrace.current);
+    } catch (e) {
+      state = AsyncValue.error('予期せぬエラーが発生しました', StackTrace.current);
+    }
   }
 
   Future<String?> logout() async {
@@ -66,26 +54,10 @@ class AuthNotifier extends _$AuthNotifier {
       return null;
     });
 
-    state = result;
+    state = const AsyncValue.data(null);
     return result.when(
       data: (_) => null,
       error: (error, stack) => error.toString(),
-      loading: () => null,
-    );
-  }
-
-  Future<void> passwordReset({required String email}) async {
-    state = const AsyncValue.loading();
-
-    final result = await AsyncValue.guard(() async {
-      await repository.passwordReset(email: email);
-      return null;
-    });
-
-    state = result;
-    return result.when(
-      data: (_) => null,
-      error: (error, stack) => null,
       loading: () => null,
     );
   }
@@ -101,7 +73,8 @@ class AuthNotifier extends _$AuthNotifier {
       return null;
     });
 
-    state = result;
+    state = const AsyncValue.data(null);
+
     return result.when(
       data: (_) => null,
       error: (error, stack) => error.toString(),
@@ -109,3 +82,10 @@ class AuthNotifier extends _$AuthNotifier {
     );
   }
 }
+
+// ユーザーの認証状態を監視する
+final userStateProvider = StreamProvider<(User?, bool)>((ref) {
+  return FirebaseAuth.instance.userChanges().map((user) {
+    return (user, user?.emailVerified ?? false);
+  });
+});

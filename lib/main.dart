@@ -1,10 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habit_app/presentation/screens/login_screen.dart';
-import 'package:habit_app/presentation/screens/main_screen.dart';
+import 'package:habit_app/model/use_cases/app_links_providers.dart';
+import 'package:habit_app/model/use_cases/auth_providers.dart';
+import 'package:habit_app/model/use_cases/router_provider.dart';
 import 'package:habit_app/utils/global_const.dart';
 import 'package:habit_app/utils/theme.dart';
 import 'package:home_widget/home_widget.dart';
@@ -20,7 +20,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // 環境（開発・本番）を判定
-  const isProduction = bool.fromEnvironment('PRODUCTION');
+  const isProduction = GlobalConst.isProduction;
 
   await Future.wait([
     // `.env` ファイルの読み込み
@@ -44,30 +44,44 @@ void main() async {
   );
 }
 
-class HabitApp extends StatelessWidget {
+class HabitApp extends ConsumerStatefulWidget {
   const HabitApp({super.key});
 
   @override
+  ConsumerState<HabitApp> createState() => _HabitAppState();
+}
+
+class _HabitAppState extends ConsumerState<HabitApp> {
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    final router = ref.watch(routerProvider);
+    // AppLinksのストリームを監視
+    ref
+      ..listen(appLinksStateProvider, (previous, next) async {
+        final uri = next.value;
+        if (next.hasValue && uri != null) {
+          // メールリンクでサインイン
+          await ref
+              .read(authNotifierProvider.notifier)
+              .signInWithEmailLink(emailLink: uri.toString());
+        }
+      }) // ユーザー状態の変更を監視
+      ..listen(userStateProvider, (previous, next) {
+        final (user, verified) = next.value ?? (null, false);
+        final currentState = ref.read(authNotifierProvider);
+        // authの状態変化が完了したかどうか
+        final isAuthStateChanged = currentState is AsyncData;
+        // ユーザーが存在し、かつ認証済み、かつauthの状態変化が完了した場合、ホーム画面に遷移
+        if (user != null && verified && isAuthStateChanged) {
+          router.go('/');
+        }
+      });
+
+    return MaterialApp.router(
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       title: 'ハビスター',
-      routes: {
-        '/login': (context) => const LoginScreen(),
-      },
       theme: AppTheme.light,
-      home: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator(); // ローディング中
-          }
-          if (snapshot.hasData) {
-            return const MainScreen(); // ログイン済み
-          }
-          return const LoginScreen(); // 未ログイン
-        },
-      ),
     );
   }
 }

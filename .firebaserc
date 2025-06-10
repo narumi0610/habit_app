@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "habister-5885a"
+    "default": "habister-dev",
+    "develop": "habister-dev",
+    "production": "habister-5885a"
   }
 }

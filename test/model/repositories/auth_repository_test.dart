@@ -40,21 +40,18 @@ void main() {
     authRepository = container.read(authRepositoryProvider);
   });
   group('AuthRepository Tests', () {
+    final currentUser = mockFirebaseAuth.currentUser;
+    if (currentUser == null) {
+      fail('currentUserがnullです');
+    }
     test('signUp success', () async {
       // モックユーザーのサインアップ動作のテスト
-      await authRepository.signUp('test@example.com', 'password');
+      await authRepository.sendSignInLinkToEmail(
+        'test@example.com',
+      );
       // サインアップ成功の確認
-      expect(mockFirebaseAuth.currentUser, isNotNull);
-      expect(mockFirebaseAuth.currentUser!.email, 'test@example.com');
-    });
-
-    test('login success', () async {
-      // モックユーザーのログイン動作のテスト
-      await authRepository.login('test@example.com', 'password');
-
-      // ログイン成功の確認
-      expect(mockFirebaseAuth.currentUser, isNotNull);
-      expect(mockFirebaseAuth.currentUser!.email, 'test@example.com');
+      expect(currentUser, isNotNull);
+      expect(currentUser.email, 'test@example.com');
     });
 
     test('logout success', () async {
@@ -62,7 +59,7 @@ void main() {
       await authRepository.logout();
 
       // ログアウト成功の確認
-      expect(mockFirebaseAuth.currentUser, isNull);
+      expect(currentUser, isNull);
     });
   });
 }

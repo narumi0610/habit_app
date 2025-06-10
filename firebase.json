@@ -1,1 +1,111 @@
-{"functions":[{"source":"functions","codebase":"default","ignore":["node_modules",".git","firebase-debug.log","firebase-debug.*.log"]}],"flutter":{"platforms":{"android":{"default":{"projectId":"habister-dev","appId":"1:1096135969859:android:3fb6e65b6baeb20e2ed8f6","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"habister-dev","appId":"1:1096135969859:ios:30575b22fb67ff3b2ed8f6","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"habister-dev","configurations":{"android":"1:1096135969859:android:3fb6e65b6baeb20e2ed8f6","ios":"1:1096135969859:ios:30575b22fb67ff3b2ed8f6","web":"1:1096135969859:web:fcb550c220af01dc2ed8f6"}}}}}}
+{
+    "functions": [
+      {
+        "source": "functions",
+        "codebase": "default",
+        "ignore": [
+          "node_modules",
+          ".git",
+          "firebase-debug.log",
+          "firebase-debug.*.log"
+        ]
+      }
+    ],
+    "hosting": [
+    {
+      "target": "develop",
+      "public": "public",
+      "headers": [
+        {
+          "source": "/.well-known/apple-app-site-association",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        {
+          "source": "/.well-known/assetlinks.json",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target": "production",
+      "public": "public",
+      "headers": [
+        {
+          "source": "/.well-known/apple-app-site-association",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        {
+          "source": "/.well-known/assetlinks.json",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        }
+      ]
+    }],
+    "flutter": {
+      "platforms": {
+        "android": {
+          "default": {
+            "projectId": "habister-dev",
+            "appId": "1:1096135969859:android:3fb6e65b6baeb20e2ed8f6",
+            "fileOutput": "android/app/google-services.json"
+          },
+          "production": {
+            "projectId": "habister-5885a",
+            "appId": "1:618393088860:android:765614a5c8cd3fe46a4799",
+            "fileOutput": "android/app/google-services.json"
+          }
+        },
+        "ios": {
+          "default": {
+            "projectId": "habister-dev",
+            "appId": "1:1096135969859:ios:30575b22fb67ff3b2ed8f6",
+            "uploadDebugSymbols": false,
+            "fileOutput": "ios/Runner/GoogleService-Info.plist"
+          },
+          "production": {
+            "projectId": "habister-5885a",
+            "appId": "1:618393088860:ios:4844f88bc20341fc6a4799",
+            "uploadDebugSymbols": false,
+            "fileOutput": "ios/Runner/GoogleService-Info.plist"
+          }
+        },
+        "dart": {
+          "lib/firebase_options.dart": {
+            "projectId": "habister-dev",
+            "configurations": {
+              "android": "1:1096135969859:android:3fb6e65b6baeb20e2ed8f6",
+              "ios": "1:1096135969859:ios:30575b22fb67ff3b2ed8f6",
+              "web": "1:1096135969859:web:fcb550c220af01dc2ed8f6"
+            }
+          },
+          "lib/firebase_options_production.dart": {
+            "projectId": "habister-5885a",
+            "configurations": {
+              "android": "1:618393088860:android:765614a5c8cd3fe46a4799",
+              "ios": "1:618393088860:ios:4844f88bc20341fc6a4799",
+              "web": "1:618393088860:web:33774d3110de479c6a4799"
+            }
+          }
+        }
+      }
+    }
+  }

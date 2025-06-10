@@ -46,7 +46,12 @@ class HabitRepositoryImpl implements HabitRepository {
     required String title,
   }) async {
     try {
-      final uid = ref.read(firebaseAuthProvider).currentUser!.uid;
+      final user = ref.read(firebaseAuthProvider).currentUser;
+      if (user == null) {
+        logger.e('ユーザー情報が取得できませんでした');
+        throw Exception('ユーザーが認証されていません');
+      }
+
       final habitId =
           ref.read(firebaseFirestoreProvider).collection('habits').doc().id;
 
@@ -58,7 +63,7 @@ class HabitRepositoryImpl implements HabitRepository {
           .set(
             HabitModel(
               id: habitId,
-              userId: uid,
+              userId: user.uid,
               title: title,
               startDate: DateTime.now(),
               currentStreak: 0,
@@ -89,8 +94,15 @@ class HabitRepositoryImpl implements HabitRepository {
           .where('user_id', isEqualTo: uid)
           .orderBy('created_at', descending: true)
           .withConverter<HabitModel>(
-            fromFirestore: (snapshots, _) =>
-                HabitModel.fromJson(snapshots.data()!),
+            fromFirestore: (snapshots, _) {
+              final data = snapshots.data();
+              if (data == null) {
+                logger.e('データが取得できませんでした');
+                throw Exception('データが取得できませんでした');
+              }
+
+              return HabitModel.fromJson(data);
+            },
             toFirestore: (task, _) => task.toJson(),
           );
 

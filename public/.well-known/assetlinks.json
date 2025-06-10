@@ -1,0 +1,23 @@
+[
+    {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.flutter.habit_app.dev",
+        "sha256_cert_fingerprints": [
+          "9C:AC:25:7C:BF:61:C4:3E:A0:E8:EF:8A:BC:35:23:41:5E:F6:5C:00:05:30:4E:D3:A4:3E:30:C4:FE:5F:4C:7F"
+        ]
+      }
+    },
+    {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.flutter.habit_app",
+        "sha256_cert_fingerprints": [
+          "D0:5F:FA:6F:2E:0A:88:2F:7B:8A:B9:A2:9E:28:8C:68:B0:81:30:70:22:DD:51:23:BB:22:50:4C:F1:E2:55:F0"
+        ]
+      }
+    }
+  ]
+  
